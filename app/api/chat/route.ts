@@ -24,9 +24,9 @@ Reglas:
 - Nunca inventes funcionalidades, precios o clientes que no figuran en esta descripción.
 - Sos el asistente de la landing page, no el producto ya instalado: si preguntan por "sus" ventas, cobranzas o datos específicos de su empresa, aclará amablemente que no tenés acceso a eso (recién no está conectado a ningún backend real) y ofrecé mostrarles cómo se ve esa función en la demo interactiva de la página o en una llamada con el equipo.`;
 
-// Free-tier model on Google AI Studio at the time this was written. If Google
-// renames/retires it, swap the id here — check https://ai.google.dev/gemini-api/docs/models.
-const GEMINI_MODEL = "gemini-2.0-flash";
+// Fast + generous free tier. For higher-quality answers, swap to
+// "llama-3.3-70b-versatile" — see https://console.groq.com/docs/models.
+const GROQ_MODEL = "llama-3.1-8b-instant";
 
 export async function POST(request: Request) {
   let body: ChatRequestBody;
@@ -41,39 +41,45 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Escribí un mensaje." }, { status: 400 });
   }
 
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) {
     // Genuinely no key configured yet — tell the caller plainly instead of
     // pretending to answer. See README for how to get a free one.
     return NextResponse.json(
-      { error: "El asistente de IA todavía no está configurado en este entorno (falta GEMINI_API_KEY)." },
+      { error: "El asistente de IA todavía no está configurado en este entorno (falta GROQ_API_KEY)." },
       { status: 503 },
     );
   }
 
   try {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`;
-    const geminiRes = await fetch(url, {
+    const groqRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
-      headers: { "content-type": "application/json" },
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${apiKey}`,
+      },
       body: JSON.stringify({
-        system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
-        contents: [{ role: "user", parts: [{ text: message }] }],
-        generationConfig: { maxOutputTokens: 300, temperature: 0.6 },
+        model: GROQ_MODEL,
+        max_tokens: 300,
+        temperature: 0.6,
+        messages: [
+          { role: "system", content: SYSTEM_PROMPT },
+          { role: "user", content: message },
+        ],
       }),
     });
 
-    if (!geminiRes.ok) {
-      const errBody = await geminiRes.text();
-      console.error("[chat] Gemini API error", geminiRes.status, errBody);
+    if (!groqRes.ok) {
+      const errBody = await groqRes.text();
+      console.error("[chat] Groq API error", groqRes.status, errBody);
       return NextResponse.json(
         { error: "No se pudo contactar al asistente en este momento. Probá de nuevo en unos segundos." },
         { status: 502 },
       );
     }
 
-    const data = await geminiRes.json();
-    const reply: string | undefined = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+    const data = await groqRes.json();
+    const reply: string | undefined = data?.choices?.[0]?.message?.content;
 
     if (!reply) {
       return NextResponse.json(

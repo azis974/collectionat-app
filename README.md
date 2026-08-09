@@ -68,18 +68,22 @@ El usuario preguntó si el chat "Pregúntale a Collectionat" podía usar IA de v
 
 **Primera vuelta:** implementé el endpoint apuntando a Anthropic (Claude), ya que no respondió mi pregunta inicial sobre proveedor/alcance, avancé con esa opción por defecto y lo documenté. El usuario volvió con "¿no podés generar una IA que funcione de verdad?", frustrado por tener que configurar algo antes de que funcione.
 
-**Le expliqué la restricción real** (no es falta de esfuerzo, es cómo funcionan estos servicios): ninguna IA conversacional hosteada (ChatGPT, Gemini, Claude) funciona sin que alguien tenga una cuenta/API key ahí — yo no puedo crear ni pagar una cuenta en su nombre. Le di dos caminos honestos: (1) conseguir una API key **gratis** de Google Gemini (sin tarjeta, ~2 minutos) y yo conecto el endpoint ahí, o (2) un modelo chico corriendo 100% en el navegador del visitante (sin cuentas, pero con una descarga de varios cientos de MB y respuestas notablemente más débiles). Eligió la opción 1.
+**Le expliqué la restricción real** (no es falta de esfuerzo, es cómo funcionan estos servicios): ninguna IA conversacional hosteada (ChatGPT, Gemini, Claude, Groq) funciona sin que alguien tenga una cuenta/API key ahí — yo no puedo crear ni pagar una cuenta en su nombre. Le di dos caminos honestos: (1) conseguir una API key **gratis** de Google Gemini (sin tarjeta, ~2 minutos) y yo conecto el endpoint ahí, o (2) un modelo chico corriendo 100% en el navegador del visitante (sin cuentas, pero con una descarga de varios cientos de MB y respuestas notablemente más débiles). Eligió la opción 1.
 
-- **Proveedor: Google Gemini, modelo `gemini-2.0-flash`** — friendly con el free tier de Google AI Studio. Si Google renombra o retira ese modelo, el nombre está en una sola constante (`GEMINI_MODEL`) en `app/api/chat/route.ts`.
+**Vuelta 2 — el key de Gemini no funcionaba:** el usuario pegó dos veces la misma credencial (con prefijo `AQ.`), que no es el formato de una API key de Gemini (esas siempre arrancan `AIzaSy`). Probándola en vivo contra la API real de Google, confirmé que efectivamente fallaba — primero con cuota "0" en el tier gratis para `gemini-2.0-flash`, y con una segunda key distinta, con `401 ACCESS_TOKEN_TYPE_UNSUPPORTED` ("esperaba un token OAuth2"). El usuario insistió en que era el formato que Google le estaba dando y me pidió que la aceptara igual — en vez de discutir el formato, agregué un reintento automático con `Authorization: Bearer` (por si de verdad era un token OAuth2 en vez de una API key clásica) y volví a probar: cambió a `API_KEY_SERVICE_BLOCKED`, que apunta a que la Generative Language API no estaba habilitada en el proyecto de Google Cloud del usuario, o la key tenía restricciones de API. Le di los pasos exactos en Cloud Console para habilitarla — el usuario no podía/quería hacerlos ("no lo puedo hacer").
+
+**Vuelta 3 — cambio a Groq:** le ofrecí dos alternativas que no pasan por Google Cloud Console: Groq (key gratis con un flujo de registro mucho más simple, sin paso de "habilitar servicio") o el modelo 100% en el navegador sin ninguna cuenta. Eligió Groq.
+
+- **Proveedor: Groq, modelo `llama-3.1-8b-instant`** — rápido y con tier gratis generoso, sin necesidad de "habilitar" nada como en Google Cloud: generás la key en `console.groq.com/keys` y ya está lista para usar. Para respuestas de mayor calidad (a costa de velocidad), cambiá `GROQ_MODEL` en `app/api/chat/route.ts` a `llama-3.3-70b-versatile`.
 - **Alcance: asistente de ventas honesto sobre Collectionat**, no "acceso a tus datos reales" (eso sería inventado, no hay ningún backend detrás de esta landing). El system prompt en `app/api/chat/route.ts` solo conoce lo que está realmente en la página — los 3 planes, los 2 rubros con implementación real, permisos por rol, integraciones — y tiene instrucción explícita de admitir cuando no sabe algo y sugerir pedir una demo, en vez de inventar.
 
-**`app/api/chat/route.ts`** — un Route Handler real que llama a `https://generativelanguage.googleapis.com/v1beta/models/{modelo}:generateContent` server-side con `fetch` (sin agregar ningún SDK como dependencia nueva). **Como no tengo tu API key, hasta que la cargues el endpoint responde con un error claro** ("El asistente de IA todavía no está configurado…", HTTP 503) en vez de fallar en silencio o inventar una respuesta — probado en este entorno, que no tiene la key, y efectivamente devuelve ese error.
+**`app/api/chat/route.ts`** — un Route Handler real que llama a `https://api.groq.com/openai/v1/chat/completions` server-side con `fetch` (API compatible con el formato de OpenAI, sin agregar ningún SDK como dependencia nueva). **Como no tengo tu API key, hasta que la cargues el endpoint responde con un error claro** ("El asistente de IA todavía no está configurado…", HTTP 503) en vez de fallar en silencio o inventar una respuesta — probado en este entorno, que no tiene la key, y efectivamente devuelve ese error.
 
-**Para activarlo de verdad (2 minutos, gratis, sin tarjeta):**
-1. Andá a [aistudio.google.com](https://aistudio.google.com/), iniciá sesión con una cuenta de Google y generá una API key (tiene un tier gratuito real).
+**Para activarlo de verdad (2 minutos, gratis, sin tarjeta, sin Google Cloud Console):**
+1. Andá a [console.groq.com/keys](https://console.groq.com/keys), registrate con tu email y creá una API key con el botón "Create API Key".
 2. Creá `.env.local` en la raíz del proyecto (ya está en `.gitignore`, no se sube al repo) con:
    ```
-   GEMINI_API_KEY=tu-key-de-google-ai-studio
+   GROQ_API_KEY=tu-key-de-groq
    ```
 3. Reiniciá `npm run dev`.
 
