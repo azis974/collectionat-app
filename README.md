@@ -64,18 +64,24 @@ Verificado en el navegador: el texto de las 3 tarjetas coincide con la estructur
 
 ## Chat con IA real + robot mascota interactivo
 
-El usuario preguntó si el chat "Pregúntale a Collectionat" podía usar IA de verdad en vez de las respuestas enlatadas (`CANNED_RESPONSES`) que tenía desde el principio, y pidió sumar un robot animado al lado, "como si te estuviera ayudando". Le pregunté explícitamente por API key/proveedor y alcance del bot (no respondió), así que avancé con las opciones que yo mismo marqué como recomendadas — quedan documentadas acá para que las cambie si no son lo que quería:
+El usuario preguntó si el chat "Pregúntale a Collectionat" podía usar IA de verdad en vez de las respuestas enlatadas (`CANNED_RESPONSES`) que tenía desde el principio, y pidió sumar un robot animado al lado, "como si te estuviera ayudando".
 
-- **Proveedor: Anthropic (Claude), modelo `claude-haiku-4-5-20251001`** — barato y rápido, apropiado para un bot de preguntas frecuentes de una landing. Si preferís más profundidad en las respuestas, cambiá `ANTHROPIC_MODEL` en `app/api/chat/route.ts` a `claude-sonnet-5`.
+**Primera vuelta:** implementé el endpoint apuntando a Anthropic (Claude), ya que no respondió mi pregunta inicial sobre proveedor/alcance, avancé con esa opción por defecto y lo documenté. El usuario volvió con "¿no podés generar una IA que funcione de verdad?", frustrado por tener que configurar algo antes de que funcione.
+
+**Le expliqué la restricción real** (no es falta de esfuerzo, es cómo funcionan estos servicios): ninguna IA conversacional hosteada (ChatGPT, Gemini, Claude) funciona sin que alguien tenga una cuenta/API key ahí — yo no puedo crear ni pagar una cuenta en su nombre. Le di dos caminos honestos: (1) conseguir una API key **gratis** de Google Gemini (sin tarjeta, ~2 minutos) y yo conecto el endpoint ahí, o (2) un modelo chico corriendo 100% en el navegador del visitante (sin cuentas, pero con una descarga de varios cientos de MB y respuestas notablemente más débiles). Eligió la opción 1.
+
+- **Proveedor: Google Gemini, modelo `gemini-2.0-flash`** — friendly con el free tier de Google AI Studio. Si Google renombra o retira ese modelo, el nombre está en una sola constante (`GEMINI_MODEL`) en `app/api/chat/route.ts`.
 - **Alcance: asistente de ventas honesto sobre Collectionat**, no "acceso a tus datos reales" (eso sería inventado, no hay ningún backend detrás de esta landing). El system prompt en `app/api/chat/route.ts` solo conoce lo que está realmente en la página — los 3 planes, los 2 rubros con implementación real, permisos por rol, integraciones — y tiene instrucción explícita de admitir cuando no sabe algo y sugerir pedir una demo, en vez de inventar.
 
-**`app/api/chat/route.ts`** (nuevo) — un Route Handler real que llama a `https://api.anthropic.com/v1/messages` server-side con `fetch` (sin agregar el SDK de Anthropic como dependencia nueva). **Como no tengo tu API key, hasta que la cargues el endpoint responde con un error claro** ("El asistente de IA todavía no está configurado…") en vez de fallar en silencio o inventar una respuesta — probado en este entorno, que no tiene la key, y efectivamente muestra ese aviso.
+**`app/api/chat/route.ts`** — un Route Handler real que llama a `https://generativelanguage.googleapis.com/v1beta/models/{modelo}:generateContent` server-side con `fetch` (sin agregar ningún SDK como dependencia nueva). **Como no tengo tu API key, hasta que la cargues el endpoint responde con un error claro** ("El asistente de IA todavía no está configurado…", HTTP 503) en vez de fallar en silencio o inventar una respuesta — probado en este entorno, que no tiene la key, y efectivamente devuelve ese error.
 
-**Para activarlo de verdad:** creá `.env.local` en la raíz del proyecto (ya está en `.gitignore`, no se sube al repo) con:
-```
-ANTHROPIC_API_KEY=sk-ant-...
-```
-y reiniciá `npm run dev`.
+**Para activarlo de verdad (2 minutos, gratis, sin tarjeta):**
+1. Andá a [aistudio.google.com](https://aistudio.google.com/), iniciá sesión con una cuenta de Google y generá una API key (tiene un tier gratuito real).
+2. Creá `.env.local` en la raíz del proyecto (ya está en `.gitignore`, no se sube al repo) con:
+   ```
+   GEMINI_API_KEY=tu-key-de-google-ai-studio
+   ```
+3. Reiniciá `npm run dev`.
 
 **`components/ui/ruixen-moon-chat.tsx`**: el `send()` ahora hace un `fetch` real a `/api/chat` (antes era un `setTimeout` con texto fijo), con manejo de error real (una caja roja distinta a la de respuesta normal). Las acciones rápidas cambiaron de preguntas sobre "datos de negocio" ficticios (Resumen de ventas, Cuentas por cobrar) a preguntas reales que el prompt puede responder de verdad (planes, integraciones, industrias, permisos por rol).
 

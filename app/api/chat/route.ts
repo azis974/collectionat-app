@@ -24,7 +24,9 @@ Reglas:
 - Nunca inventes funcionalidades, precios o clientes que no figuran en esta descripción.
 - Sos el asistente de la landing page, no el producto ya instalado: si preguntan por "sus" ventas, cobranzas o datos específicos de su empresa, aclará amablemente que no tenés acceso a eso (recién no está conectado a ningún backend real) y ofrecé mostrarles cómo se ve esa función en la demo interactiva de la página o en una llamada con el equipo.`;
 
-const ANTHROPIC_MODEL = "claude-haiku-4-5-20251001";
+// Free-tier model on Google AI Studio at the time this was written. If Google
+// renames/retires it, swap the id here — check https://ai.google.dev/gemini-api/docs/models.
+const GEMINI_MODEL = "gemini-2.0-flash";
 
 export async function POST(request: Request) {
   let body: ChatRequestBody;
@@ -39,49 +41,48 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Escribí un mensaje." }, { status: 400 });
   }
 
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     // Genuinely no key configured yet — tell the caller plainly instead of
-    // pretending to answer. See README for how to add one.
+    // pretending to answer. See README for how to get a free one.
     return NextResponse.json(
-      { error: "El asistente de IA todavía no está configurado en este entorno (falta ANTHROPIC_API_KEY)." },
+      { error: "El asistente de IA todavía no está configurado en este entorno (falta GEMINI_API_KEY)." },
       { status: 503 },
     );
   }
 
   try {
-    const anthropicRes = await fetch("https://api.anthropic.com/v1/messages", {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`;
+    const geminiRes = await fetch(url, {
       method: "POST",
-      headers: {
-        "content-type": "application/json",
-        "x-api-key": apiKey,
-        "anthropic-version": "2023-06-01",
-      },
+      headers: { "content-type": "application/json" },
       body: JSON.stringify({
-        model: ANTHROPIC_MODEL,
-        max_tokens: 300,
-        system: SYSTEM_PROMPT,
-        messages: [{ role: "user", content: message }],
+        system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
+        contents: [{ role: "user", parts: [{ text: message }] }],
+        generationConfig: { maxOutputTokens: 300, temperature: 0.6 },
       }),
     });
 
-    if (!anthropicRes.ok) {
-      const errBody = await anthropicRes.text();
-      console.error("[chat] Anthropic API error", anthropicRes.status, errBody);
+    if (!geminiRes.ok) {
+      const errBody = await geminiRes.text();
+      console.error("[chat] Gemini API error", geminiRes.status, errBody);
       return NextResponse.json(
         { error: "No se pudo contactar al asistente en este momento. Probá de nuevo en unos segundos." },
         { status: 502 },
       );
     }
 
-    const data = await anthropicRes.json();
-    const reply: string | undefined = data?.content?.[0]?.text;
+    const data = await geminiRes.json();
+    const reply: string | undefined = data?.candidates?.[0]?.content?.parts?.[0]?.text;
 
     if (!reply) {
-      return NextResponse.json({ error: "El asistente no devolvió una respuesta. Probá reformular la pregunta." }, { status: 502 });
+      return NextResponse.json(
+        { error: "El asistente no devolvió una respuesta. Probá reformular la pregunta." },
+        { status: 502 },
+      );
     }
 
-    return NextResponse.json({ reply });
+    return NextResponse.json({ reply: reply.trim() });
   } catch (err) {
     console.error("[chat] Unexpected error", err);
     return NextResponse.json({ error: "Ocurrió un error inesperado contactando al asistente." }, { status: 500 });
