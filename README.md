@@ -1,0 +1,134 @@
+# Collectionat — Landing Page
+
+Landing page en Next.js (App Router) + TypeScript + Tailwind CSS para **Collectionat**: una plataforma SaaS que centraliza toda la información crítica de una empresa (ventas, finanzas, operaciones) en un solo lugar, elimina el uso de hojas de cálculo dispersas, y se integra de forma nativa con Microsoft 365 (Outlook, Teams, SharePoint, OneDrive). Con módulos que se adaptan por industria (inmobiliarias, estudios jurídicos, y más a futuro).
+
+## Sección "Industrias"
+
+El usuario compartió capturas de dos apps reales hechas en Power Apps: una de gestión **inmobiliaria** (Propiedades, Contratos y trámites, Email corporativo, RRHH, Chat AI, Alertas) y una de gestión **legal/estudio jurídico** (Causas, Clientes, Agenda, Documentos, portales oficiales AFIP/ANSES/Boletín Oficial). Con eso arme una sección nueva, `#industrias` (entre Características y "Cómo funciona"):
+
+- Selector de pestañas (`INDUSTRIES`) con los módulos reales de cada vertical, no genéricos.
+- Panel con transición (`AnimatePresence` + `key={activeIndustry}`) que muestra ícono, descripción y grid de módulos de la industria seleccionada.
+- Mismo lenguaje visual del resto de la página (insignias circulares, `FloatingOrbs` de fondo, tipografía `font-black tracking-tighter`).
+
+No reemplacé ningún mockup existente (Dashboard/Ventas/Reportes en "Cómo funciona" y "Explora cada página" siguen siendo genéricos) — esto se sumó como una sección nueva que dice explícitamente para qué rubros sirve Collectionat, que era lo que pediste.
+
+**Aclaración importante (el usuario avisó que esas dos capturas eran solo un ejemplo, no los únicos rubros que cubren):** agregué una 3ª pestaña, "Tu rubro también" (ícono `Building2`), que no es una industria específica sino la aclaración explícita de que cada implementación se arma a medida — sus "módulos" son genéricos por diseño (Dashboard a medida, Automatización, Permisos por rol, Integración Microsoft), a diferencia de las otras dos que listan módulos reales y específicos. También sumé una frase en el subtítulo de la sección ("Estos son solo algunos ejemplos reales de implementación; ya trabajamos con empresas de varios rubros") para que no se lea como una lista cerrada de 2 industrias soportadas.
+
+## Estructura
+
+La página (`app/page.tsx`, `CollectionatLanding`) usa dos componentes de UI reutilizables desde `components/ui/`, más helpers internos (spotlight cards, texto en degradado, botón con brillo) definidos en el propio archivo.
+
+**Pasada de cohesión** (después de acumular 11 secciones con estilos ad-hoc, la página empezaba a sentirse como piezas pegadas por separado en vez de un solo diseño):
+- `ScrollProgressBar` — barra de degradado fija arriba de todo (`z-[60]`, por encima del header), se llena según el progreso de scroll (`useScroll` de framer-motion). Sencillo de implementar, pero une visualmente toda la página como una sola pieza continua.
+- `Eyebrow` — la etiqueta pequeña en mayúsculas que va arriba de cada título de sección estaba resuelta de 3 formas distintas (texto plano, con ícono, sin nada). Ahora es un solo componente con dos tonos (`dark`/`light`), usado en las 7 secciones que tienen encabezado — incluida Precios, que antes no tenía ninguna.
+- `SectionSeam` — franja de 64–80px con degradado `from-black to-white` (o al revés) entre cada sección oscura y las 2 secciones blancas, en vez del corte duro que había antes. Se agregaron 4, una a cada lado de "Explora cada página" y de "Confianza".
+
+> La sección de video (`VideoDemoSection`) era la única sin ningún fondo animado. Primero le puse `AuroraShaderBackground` (cintas de luz), pero no gustó ese estilo — quedó con `FloatingOrbs` (índigo/turquesa/ámbar) como las demás. También arreglé un bug real: pausar el video ocultaba los controles nativos y volvía a mostrar el botón grande de reproducir encima — ya no pasa.
+
+## Estilo "mosaico bento" (referencia visual del usuario)
+
+El usuario compartió una imagen de referencia (mockup estilo agencia creativa: grid de tarjetas bento con círculos/medallones geométricos, tarjetas sólidas de color de acento mezcladas con tarjetas oscuras, tipografía condensada muy bold). Pidió aplicarlo a **toda la página**, pero adaptado a los colores de Collectionat (azul/violeta/negro) en vez de la paleta coral/crema original de la referencia. Alcance real entregado, para no reescribir las 13 secciones existentes sin poder probarlas:
+
+- **[`components/ui/bento.tsx`](components/ui/bento.tsx)** (sección "Ventas") — rediseño completo del mosaico, que es donde más sentido tiene este estilo:
+  - Una tarjeta **sólida** con degradado azul→índigo (equivalente a la tarjeta coral de la referencia), en vez de todas las tarjetas del mismo tono oscuro.
+  - **`DonutRing`** — nuevo componente decorativo: un anillo/medallón hecho con `conic-gradient` recortado en forma de dona vía `mask`, imitando los círculos geométricos de la referencia. Dos tarjetas lo usan de fondo.
+  - Una tarjeta **de estadística** con un número grande dentro de un círculo (como el "4" de la referencia), en vez de ícono + texto como las demás.
+  - Íconos en insignias **circulares** (antes eran cuadradas con esquinas redondeadas).
+  - Tipografía de tarjetas más bold (`font-black` en vez de `font-medium`).
+- **Tipografía sitewide más bold**: los 9 encabezados `<h2>`/`<h3>` de toda la página (antes `font-semibold tracking-tight`) y el `<h1>` del Hero pasaron a `font-black tracking-tighter` — más parecido a la tipografía condensada de alto impacto de la referencia ("Modern Effective"). No toqué el logo del nav, valores de KPI, ni los nombres de la pared de empresas — esos no son títulos de sección.
+
+**Extendido a las demás secciones con grid de tarjetas** (el usuario confirmó que le gustaba y pidió aplicarlo en todas):
+- **Características**: la 4ª tarjeta ("Integración con Microsoft") ahora es sólida violeta→azul con su propio `DonutRing`, mezclada con las otras 3 que quedaron oscuras (cada una con su propio anillo de color); íconos pasaron de cuadrados a insignias circulares.
+- **Precios**: el plan "Business" (antes solo un borde/gradiente sutil) ahora es una tarjeta 100% sólida azul→índigo con `DonutRing`, igual que la tarjeta destacada de "Ventas" — el plan "Starter" se queda oscuro para mantener el contraste de dos tonos.
+- **Calculadora**: ícono cuadrado → circular; la tarjeta de resultado ahora tiene su propio `DonutRing` de fondo.
+- **Confianza**: cada testimonio suma una insignia circular con ícono de comilla (`Quote`), rotando azul/índigo/violeta por tarjeta — no usé iniciales ni avatares con nombres inventados, para no dar la impresión de que son personas reales específicas.
+
+No toqué "Cómo funciona" (los números de paso ya eran circulares), el video, el chat de IA, "Explora cada página" ni el footer — no son grids de tarjetas con el mismo patrón, o ya tenían elementos circulares. Si querés el tratamiento ahí también, decime cuál puntualmente.
+
+## Video interactivo y funcionalidad real
+
+- **`VideoDemoSection`** (entre "Cómo funciona" y "Explora cada página") — video con reproducción bajo demanda y **capítulos clicables** que saltan a un timestamp exacto (`video.currentTime`, no decorativo). No hay footage real todavía — ver [`public/videos/README.md`](public/videos/README.md) para dónde poner el archivo y cómo ajustar los timestamps de `VIDEO_CHAPTERS`. Sin el archivo, la sección no se rompe, solo se ve el video en negro.
+- **`DemoRequestModal` + `app/api/demo-request/route.ts`** — a diferencia de todo lo demás en esta página (que es visual/simulado), esto es un **formulario que funciona de verdad**: envía un `POST` real a un Route Handler de Next.js, que valida los campos server-side y responde éxito/error real (no un `setTimeout` fingiendo que algo pasó). Se abre desde "Solicitar demo" en el Hero y "Obtener Business" en Precios.
+  > ⚠️ El endpoint valida y **registra la solicitud en el log del servidor**, pero no envía el lead a ningún lado todavía (no tengo tus credenciales de Resend/Formspree/CRM). El archivo de la ruta tiene comentado exactamente qué agregar y dónde — es la única pieza que falta para que sea 100% funcional en producción.
+
+- `public/logo.jpg` — logo mostrado en el header.
+- [`components/ui/velaris.tsx`](components/ui/velaris.tsx) — fondo animado con un fragment shader WebGL propio (simplex-noise + mezcla de colores + grano de película). Usado en Hero (`colors={["#2563eb","#a855f7","#ec4899","#f97316"]}`, azul/violeta/rosa/naranja) y en Planes (`colors={["#10b981","#f59e0b","#f43f5e","#000000"]}`, esmeralda/ámbar/rosa) — dos combinaciones distintas para que no se sientan repetidas.
+- [`components/ui/orbiting-circles-02.tsx`](components/ui/orbiting-circles-02.tsx) — globo con anillos de íconos orbitando, usado como visual decorativo bajo los botones del Hero. Los íconos representan lo que Collectionat centraliza: Outlook, Teams, SharePoint, OneDrive, hojas de cálculo, datos, conectividad y rendimiento (íconos de lucide-react, ya no las marcas genéricas del demo original — no había relación con el producto). Depende de `components/ui/orbiting-circles-02-utils/particalsphear.tsx`.
+  > ⚠️ Ese archivo de la esfera de partículas **no vino incluido** cuando pegaste el componente — lo reconstruí con un canvas 2D (sin dependencias nuevas) para que el componente no se rompa. Si tienes la implementación original, reemplázalo.
+  > Nota: usa clases `bg-background`/`border-border` de shadcn; por eso agregué los tokens `--background`/`--foreground`/`--border` en `globals.css` + `tailwind.config.ts` (ver más abajo). Sin esos tokens esas clases no generan ningún estilo y el globo se vería sin bordes ni fondo en sus burbujas de íconos.
+  > ~~El shader de Velaris no pausa con `prefers-reduced-motion` ni cuando la pestaña está oculta~~ — corregido: ahora sí respeta ambos (como Aurora) y renderiza a resolución reducida, ya que corre dos instancias simultáneas (Hero + Planes).
+- [`components/ui/aurora-shader-bg.tsx`](components/ui/aurora-shader-bg.tsx) — sigue existiendo en el repo (shader WebGL de bandas de luz fluidas), pero **ya no se usa en `app/page.tsx`**: al usuario no le gustó ese estilo de "cintas/líneas onduladas" (lo probé en Características, Calculadora y la sección de video) y pidió sacarlo de todos lados. Las 3 quedaron con `FloatingOrbs` (blobs difusos, más calmo) en su lugar. Si en algún momento quieren ese efecto de vuelta, el componente sigue intacto, solo no está importado.
+- [`components/ui/lens-card.tsx`](components/ui/lens-card.tsx) — componente de terceros (Motiq, MIT) sin modificar: una lupa de cristal que sigue el cursor, magnifica el contenido debajo y dobla una grilla de fondo alrededor del borde. Usa `clsx`/`tailwind-merge` (ya instalados). Se usa en la nueva sección "Tu empresa, bajo la lupa" (entre el Hero y Características) envolviendo una grilla de 6 KPIs de ejemplo (hojas migradas, integraciones activas, ahorro semanal, etc.).
+  > El componente trae sus propios tokens `--motiq-*` por defecto (navy/teal) dentro de `@layer motiq`. Los sobreescribí como reglas **sin capa** en `globals.css` (ver el bloque `:root` antes de los `@layer`) para que ganen siempre y usen el negro/azul/violeta de Collectionat — si se hubieran puesto dentro de `@layer base` como el resto de tokens del archivo, el resultado habría dependido de en qué momento se monta el componente.
+- [`components/ui/bento.tsx`](components/ui/bento.tsx) — grid tipo "bento" con tarjetas que reaccionan al hover (`framer-motion`), sección "Ventas" entre Características y la Calculadora.
+  > ⚠️ **No copié el contenido del componente pegado tal cual.** El demo original era para un producto ficticio "PerkAI" con copy que bromeaba sobre "ingeniería social" para conseguir el número de seguro social de tus leads, "evadir leyes de privacidad" y vender a países bajo embargo internacional — no es apropiado para un proyecto real, así que reescribí las 5 tarjetas con beneficios legítimos de ventas/CRM de Collectionat (mismo patrón Insight/Análisis/Velocidad/Alcance/Escala, contenido distinto).
+  > También reemplacé las imágenes de fondo (hotlinkeadas desde `framerusercontent.com`, assets de otro proyecto sin relación con Collectionat) por gradientes CSS + íconos de lucide-react — consistente con el resto del sitio, que no depende de imágenes externas.
+  > Corregí clases de Tailwind inválidas del original (`bg-[#]`, `min-w-screen`, `text-gray-150`, `rounded-4xl` — este último no existe en la escala default de Tailwind v3) y quité el sistema de alternancia `dark:`/`data-dark` del componente, ya que este sitio no tiene modo claro/oscuro conmutable.
+- [`components/ui/textarea.tsx`](components/ui/textarea.tsx) y [`components/ui/button.tsx`](components/ui/button.tsx) — primitivos de shadcn/ui copiados sin modificar (`Button` usa `@radix-ui/react-slot` + `class-variance-authority`, agregados a `package.json` — **corre `npm install` de nuevo**, son dependencias nuevas que antes no estaban).
+  > `Button` usa clases de tokens de shadcn (`bg-primary`, `bg-secondary`, `bg-destructive`, `bg-accent`, `bg-muted`, `border-input`, `ring-ring`, etc.) que el proyecto no tenía definidas — solo existían `background`/`foreground`/`border`. Completé el set estándar de shadcn en `tailwind.config.ts` + `globals.css` (paleta negro con acento azul `#3b82f6` como `--primary`/`--ring`), para que el componente funcione igual de bien en usos futuros donde no se sobreescriban todas las clases a mano.
+- [`components/ui/ruixen-moon-chat.tsx`](components/ui/ruixen-moon-chat.tsx) — sección "Pregúntale a Collectionat" (chat de IA sobre tus datos centralizados), entre "Ventas" y la Calculadora.
+  > ⚠️ **Rebrandeado por completo, no es una copia literal.** El original era "Ruixen AI", una landing de chat de IA para *generar código y apps* (acciones rápidas tipo "Generate Code", "Launch App", "UI Components") — no tiene nada que ver con Collectionat. Reescribí las 8 acciones rápidas para reflejar lo que Collectionat realmente hace (resumen de ventas, buscar cliente, cuentas por cobrar, sincronizar Outlook, migrar hoja de cálculo, aprobaciones, tendencias, conectar SharePoint), y añadí una función `send()` con respuestas simuladas por acción (con un pequeño delay de "pensando") — el original tenía el botón de enviar permanentemente `disabled`, aquí sí funciona.
+  > También reemplacé el fondo del original (una imagen de luna hotlinkeada desde un bucket R2 de terceros, `pub-940ccf6255b54fa799a9b01050e6c227.r2.dev`) por un resplandor radial + grid en CSS puro, igual que el resto del sitio — y cambié el layout de `h-screen` (pensado para ser una landing completa por sí sola) a una tarjeta de sección normal, ya que aquí vive en medio de la página junto a otras secciones.
+
+**Pasada de color vivo (toda la página tiene ahora un fondo):** Hero y Planes usan Velaris (WebGL), Características y Calculadora usan Aurora (WebGL), y el chat de IA + Footer usan gradientes radiales multicolor en CSS puro (sin WebGL adicional, para no sumar más canvases de los necesarios). Paletas distintas por sección para que no se vean repetidas: azul/violeta/rosa/naranja, esmeralda/ámbar/rosa, rosa/esmeralda/naranja, cian/violeta/rosa.
+
+- [`components/ui/floating-orbs.tsx`](components/ui/floating-orbs.tsx) — segundo tipo de efecto, deliberadamente distinto a los shaders: blobs de color borrosos que flotan/laten con CSS puro (reutiliza los keyframes `float`/`pulse-glow` que ya existían en `tailwind.config.ts`, sin código nuevo de animación). Usado en la sección "Tu empresa, bajo la lupa" y en "Ventas", que eran las únicas dos secciones que hasta ahora no tenían ningún fondo ambiental.
+- **Sección "Confianza"** (entre la Calculadora y Planes) — **fondo blanco**, quiebra a propósito el ritmo oscuro. Nombres de empresa y testimonios son de ejemplo (genéricos, sin nombres propios ni empresas reales) — no representan clientes reales de Collectionat.
+- **Sección "Explora cada página de Collectionat"** (nueva, entre "Cómo funciona" y "Ventas") — **segunda sección en blanco**. 4 filas alternadas (texto a la izquierda/derecha, según `index % 2`) que revelan un "tablet" — bisel gris claro tipo iPad con la pantalla oscura real de la app adentro — al hacer scroll hasta cada una (`whileInView`, una por una). Las 4 páginas mostradas (Panel principal, Ventas y CRM, Reportes, Automatización) reutilizan los mismos datos de ejemplo que la sección "Cómo funciona" (`DATA_PREVIEW`, `REPORT_BARS`, `AUTOMATION_RULES`) más una lista de CRM nueva (`CRM_PREVIEW`), para que la información se sienta consistente en toda la página en vez de inventada por sección.
+
+**Contenido de la página** (5 beneficios clave en `FEATURES`): Adiós a Excel, Gestión Centralizada Total, Alto Rendimiento, Integración con Microsoft, **Permisos por Rol** (nuevo). Este último refleja lo que el usuario describió del funcionamiento real de la app: cada persona ve/edita solo su área (ej. una sola persona a cargo de "manejo administrativo", otra de "propiedades"), mientras que el dueño o administrador general puede ver y modificar todas las áreas. Se agregó como 5ª tarjeta (`Lock`, tono `teal`, nuevo en `FEATURE_ICON_STYLES`/`FEATURE_RINGS`) y el grid pasó de 4 columnas iguales a un mosaico asimétrico `lg:grid-cols-6 lg:grid-rows-2` (2 tarjetas grandes arriba, 3 abajo) para acomodarla sin romper el estilo bento del resto de la página. La calculadora simula ahorro de tiempo según "hojas de cálculo activas", y los planes (Starter / Business) usan lenguaje de SaaS empresarial en vez de coleccionismo.
+
+**Sección "Cómo funciona"** (`#como-funciona`, entre Características y Ventas) — 4 pasos clicables (Exploración del Dashboard, Gestión de Operaciones, Automatización de Flujos, Reportes Dinámicos) con un panel de vista previa a la derecha que cambia según el paso seleccionado (`activeStep`, transición con `AnimatePresence`): KPIs en vivo, un formulario simulado con dropzone, una lista de reglas de automatización con toggles, y un gráfico de barras. Todo con datos de ejemplo, sin lógica real detrás. El copy del Hero y el `<meta description>` ahora también reflejan el posicionamiento completo de "CollectionatApp": gestión todo en uno, base de datos inteligente integrada con Microsoft, automatización de flujos, interfaz de alto rendimiento.
+
+> `components/sections/*` y `components/ui/container-scroll-animation.tsx` son una versión modular anterior de la landing, ya no referenciada por `app/page.tsx`. `public/videos/` tampoco se usa ya (el hero usaba un `<video>` de fondo, reemplazado por Velaris). Se dejaron sin borrar por si quieres retomarlos; si no, se pueden eliminar sin afectar la app actual.
+
+## Página adicional: /dna-erp
+
+[`app/dna-erp/page.tsx`](app/dna-erp/page.tsx) es una página **separada e independiente** de la landing de Collectionat — no toca `app/page.tsx` ni sus estilos.
+
+Es un **clon estructural** de [dna.systems](https://www.dna.systems/) (un ERP real de otra empresa), inspeccionado con el navegador y reconstruido sección por sección: mismo tipo de secciones, mismo orden, mismo ritmo visual oscuro tipo AI-SaaS. **No es una copia literal**: los logos de clientes, testimonios con nombres reales, copy de marketing exacto y artículos de blog reales se reemplazaron por contenido genérico/placeholder — esa marca es real y tiene clientes, empleados y textos con derechos, así que solo se replicó la arquitectura, no el contenido.
+
+Secciones, cada una en `components/dna-erp/`:
+
+| Componente | Qué hace | Interactividad |
+|---|---|---|
+| `Nav.tsx` | Header + mega-menú de "Apps" (9 módulos) | Menú desplegable en hover/click, menú móvil |
+| `Hero.tsx` | Titular + etiqueta rotativa + dashboard flotante | La etiqueta ("Next-Generation ERP", etc.) rota sola cada ~2s |
+| `DashboardMockup.tsx` | El panel de dashboard (del turno anterior) reutilizado como visual del hero | Ver detalle abajo |
+| `LogoWall.tsx` | Marquesina de empresas (genéricas) | Auto-scroll infinito, se pausa en hover |
+| `AppsGrid.tsx` | Lista de 9 módulos + panel de detalle | Click/hover en un módulo cambia el panel de la derecha |
+| `AiShowcase.tsx` | Demo de "preguntar a la IA" | Click en una pregunta sugerida muestra una respuesta simulada (con delay de "pensando") |
+| `Testimonial.tsx` | Cita destacada | — |
+| `FeaturesCarousel.tsx` | 8 tarjetas de features con scroll horizontal | Botones prev/next, scroll-snap |
+| `Showreel.tsx` | Placeholder de video | Abre un lightbox modal (sin video real) |
+| `Results.tsx` | Estadísticas + testimonios | Los contadores animan de 0 al valor real cuando entran al viewport (`IntersectionObserver`) |
+| `Pricing.tsx` | 2 planes | Toggle Mensual/Anual recalcula precios y muestra el descuento |
+| `Faq.tsx` | Acordeón de 6 preguntas | Expandir/colapsar |
+| `Blog.tsx` | Grid de artículos (títulos genéricos) | — |
+| `FinalCta.tsx` | Banner de cierre | — |
+| `Footer.tsx` | Enlaces + newsletter | Formulario de newsletter con estado de éxito simulado |
+
+`DashboardMockup.tsx` (ya construido en el turno anterior) mantiene su interactividad: toggle Monthly/Quarterly/Yearly en Revenue, tareas marcables, barras con hover, leyenda que oculta/muestra series, widget cerrable/restaurable, aprobaciones que se resuelven, sidebar/notificaciones/perfil funcionales. Todos los gráficos (sparkline, barras, dona) son SVG hechos a mano — cero dependencias nuevas en toda la página.
+
+## Cómo ejecutar
+
+Este entorno no tiene Node.js instalado, así que no pude levantar el servidor de desarrollo ni probar los cambios en vivo aquí. Para correrlo localmente:
+
+```bash
+npm install
+npm run dev
+```
+
+Abre [http://localhost:3000](http://localhost:3000).
+
+## Notas
+
+- **Tipografía**: `Inter` cargada vía `next/font/google` en `app/layout.tsx` (variable `--font-sans`, referenciada por `tailwind.config.ts`). *Antes había un bug: el config apuntaba a `var(--font-sans)` sin que esa variable existiera en ningún lado — un `var()` no resuelto invalida toda la propiedad `font-family`, así que el navegador caía a su serif por defecto. Ya está corregido.*
+- Estilo: fondo `black` real (no `slate-950`) con grises `neutral-*`, acento único azul/violeta reservado para CTAs y resplandores — paleta más monocromática, al estilo Vercel/Linear.
+- **`AmbientGlow`**: resplandor radial sutil azul/violeta arriba de la página + textura de grid (`bg-grid`, definida en `globals.css`) con fade hacia abajo. 100% CSS, sin canvas ni WebGL — reemplaza el fondo de malla animada por shader de la iteración anterior, que era más pesado y menos "sutil" de lo pedido.
+- **`SpotlightCard`**: el resplandor de iluminación sigue al cursor en hover (variables CSS `--spot-x/--spot-y` actualizadas directamente en el DOM, sin re-render de React). Bordes semitransparentes `border-white/10` que se iluminan a `border-blue-500/30` en hover. Se usa en las 3 tarjetas de características, el resultado de la calculadora y los 2 planes.
+- **`GlowButton`**: CTA primario con sombra de brillo (`shadow-blue-500/20` → más intensa en hover) y un barrido diagonal de brillo (shine sweep) al pasar el mouse.
+- **`GradientText`**: degradado estático de dos tonos (azul → violeta), sin animación — más "sutil" y menos "efecto arcoíris" que la versión anterior.
+- **Transiciones con `framer-motion`**: fade-up al hacer scroll en cada sección/tarjeta (`whileInView`), menú móvil animado con `AnimatePresence`, micro-interacciones `whileHover`/`whileTap`. Todo respeta `prefers-reduced-motion` vía `MotionConfig reducedMotion="user"`.
+- Calculadora: slider nativo (`<input type="range">`) que recalcula horas ahorradas e índice de control en tiempo real.
+- Todo el contenido (precios, métricas) es de ejemplo — conecta tu propio backend antes de producción.

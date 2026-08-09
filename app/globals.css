@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Deliberately NOT inside @layer: components/ui/lens-card.tsx ships its own
+   defaults inside `@layer motiq`, and unlayered rules always beat layered
+   ones regardless of layer declaration order — wrapping this in @layer base
+   would make the win depend on mount timing. Matches Collectionat's black /
+   blue / violet palette instead of the component's default navy/teal. */
+:root {
+  --motiq-bg: #000000;
+  --motiq-surface: #0a0a0b;
+  --motiq-surface-2: #131316;
+  --motiq-border: #262629;
+  --motiq-border-strong: #3a3a40;
+  --motiq-fg: #fafafa;
+  --motiq-fg-secondary: #d4d4d8;
+  --motiq-muted: #a3a3a3;
+  --motiq-accent: #60a5fa;
+  --motiq-accent-text: #93c5fd;
+  --motiq-secondary-accent: #a78bfa;
+}
+
+@layer base {
+  :root {
+    /* shadcn-style tokens: some copied /components/ui components (e.g. orbiting-circles-02)
+       use bg-background / border-border directly. --border is a plain white value; the
+       0.1 alpha is applied in tailwind.config.ts so it matches the site's border-white/10 look. */
+    --background: 0 0% 0%;
+    --foreground: 0 0% 98%;
+    --border: 0 0% 100%;
+    --input: 0 0% 100%;
+    --ring: 217 91% 60%;
+    --card: 0 0% 4%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 4%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 4% 16%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 4% 16%;
+    --muted-foreground: 240 5% 65%;
+    --accent: 240 4% 16%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-black text-white antialiased;
+  }
+
+  ::selection {
+    @apply bg-blue-500/30 text-white;
+  }
+
+  :focus-visible {
+    outline: 2px solid theme("colors.blue.400");
+    outline-offset: 2px;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
