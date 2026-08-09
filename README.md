@@ -87,6 +87,8 @@ El usuario preguntó si el chat "Pregúntale a Collectionat" podía usar IA de v
    ```
 3. Reiniciá `npm run dev`.
 
+**✅ Confirmado funcionando en vivo** con una key real de Groq: `POST /api/chat` devolvió `200` con respuestas correctas y ancladas a los datos reales (los 3 planes con sus precios exactos, y una respuesta afirmativa y precisa sobre el rubro inmobiliario) tanto por request directo como haciendo clic en las acciones rápidas de la UI — robot reaccionando ("pensando") incluido.
+
 **`components/ui/ruixen-moon-chat.tsx`**: el `send()` ahora hace un `fetch` real a `/api/chat` (antes era un `setTimeout` con texto fijo), con manejo de error real (una caja roja distinta a la de respuesta normal). Las acciones rápidas cambiaron de preguntas sobre "datos de negocio" ficticios (Resumen de ventas, Cuentas por cobrar) a preguntas reales que el prompt puede responder de verdad (planes, integraciones, industrias, permisos por rol).
 
 **Robot mascota (`ChatRobot`)**: SVG animado con `framer-motion`, sin librerías nuevas — flota y se balancea todo el tiempo (`y` + `rotate` en loop), parpadea cada tanto (`scaleY` en los ojos), y mientras el bot está "pensando" el antenna-light pasa a dorado y pulsa más rápido y los brazos se agitan — para que se sienta como que está ayudando activamente, no solo decorativo. Después de que el usuario pidiera "que esté más feliz", se le sumaron cachetes sonrosados, un brillito en cada ojo y una sonrisa grande (antes tenía una carita neutra con una barra por boca).
