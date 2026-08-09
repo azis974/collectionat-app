@@ -82,17 +82,22 @@ No toqué "Cómo funciona" (los números de paso ya eran circulares), el video, 
 
 > `components/sections/*` y `components/ui/container-scroll-animation.tsx` son una versión modular anterior de la landing, ya no referenciada por `app/page.tsx`. `public/videos/` tampoco se usa ya (el hero usaba un `<video>` de fondo, reemplazado por Velaris). Se dejaron sin borrar por si quieres retomarlos; si no, se pueden eliminar sin afectar la app actual.
 
-## Página adicional: /simulador — dashboard full-screen
+## Sección "Producto real" — la app embebida directamente en la landing
 
-El usuario pidió, después de ver la sección "Simulador" embebida en la landing (una ventanita con marco de navegador), algo mucho más real: la aplicación completa, a pantalla completa, sin recuadros ni fondo negro alrededor — igual a las capturas que compartió de las dos apps reales de Power Apps (Inmobiliaria y Gestión Legal).
+Esto pasó por 3 iteraciones en la misma conversación, vale la pena dejar el rastro:
 
-**No reemplacé `app/page.tsx`** (habría borrado toda la landing: Hero, Precios, Testimonios, todo) — en cambio, esto es una **ruta nueva y separada**, [`app/simulador/page.tsx`](app/simulador/page.tsx), que ocupa el 100% del viewport (`h-screen w-screen`, sin layout de la landing alrededor). El botón "Abrir simulador a pantalla completa" al final de la sección `#simulador` de la landing lleva ahí. Antes de este cambio inicialicé un repo Git local (no existía) con un commit del estado previo, para poder deshacer un cambio de esta magnitud si hacía falta.
+1. Primero: una sección "Simulador" con un rol-switcher (Dueño/Administración/Propiedades) dentro de una ventanita con marco de navegador falso (puntitos + barra de URL), usando los mismos mockups genéricos del resto de la página.
+2. El usuario pidió algo mucho más real, calcado de las capturas de Power Apps que compartió — pero como ruta separada `/simulador`, a pantalla completa, con un botón "Abrir simulador a pantalla completa" para llegar y un link "Volver a Collectionat" para salir.
+3. **Versión final (esta):** el usuario pidió eliminar el concepto de "Simulador" por completo — nada de ventanita, nada de página separada, nada de botones para "entrar" o "volver". La app-shell tenía que ser parte directa de la página principal.
 
-- **Sidebar fijo a la izquierda, ancho completo**: azul marino oscuro (`#0b1730`), con un switcher arriba para elegir qué app real estás viendo (Inmobiliaria / Gestión Legal) — cada una con su propio logo, subtítulo, lista de módulos y nota al pie (`Acceso prioritario` vs `Estudio Jurídico`), igual que en las capturas.
-- **Inmobiliaria** — 12 módulos del sidebar real: Login y password, Chat AI, Alertas generales, Resumen, Propiedades, Nueva propiedad, Metas, Contratos y trámites, Email corporativo, Recursos humanos, Actividades, Administración. Cada uno tiene contenido propio (tarjetas, listas, un formulario, una bandeja de email) — no son pantallas vacías.
-- **Gestión Legal** — 5 módulos: Panel Principal, Causas, Clientes, Agenda (con calendario real de agosto 2026), Documentos (con el mismo aviso de "tablas de prueba" que aparecía en tu captura). Tipografía `font-serif` en los títulos, imitando el estilo serif bold que se ve en esas pantallas. Nombres de clientes/causas son inventados (no los de tus capturas), para no reutilizar datos que podrían ser reales.
-- **Interactividad real de UI**: `useState` para el rol/app activa y el módulo activo — clickear cualquier ítem del sidebar cambia el contenido principal al instante, sin recargar la página. Los inputs de los formularios son de solo lectura (`readOnly`): es una simulación de navegación, no un backend funcional — igual que el resto de las simulaciones de esta landing.
-- Un link "Volver a Collectionat" arriba del sidebar vuelve a la landing (`/`). Metadata propia (`app/simulador/layout.tsx`) para el título de la pestaña.
+Lo que quedó: [`components/ui/app-simulator.tsx`](components/ui/app-simulator.tsx) exporta `AppSimulator`, un componente cliente con el sidebar + contenido (sin ningún marco ni barra de URL alrededor), montado directamente dentro de `app/page.tsx` en la sección `id="simulador"` (nav: "La aplicación"), con `h-screen` para que al llegar a esa sección ocupe toda la pantalla del usuario — pero sin salir de la landing ni requerir un clic previo para "abrir" nada. La ruta `app/simulador/` (page + layout) se borró por completo.
+
+- **Sidebar fijo a la izquierda, ancho completo**: azul marino oscuro (`#0b1730`), con un switcher arriba para elegir qué app real estás viendo (Inmobiliaria / Gestión Legal) — cada una con su propio logo, subtítulo, lista de módulos y nota al pie (`Acceso prioritario` vs `Estudio Jurídico`), igual que en las capturas de Power Apps compartidas.
+- **Inmobiliaria** — 12 módulos del sidebar real: Login y password, Chat AI, Alertas generales, Resumen, Propiedades, Nueva propiedad, Metas, Contratos y trámites, Email corporativo, Recursos humanos, Actividades, Administración. Cada uno con contenido propio (tarjetas, listas, un formulario, una bandeja de email) — no son pantallas vacías.
+- **Gestión Legal** — 5 módulos: Panel Principal, Causas, Clientes, Agenda (con calendario real de agosto 2026), Documentos (con el mismo aviso de "tablas de prueba" de la captura). Tipografía `font-serif` en los títulos, imitando el estilo serif bold de esas pantallas. Nombres de clientes/causas inventados, no los de las capturas originales.
+- **Interactividad real**: `useState` para la app activa y el módulo activo — clickear cualquier ítem del sidebar cambia el contenido principal al instante. Inputs de formularios son `readOnly`: es un walkthrough de UI, no un backend funcional.
+- Como consecuencia de este cambio quedaron sin uso `SIM_MODULES`/`SIM_ROLES`/`AppSimulatorSection` (el rol-switcher de la iteración 1) y las branches `administracion`/`propiedades` de `TabletScreen` — se borraron de `app/page.tsx` en vez de dejarlas como código muerto.
+- Se inicializó un repo Git local antes de este cambio (no existía) con commits de cada iteración grande, para poder revertir si hacía falta.
 
 ## Página adicional: /dna-erp
 

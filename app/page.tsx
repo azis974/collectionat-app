@@ -36,17 +36,13 @@ import {
   Landmark,
   Lock,
   Building2,
-  TrendingUp,
-  Briefcase,
-  Crown,
-  Maximize2,
-  type LucideIcon,
 } from "lucide-react";
 import Velaris from "@/components/ui/velaris";
 import OrbitingCirclesGlobe from "@/components/ui/orbiting-circles-02";
 import { LensCard } from "@/components/ui/lens-card";
 import FUIBentoGridDark from "@/components/ui/bento";
 import AskCollectionatChat from "@/components/ui/ruixen-moon-chat";
+import AppSimulator from "@/components/ui/app-simulator";
 import FloatingOrbs from "@/components/ui/floating-orbs";
 import { cn } from "@/lib/utils";
 
@@ -524,18 +520,6 @@ const CRM_PREVIEW = [
   { name: "Atlas Contracting", stage: "Cierre programado", value: "$96,400" },
 ];
 
-const ADMIN_PREVIEW = [
-  { name: "Factura #1042 — Proveedor Insumos SA", stage: "Pendiente de pago", value: "$4,200" },
-  { name: "Alquiler de oficina — Agosto", stage: "Pagada", value: "$18,500" },
-  { name: "Liquidación de sueldos", stage: "En revisión", value: "$62,300" },
-];
-
-const PROPERTIES_PREVIEW = [
-  { name: "Depto 4B — Palermo", stage: "Alquilado", value: "$185.000/mes" },
-  { name: "Local comercial — Belgrano", stage: "Disponible", value: "$310.000/mes" },
-  { name: "Casa — Nordelta", stage: "En negociación", value: "$92.000.000" },
-];
-
 const PRODUCT_PAGES = [
   {
     tag: "Panel principal",
@@ -683,11 +667,7 @@ function ListPreview({ rows }: { rows: { name: string; stage: string; value: str
 }
 
 /** Dark mini app-screen rendered inside the tablet frame of each product page. */
-function TabletScreen({
-  type,
-}: {
-  type: "dashboard" | "crm" | "reports" | "automation" | "administracion" | "propiedades";
-}) {
+function TabletScreen({ type }: { type: "dashboard" | "crm" | "reports" | "automation" }) {
   if (type === "dashboard") {
     return (
       <div className="grid grid-cols-2 gap-3">
@@ -706,14 +686,6 @@ function TabletScreen({
 
   if (type === "crm") {
     return <ListPreview rows={CRM_PREVIEW} />;
-  }
-
-  if (type === "administracion") {
-    return <ListPreview rows={ADMIN_PREVIEW} />;
-  }
-
-  if (type === "propiedades") {
-    return <ListPreview rows={PROPERTIES_PREVIEW} />;
   }
 
   if (type === "reports") {
@@ -750,166 +722,6 @@ function TabletScreen({
         </div>
       ))}
     </div>
-  );
-}
-
-const SIM_MODULES = [
-  { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, screen: "dashboard" as const },
-  { id: "ventas", label: "Ventas y CRM", icon: TrendingUp, screen: "crm" as const },
-  { id: "reportes", label: "Reportes", icon: BarChart3, screen: "reports" as const },
-  { id: "automatizacion", label: "Automatización", icon: Workflow, screen: "automation" as const },
-  { id: "propiedades", label: "Propiedades", icon: Home, screen: "propiedades" as const },
-  { id: "administracion", label: "Administración", icon: Briefcase, screen: "administracion" as const },
-] as const;
-
-type SimModuleId = (typeof SIM_MODULES)[number]["id"];
-
-const SIM_ROLES: { id: string; label: string; icon: LucideIcon; modules: SimModuleId[] }[] = [
-  {
-    id: "owner",
-    label: "Dueño",
-    icon: Crown,
-    modules: ["dashboard", "ventas", "reportes", "automatizacion", "propiedades", "administracion"],
-  },
-  { id: "admin", label: "Administración", icon: Briefcase, modules: ["dashboard", "administracion"] },
-  { id: "properties", label: "Propiedades", icon: Home, modules: ["dashboard", "propiedades"] },
-];
-
-/**
- * Interactive app-shell simulator: sidebar navigation + a role switcher that
- * filters which modules are visible, demonstrating the real "Permisos por
- * Rol" behavior (each role only sees its own area, the owner sees all)
- * instead of just describing it in copy.
- */
-function AppSimulatorSection() {
-  const [roleIndex, setRoleIndex] = useState(0);
-  const [activeModule, setActiveModule] = useState<SimModuleId>("dashboard");
-
-  const role = SIM_ROLES[roleIndex];
-  const visibleModules = SIM_MODULES.filter((m) => (role.modules as string[]).includes(m.id));
-  const currentModule = visibleModules.find((m) => m.id === activeModule) ?? visibleModules[0];
-
-  const selectRole = (index: number) => {
-    setRoleIndex(index);
-    if (!(SIM_ROLES[index].modules as string[]).includes(activeModule)) {
-      setActiveModule(SIM_ROLES[index].modules[0]);
-    }
-  };
-
-  return (
-    <section id="simulador" className="relative z-0 overflow-hidden border-t border-white/5 px-6 py-24">
-      <FloatingOrbs className="-z-10" colors={["#3b82f6", "#a855f7", "#22d3ee"]} />
-
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.6, ease: EASE_OUT }}
-        className="relative z-10 mx-auto mb-14 max-w-2xl text-center"
-      >
-        <Eyebrow>Simulador</Eyebrow>
-        <h2 className="mt-4 text-3xl font-black tracking-tighter text-white sm:text-4xl">
-          Navega la aplicación vos mismo
-        </h2>
-        <p className="mt-4 text-lg text-neutral-400">
-          Elegí un rol y recorré el sidebar — cada persona ve solo los módulos que le corresponden.
-        </p>
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.6, ease: EASE_OUT, delay: 0.1 }}
-        className="relative z-10 mx-auto max-w-5xl"
-      >
-        <div className="mb-6 flex flex-wrap items-center justify-center gap-3">
-          <span className="text-xs font-medium uppercase tracking-wider text-neutral-500">Estás viendo como:</span>
-          {SIM_ROLES.map((r, index) => {
-            const active = roleIndex === index;
-            return (
-              <button
-                key={r.id}
-                type="button"
-                onClick={() => selectRole(index)}
-                aria-pressed={active}
-                className={cn(
-                  "flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors",
-                  active
-                    ? "border-blue-500/40 bg-blue-500/10 text-white"
-                    : "border-white/10 bg-white/[0.02] text-neutral-400 hover:border-white/20 hover:text-white",
-                )}
-              >
-                <r.icon size={16} />
-                {r.label}
-              </button>
-            );
-          })}
-        </div>
-
-        <div className="overflow-hidden rounded-3xl border border-white/10 bg-[#0a0a0f] shadow-[0_0_60px_-20px_rgba(59,130,246,0.35)]">
-          <div className="flex items-center gap-2 border-b border-white/10 bg-white/[0.02] px-5 py-3">
-            <span className="h-3 w-3 rounded-full bg-red-500/70" />
-            <span className="h-3 w-3 rounded-full bg-amber-500/70" />
-            <span className="h-3 w-3 rounded-full bg-emerald-500/70" />
-            <span className="ml-3 text-xs text-neutral-500">app.collectionat.com</span>
-          </div>
-
-          <div className="flex min-h-[420px] flex-col sm:flex-row">
-            <div className="flex shrink-0 flex-row gap-1 overflow-x-auto border-b border-white/10 p-3 sm:w-56 sm:flex-col sm:overflow-visible sm:border-b-0 sm:border-r">
-              {visibleModules.map((m) => {
-                const active = m.id === currentModule?.id;
-                return (
-                  <button
-                    key={m.id}
-                    type="button"
-                    onClick={() => setActiveModule(m.id)}
-                    aria-pressed={active}
-                    className={cn(
-                      "flex shrink-0 items-center gap-2.5 rounded-lg px-3 py-2.5 text-left text-sm font-medium transition-colors",
-                      active ? "bg-blue-500/15 text-white" : "text-neutral-400 hover:bg-white/[0.04] hover:text-white",
-                    )}
-                  >
-                    <m.icon size={17} />
-                    {m.label}
-                  </button>
-                );
-              })}
-            </div>
-
-            <div className="flex-1 p-6 sm:p-8">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentModule?.id}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
-                  transition={{ duration: 0.25, ease: EASE_OUT }}
-                >
-                  <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-blue-400">
-                    {currentModule?.label}
-                  </p>
-                  {currentModule && <TabletScreen type={currentModule.screen} />}
-                </motion.div>
-              </AnimatePresence>
-            </div>
-          </div>
-        </div>
-
-        <p className="mt-4 text-center text-xs text-neutral-500">
-          Vista simulada con datos de ejemplo — así se comporta el control de accesos en la aplicación real.
-        </p>
-
-        <div className="mt-6 flex justify-center">
-          <a
-            href="/simulador"
-            className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition-colors hover:border-blue-500/30 hover:bg-white/10"
-          >
-            <Maximize2 size={16} /> Abrir simulador a pantalla completa
-          </a>
-        </div>
-      </motion.div>
-    </section>
   );
 }
 
@@ -964,7 +776,7 @@ export default function CollectionatLanding() {
               <a href="#features" className="transition-colors hover:text-white">Características</a>
               <a href="#industrias" className="transition-colors hover:text-white">Industrias</a>
               <a href="#como-funciona" className="transition-colors hover:text-white">Cómo funciona</a>
-              <a href="#simulador" className="transition-colors hover:text-white">Simulador</a>
+              <a href="#simulador" className="transition-colors hover:text-white">La aplicación</a>
               <a href="#calculator" className="transition-colors hover:text-white">Calculadora</a>
               <a href="#pricing" className="transition-colors hover:text-white">Planes</a>
             </nav>
@@ -1006,7 +818,7 @@ export default function CollectionatLanding() {
                   <a href="#features" onClick={() => setMobileMenuOpen(false)} className="text-neutral-300 hover:text-white">Características</a>
                   <a href="#industrias" onClick={() => setMobileMenuOpen(false)} className="text-neutral-300 hover:text-white">Industrias</a>
                   <a href="#como-funciona" onClick={() => setMobileMenuOpen(false)} className="text-neutral-300 hover:text-white">Cómo funciona</a>
-                  <a href="#simulador" onClick={() => setMobileMenuOpen(false)} className="text-neutral-300 hover:text-white">Simulador</a>
+                  <a href="#simulador" onClick={() => setMobileMenuOpen(false)} className="text-neutral-300 hover:text-white">La aplicación</a>
                   <a href="#calculator" onClick={() => setMobileMenuOpen(false)} className="text-neutral-300 hover:text-white">Calculadora</a>
                   <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="text-neutral-300 hover:text-white">Planes</a>
                   <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="rounded-xl bg-white py-2.5 text-center font-medium text-black">Comenzar Gratis</a>
@@ -1475,8 +1287,28 @@ export default function CollectionatLanding() {
           </div>
         </section>
 
-        {/* Interactive app-shell simulator with role-based sidebar */}
-        <AppSimulatorSection />
+        {/* The real app, embedded directly — full width, no frame, no separate page to jump to */}
+        <section id="simulador" className="relative z-0 border-t border-white/5 bg-black">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, ease: EASE_OUT }}
+            className="mx-auto max-w-2xl px-6 pb-10 pt-24 text-center"
+          >
+            <Eyebrow>Producto real</Eyebrow>
+            <h2 className="mt-4 text-3xl font-black tracking-tighter text-white sm:text-4xl">
+              Así se ve Collectionat por dentro
+            </h2>
+            <p className="mt-4 text-lg text-neutral-400">
+              Elegí el rubro y recorré el menú lateral — es la misma interfaz que usa tu equipo todos los días.
+            </p>
+          </motion.div>
+
+          <div className="h-screen w-full">
+            <AppSimulator />
+          </div>
+        </section>
 
         {/* Interactive demo video with clickable chapters */}
         <VideoDemoSection />

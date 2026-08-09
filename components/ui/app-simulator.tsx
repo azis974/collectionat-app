@@ -16,7 +16,6 @@ import {
   Calendar,
   Gavel,
   FolderOpen,
-  ArrowLeft,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
@@ -66,7 +65,6 @@ const VERTICALS: Record<
     switchActiveClass: string;
     contentBg: string;
     accentText: string;
-    accentIconBg: string;
     modules: { id: string; label: string; icon: LucideIcon }[];
     defaultModule: string;
     footerTitle: string;
@@ -81,7 +79,6 @@ const VERTICALS: Record<
     switchActiveClass: "bg-white text-[#0b1730]",
     contentBg: "bg-[#eef2f8]",
     accentText: "text-[#0b1730]",
-    accentIconBg: "bg-[#0b1730]",
     modules: INMOBILIARIA_MODULES,
     defaultModule: "resumen",
     footerTitle: "Acceso prioritario",
@@ -95,7 +92,6 @@ const VERTICALS: Record<
     switchActiveClass: "bg-amber-400 text-[#241a04]",
     contentBg: "bg-[#faf3e3]",
     accentText: "text-amber-700",
-    accentIconBg: "bg-[#0b1730]",
     modules: LEGAL_MODULES,
     defaultModule: "panel",
     footerTitle: "Estudio Jurídico",
@@ -103,11 +99,12 @@ const VERTICALS: Record<
   },
 };
 
-/** Full-screen, click-through simulation of the two real Power Apps implementations
- *  (Inmobiliaria / Gestión Legal) shared by the client — a separate route so the
- *  marketing landing page (app/page.tsx) stays untouched. No backend: every field
- *  is read-only/static, this is a UI walkthrough, not a functional app. */
-export default function SimuladorPage() {
+/** Click-through recreation of the two real Power Apps implementations
+ *  (Inmobiliaria / Gestión Legal) shared by the client, embedded directly as
+ *  a section of the landing page — no browser-chrome frame, no separate
+ *  route to jump to. No backend: every field is read-only/static, this is a
+ *  UI walkthrough of the real app, not a functional one. */
+export default function AppSimulator() {
   const [vertical, setVertical] = useState<Vertical>("inmobiliaria");
   const [activeModule, setActiveModule] = useState(VERTICALS.inmobiliaria.defaultModule);
 
@@ -119,15 +116,8 @@ export default function SimuladorPage() {
   };
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-white text-sm">
+    <div className="flex h-full w-full overflow-hidden bg-white text-sm">
       <aside className="flex h-full w-72 shrink-0 flex-col bg-[#0b1730] p-4 text-white">
-        <a
-          href="/"
-          className="mb-5 flex items-center gap-2 text-xs font-medium text-white/50 transition-colors hover:text-white"
-        >
-          <ArrowLeft size={14} /> Volver a Collectionat
-        </a>
-
         <div className="mb-4 flex gap-1.5 rounded-full bg-white/5 p-1">
           {(Object.keys(VERTICALS) as Vertical[]).map((v) => (
             <button
