@@ -99,6 +99,8 @@ Lo que quedó: [`components/ui/app-simulator.tsx`](components/ui/app-simulator.t
 - Como consecuencia de este cambio quedaron sin uso `SIM_MODULES`/`SIM_ROLES`/`AppSimulatorSection` (el rol-switcher de la iteración 1) y las branches `administracion`/`propiedades` de `TabletScreen` — se borraron de `app/page.tsx` en vez de dejarlas como código muerto.
 - Se inicializó un repo Git local antes de este cambio (no existía) con commits de cada iteración grande, para poder revertir si hacía falta.
 
+**Ajuste final: mockup de tablet.** El `h-screen` de la iteración anterior hacía que la sección se pisara con el header sticky. Se cambió por un marco de tablet física centrado (`max-w-[1200px]`, borde `border-[12px] border-slate-900`, esquinas `rounded-[36px]`, sombra `shadow-2xl shadow-indigo-500/10`, un anillo interior con degradé simulando el bisel pulido, y una pantalla `overflow-hidden` de alto fijo — `480px`/`560px`/`720px` según breakpoint — en vez de 100vh). `AppSimulator` sigue totalmente interactivo desde el primer clic, ahora contenido dentro de esa pantalla en vez de ocupar todo el viewport.
+
 ## Página adicional: /dna-erp
 
 [`app/dna-erp/page.tsx`](app/dna-erp/page.tsx) es una página **separada e independiente** de la landing de Collectionat — no toca `app/page.tsx` ni sus estilos.

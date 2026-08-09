@@ -1288,13 +1288,13 @@ export default function CollectionatLanding() {
         </section>
 
         {/* The real app, embedded directly — full width, no frame, no separate page to jump to */}
-        <section id="simulador" className="relative z-0 border-t border-white/5 bg-black">
+        <section id="simulador" className="relative z-0 border-t border-white/5 bg-black px-6 py-24">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6, ease: EASE_OUT }}
-            className="mx-auto max-w-2xl px-6 pb-10 pt-24 text-center"
+            className="mx-auto max-w-2xl text-center"
           >
             <Eyebrow>Producto real</Eyebrow>
             <h2 className="mt-4 text-3xl font-black tracking-tighter text-white sm:text-4xl">
@@ -1305,9 +1305,22 @@ export default function CollectionatLanding() {
             </p>
           </motion.div>
 
-          <div className="h-screen w-full">
-            <AppSimulator />
-          </div>
+          {/* Tablet device mockup: dark bezel + polished inner ring around the interactive app screen */}
+          <motion.div
+            initial={{ opacity: 0, y: 32 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7, ease: EASE_OUT, delay: 0.1 }}
+            className="mx-auto mt-14 max-w-[1200px]"
+          >
+            <div className="rounded-[36px] border-[12px] border-slate-900 bg-slate-900 shadow-2xl shadow-indigo-500/10">
+              <div className="rounded-[24px] bg-gradient-to-br from-slate-700 via-slate-800 to-slate-950 p-1">
+                <div className="h-[480px] overflow-hidden rounded-[20px] bg-white sm:h-[560px] lg:h-[720px]">
+                  <AppSimulator />
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </section>
 
         {/* Interactive demo video with clickable chapters */}
