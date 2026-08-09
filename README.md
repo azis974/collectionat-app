@@ -62,6 +62,10 @@ El usuario reemplazó por completo el modelo de precios ficticio (Starter $0, Bu
 
 Verificado en el navegador: el texto de las 3 tarjetas coincide con la estructura pedida, y el botón "Elegir Plan B" abre el modal de solicitud de demo real.
 
+**Fix: insignia "Plan recomendado" cortada.** El usuario mandó una captura mostrando solo una tira amarilla en el borde superior de la tarjeta de Plan B — la insignia (posicionada con `-top-3.5`, a propósito sobresaliendo del borde de la tarjeta) vivía *adentro* del mismo `<div>` que tenía `overflow-hidden` (necesario para recortar el `DonutRing` decorativo a las esquinas redondeadas), así que quedaba tapada. Se resolvió separando en dos capas: un `<div>` exterior sin `overflow-hidden` que contiene la insignia, y un `<div>` interior con `overflow-hidden` que contiene el degradado, el `DonutRing` y el contenido — la insignia ahora sobresale limpiamente sin que nada la recorte.
+
+**Efecto al presionar cada plan.** Los 3 botones de CTA pasaron de `<button>` a `motion.button` con `whileHover`/`whileTap` (mismo patrón que `GlowButton` en el Hero) — al presionar, el botón se achica ligeramente (`scale: 0.94`) con resorte, dando feedback táctil real en vez de solo el cambio de color que ya tenían.
+
 ## Rediseño visual: tema claro con paleta de marca (cyan/petróleo + vino + dorado)
 
 El usuario compartió una paleta de marca oficial (franjas negro / gris pizarra / gris claro / blanco / cyan / azul petróleo / vino / rojo / dorado / crema) y pidió abandonar por completo el tema oscuro de toda la landing y la tablet interactiva por uno claro, luminoso y corporativo. Esto tocó prácticamente todos los archivos visuales del proyecto:

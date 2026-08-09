@@ -1033,14 +1033,16 @@ export default function CollectionatLanding() {
                   className={plan.highlight ? "lg:-mt-4 lg:mb-4" : ""}
                 >
                   {plan.highlight ? (
-                    <div className="relative flex h-full flex-col justify-between overflow-hidden rounded-2xl bg-gradient-to-br from-cyan-600 to-cyan-800 p-8 shadow-[0_0_60px_-15px_rgba(8,145,178,0.55)] ring-1 ring-cyan-900/10">
+                    <div className="relative rounded-2xl shadow-[0_0_60px_-15px_rgba(8,145,178,0.55)] ring-1 ring-cyan-900/10">
+                      <span className="absolute -top-3.5 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full bg-amber-400 px-4 py-1 text-xs font-bold uppercase tracking-wider text-slate-900 shadow-sm">
+                        Plan recomendado
+                      </span>
+
+                      <div className="relative flex h-full flex-col justify-between overflow-hidden rounded-2xl bg-gradient-to-br from-cyan-600 to-cyan-800 p-8">
                       <DonutRing
                         gradient="conic-gradient(from 200deg, #ffffff, #a5f3fc, #ffffff)"
                         className="-right-12 -top-12 h-48 w-48 opacity-30"
                       />
-                      <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-amber-400 px-4 py-1 text-xs font-bold uppercase tracking-wider text-slate-900 shadow-sm">
-                        Plan recomendado
-                      </span>
 
                       <div className="relative">
                         <div className="mb-4 text-sm font-semibold uppercase tracking-wider text-cyan-100">{plan.name}</div>
@@ -1074,13 +1076,17 @@ export default function CollectionatLanding() {
                         </ul>
                       </div>
 
-                      <button
+                      <motion.button
                         type="button"
                         onClick={() => setDemoModalOpen(true)}
-                        className="group relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl bg-white py-3 font-semibold text-cyan-700 transition-transform hover:scale-[1.02]"
+                        whileHover={{ scale: 1.03 }}
+                        whileTap={{ scale: 0.94 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                        className="group relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl bg-white py-3 font-semibold text-cyan-700"
                       >
                         {plan.cta} <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
-                      </button>
+                      </motion.button>
+                      </div>
                     </div>
                   ) : (
                     <SpotlightCard
@@ -1138,13 +1144,16 @@ export default function CollectionatLanding() {
                         </ul>
                       </div>
 
-                      <button
+                      <motion.button
                         type="button"
                         onClick={() => setDemoModalOpen(true)}
+                        whileHover={{ scale: 1.03 }}
+                        whileTap={{ scale: 0.94 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 17 }}
                         className="flex w-full items-center justify-center gap-2 rounded-xl bg-slate-900 py-3 font-medium text-white transition-colors hover:bg-slate-800"
                       >
                         {plan.cta}
-                      </button>
+                      </motion.button>
                     </SpotlightCard>
                   )}
                 </motion.div>
