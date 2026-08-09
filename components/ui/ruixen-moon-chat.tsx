@@ -6,7 +6,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
-  Paperclip,
   ArrowUpIcon,
   Layers,
   Network,
@@ -241,16 +240,7 @@ export default function RuixenMoonChat() {
               style={{ overflow: "hidden" }}
             />
 
-            <div className="flex items-center justify-between p-3">
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                className="text-slate-500 hover:bg-slate-200 hover:text-slate-900"
-              >
-                <Paperclip className="h-4 w-4" />
-              </Button>
-
+            <div className="flex items-center justify-end p-3">
               <Button
                 type="button"
                 onClick={() => send(message)}

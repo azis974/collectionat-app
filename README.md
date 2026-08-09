@@ -329,6 +329,20 @@ npm run dev
 
 Abre [http://localhost:3000](http://localhost:3000).
 
+## Camino a "nivel PRO" — paso 6: auditoría Lighthouse
+
+Se corrió Lighthouse real (CLI, no la versión simplificada de DevTools) contra un **build de producción** (`next build` + `next start`), no contra el servidor de desarrollo — corriendo en dev los números de performance son artificialmente peores porque no hay minificación ni optimizaciones. El entorno no tenía Chrome instalado (`chrome-launcher` no lo detectó), así que se usó Microsoft Edge (Chromium) vía `CHROME_PATH` apuntando a `Microsoft/Edge/Application/msedge.exe` — funciona igual porque Lighthouse solo necesita cualquier navegador basado en Chromium con el protocolo DevTools.
+
+**Categorías perfectas tras las correcciones**: `accessibility: 100`, `best-practices: 100`, `seo: 100`.
+
+**3 problemas reales encontrados y corregidos:**
+
+1. **Botón sin nombre accesible** (`button-name`, impacto "critical" en el audit): el botón de "adjuntar archivo" (ícono `Paperclip`) en el chat de IA no tenía `onClick`, `aria-label` ni texto — no hacía nada y encima era invisible para lectores de pantalla. En vez de agregarle una etiqueta falsa a un botón que no funciona, se **eliminó** (`components/ui/ruixen-moon-chat.tsx`) — más honesto que fingir una función que no existe.
+2. **Contraste de color insuficiente** (`color-contrast`, impacto "serious"): los nombres de clientes "ALTRQYH" / "MEGATRONICS" en la sección de Confianza usaban `text-slate-400` (#94a3b8) sobre fondo blanco — contraste real de 2.56:1, muy por debajo del mínimo WCAG AA de 4.5:1. Cambiado a `text-slate-600` (#475569), que da ~8:1.
+3. **Sin favicon** (`errors-in-console` / best-practices, por un 404 real en cada carga): no existía ningún ícono, así que cada visita generaba un `GET /favicon.ico 404`. Se agregó `app/icon.png` (convención de Next.js App Router: cualquier archivo `icon.*` en `app/` se sirve automáticamente como favicon, con los `<link>` correctos inyectados solo — sin tocar `layout.tsx`), usando el isotipo real de la marca.
+
+**Performance**: quedó en un rango de 46–61/100 entre corridas (Lighthouse con throttling de CPU 4x para simular mobile es ruidoso en esta máquina compartida, así que el número puntual varía, pero el diagnóstico de fondo es consistente). La causa raíz real: **toda la landing (`app/page.tsx`) es un único Client Component** (`"use client"` en la primera línea) — más de 1200 líneas, todas las secciones, todo `framer-motion`, y el simulador de tablet completo se hidratan de una sola vez en el navegador. Eso explica un `Total Blocking Time` alto y un main-thread work de varios segundos bajo throttling. **No se tocó esto en esta pasada** porque partir el árbol en Server/Client Components y hacer `next/dynamic` de las secciones más pesadas (el simulador de tablet, el chat de IA) es un cambio de arquitectura real con riesgo de romper algo — vale la pena hacerlo como su propia tarea, con tiempo para probar cada sección después del split, en vez de mezclarlo con una auditoría.
+
 ## Notas
 
 - **Tipografía**: `Inter` cargada vía `next/font/google` en `app/layout.tsx` (variable `--font-sans`, referenciada por `tailwind.config.ts`). *Antes había un bug: el config apuntaba a `var(--font-sans)` sin que esa variable existiera en ningún lado — un `var()` no resuelto invalida toda la propiedad `font-family`, así que el navegador caía a su serif por defecto. Ya está corregido.*

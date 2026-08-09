@@ -606,14 +606,18 @@ export default function CollectionatLanding() {
             </nav>
 
             <div className="hidden items-center gap-4 md:flex">
-              <motion.a
-                href="#pricing"
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.96 }}
-                className="rounded-xl bg-cyan-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-cyan-700"
-              >
-                Comenzar Gratis
-              </motion.a>
+              <div className="text-right">
+                <p className="text-xs font-semibold text-slate-900">Contáctanos</p>
+                <p className="flex items-center gap-2 text-xs text-slate-500">
+                  <a href="tel:+50765973835" className="flex items-center gap-1 transition-colors hover:text-cyan-700">
+                    <Phone className="h-3 w-3" /> +507 6597-3835
+                  </a>
+                  <span className="text-slate-300">·</span>
+                  <a href="tel:+97451888981" className="flex items-center gap-1 transition-colors hover:text-cyan-700">
+                    <Phone className="h-3 w-3" /> +974 5188-8981
+                  </a>
+                </p>
+              </div>
             </div>
 
             <button
@@ -643,7 +647,25 @@ export default function CollectionatLanding() {
                   <a href="#features" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900">Características</a>
                   <a href="#industrias" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900">Industrias</a>
                   <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900">Planes</a>
-                  <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="rounded-xl bg-cyan-600 py-2.5 text-center font-medium text-white">Comenzar Gratis</a>
+                  <div className="rounded-xl bg-slate-50 p-3 text-center">
+                    <p className="text-sm font-semibold text-slate-900">Contáctanos</p>
+                    <div className="mt-1.5 flex flex-col gap-1">
+                      <a
+                        href="tel:+50765973835"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="flex items-center justify-center gap-1.5 text-sm text-cyan-700"
+                      >
+                        <Phone className="h-3.5 w-3.5" /> +507 6597-3835
+                      </a>
+                      <a
+                        href="tel:+97451888981"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="flex items-center justify-center gap-1.5 text-sm text-cyan-700"
+                      >
+                        <Phone className="h-3.5 w-3.5" /> +974 5188-8981
+                      </a>
+                    </div>
+                  </div>
                 </div>
               </motion.div>
             )}
@@ -924,7 +946,7 @@ export default function CollectionatLanding() {
 
           <div className="mx-auto mt-14 flex max-w-4xl flex-wrap items-center justify-center gap-x-10 gap-y-4">
             {TRUST_COMPANIES.map((name) => (
-              <span key={name} className="text-lg font-semibold tracking-tight text-slate-400">
+              <span key={name} className="text-lg font-semibold tracking-tight text-slate-600">
                 {name}
               </span>
             ))}
