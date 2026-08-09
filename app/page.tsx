@@ -375,33 +375,20 @@ const FEATURES = [
   },
 ];
 
-const TRUST_COMPANIES = [
-  "Horizon Retail Group",
-  "Meridian Foods",
-  "Northbridge Trading Co.",
-  "Atlas Contracting",
-  "Summit Sports Association",
-  "Ridgeline Construction",
-];
+const TRUST_COMPANIES = ["ALTRQYH", "MEGATRONICS"];
 
 const TESTIMONIALS = [
   {
     quote:
-      "Teníamos ventas, finanzas y soporte en tres hojas de cálculo distintas que nunca coincidían. Con Collectionat todo el equipo mira los mismos números.",
-    role: "Directora de Operaciones",
-    company: "Empresa de retail, 80 empleados",
+      "Antes de Collectionat, cada área de ALTRQYH manejaba su información en planillas separadas que nunca cerraban entre sí. Hoy ventas, finanzas y operaciones trabajan desde una sola base de datos conectada a Outlook y Teams — dejamos de perder horas cruzando números y empezamos a tomar decisiones en tiempo real.",
+    company: "ALTRQYH",
+    role: "Gerencia General",
   },
   {
     quote:
-      "La integración con Outlook y Teams fue lo que nos convenció — no tuvimos que cambiar la forma en que ya trabajábamos, solo dejamos de duplicar datos.",
-    role: "Gerente de Finanzas",
-    company: "Empresa de manufactura, 150 empleados",
-  },
-  {
-    quote:
-      "Migramos más de 40 hojas de cálculo en la primera semana. Lo que antes tomaba días de cuadrar ahora se actualiza solo.",
-    role: "Jefe de Ventas",
-    company: "Empresa de logística, 45 empleados",
+      "En MEGATRONICS migramos todo el control de stock, pedidos y seguimiento técnico a Collectionat en menos de dos semanas. Las alertas automáticas y la integración con Microsoft 365 nos permitieron anticiparnos a los vencimientos y reducir errores que antes nos costaban tiempo y dinero.",
+    company: "MEGATRONICS",
+    role: "Gerencia de Operaciones",
   },
 ];
 
@@ -978,12 +965,12 @@ export default function CollectionatLanding() {
             ))}
           </div>
 
-          <div className="mx-auto mt-16 grid max-w-6xl gap-6 md:grid-cols-3">
+          <div className="mx-auto mt-16 grid max-w-4xl gap-6 md:grid-cols-2">
             {TESTIMONIALS.map((t, index) => {
-              const tone = ["bg-cyan-600", "bg-rose-800", "bg-amber-500"][index % 3];
+              const tone = ["bg-cyan-600", "bg-rose-800"][index % 2];
               return (
                 <motion.div
-                  key={t.role}
+                  key={t.company}
                   initial={{ opacity: 0, y: 24 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-80px" }}
@@ -994,8 +981,8 @@ export default function CollectionatLanding() {
                     <Quote size={16} />
                   </span>
                   <p className="mt-4 text-sm leading-relaxed text-slate-700">&ldquo;{t.quote}&rdquo;</p>
-                  <p className="mt-4 text-sm font-semibold text-slate-900">{t.role}</p>
-                  <p className="text-xs text-slate-500">{t.company}</p>
+                  <p className="mt-4 text-sm font-semibold tracking-tight text-slate-900">{t.company}</p>
+                  <p className="text-xs text-slate-500">{t.role}</p>
                 </motion.div>
               );
             })}
