@@ -27,19 +27,51 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "El correo no es válido." }, { status: 400 });
   }
 
-  // This endpoint genuinely runs server-side and validates input, but it does not
-  // yet deliver the lead anywhere — wire up one of these before going live:
-  //
-  //   1. Email via Resend:
-  //      const resend = new Resend(process.env.RESEND_API_KEY);
-  //      await resend.emails.send({ from: "...", to: "sales@collectionat.com", subject: `Demo request: ${name}`, text: `${name} <${email}> — ${company}` });
-  //
-  //   2. Forward to Formspree / HubSpot / your CRM's REST API with fetch().
-  //
-  //   3. Write to a database (Postgres, Supabase, etc.) for your sales team to query.
-  //
-  // For now it just logs server-side so submissions aren't silently lost during development.
+  // Always logged server-side first, so a lead is never lost even if email
+  // delivery below isn't configured yet or has a hiccup.
   console.log("[demo-request]", { name, email, company, at: new Date().toISOString() });
 
+  const resendKey = process.env.RESEND_API_KEY;
+  const toEmail = process.env.DEMO_REQUEST_TO_EMAIL;
+
+  if (!resendKey || !toEmail) {
+    console.warn(
+      "[demo-request] NOT DELIVERED — falta RESEND_API_KEY y/o DEMO_REQUEST_TO_EMAIL en el servidor. " +
+        "La solicitud quedó en el log de arriba pero no se envió ningún email. Ver README para configurarlo.",
+    );
+    // The visitor's submission still succeeds — we already captured it in the
+    // log above, and failing their form over a missing email integration
+    // would lose the lead outright instead of just delaying the alert.
+    return NextResponse.json({ ok: true });
+  }
+
+  try {
+    const resendRes = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${resendKey}`,
+      },
+      body: JSON.stringify({
+        // Resend's shared testing sender — works with zero domain setup.
+        // Once you verify your own domain in Resend, swap this to something
+        // like "CollectionatApp <demo@tudominio.com>".
+        from: "CollectionatApp <onboarding@resend.dev>",
+        to: [toEmail],
+        reply_to: email,
+        subject: `Nueva solicitud de demo — ${company}`,
+        text: `Nombre: ${name}\nEmail: ${email}\nEmpresa: ${company}\nFecha: ${new Date().toLocaleString("es-AR")}`,
+      }),
+    });
+
+    if (!resendRes.ok) {
+      const errBody = await resendRes.text();
+      console.error("[demo-request] Resend API error", resendRes.status, errBody);
+    }
+  } catch (err) {
+    console.error("[demo-request] Unexpected error sending email", err);
+  }
+
+  // Either way, the visitor's submission is already safely logged above.
   return NextResponse.json({ ok: true });
 }

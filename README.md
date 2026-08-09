@@ -105,6 +105,25 @@ Con la IA ya funcionando de verdad, el usuario pidió una revisión de qué le f
 
 **Efecto al presionar cada plan.** Los 3 botones de CTA pasaron de `<button>` a `motion.button` con `whileHover`/`whileTap` (mismo patrón que `GlowButton` en el Hero) — al presionar, el botón se achica ligeramente (`scale: 0.94`) con resorte, dando feedback táctil real en vez de solo el cambio de color que ya tenían.
 
+## Camino a "nivel PRO" — paso 2: el formulario de demo ahora entrega el lead de verdad
+
+El segundo riesgo del checklist: `app/api/demo-request/route.ts` validaba todo correctamente pero terminaba en un `console.log` — en producción (por ejemplo en Vercel, donde los logs de funciones serverless no son permanentes) cada solicitud de demo real se hubiera perdido para siempre sin que nadie se enterara.
+
+**Solución**: el endpoint ahora envía un email de verdad vía la API de [Resend](https://resend.com) (`fetch` directo, sin agregar su SDK como dependencia nueva) cuando están configuradas `RESEND_API_KEY` y `DEMO_REQUEST_TO_EMAIL`. Usa el remitente compartido `onboarding@resend.dev` de Resend, que **funciona sin verificar un dominio propio** — ideal para arrancar ya mismo; el `reply_to` queda seteado al email de quien pidió la demo, así se le puede responder directo desde el emerging cliente de correo.
+
+**Degradación honesta, pero sin romper la experiencia del visitante**: si falta cualquiera de las dos variables, el endpoint sigue devolviendo `{ ok: true }` al visitante (su envío nunca falla ni se ve raro) pero deja un `console.warn` bien visible en el servidor — "NOT DELIVERED — falta RESEND_API_KEY y/o DEMO_REQUEST_TO_EMAIL" — para que quien esté probando/desplegando se entere de que falta terminar la configuración, en vez de asumir en silencio que ya está andando. Mismo criterio si la llamada a Resend falla por algún motivo (log de error, pero la solicitud del visitante igual se considera exitosa porque ya quedó registrada arriba).
+
+**Para activarlo de verdad:**
+1. Creá una cuenta gratis en [resend.com](https://resend.com/api-keys) y generá una API key.
+2. En `.env.local`, agregá:
+   ```
+   RESEND_API_KEY=tu-key-de-resend
+   DEMO_REQUEST_TO_EMAIL=el-email-donde-quieras-recibir-los-leads
+   ```
+3. Reiniciá `npm run dev`.
+
+**Probado en vivo sin las variables configuradas**: el endpoint respondió `200 { ok: true }` al visitante como siempre, y el log del servidor mostró exactamente el aviso de "NOT DELIVERED" esperado — confirmando que el modo degradado funciona como se diseñó.
+
 ## Rediseño visual: tema claro con paleta de marca (cyan/petróleo + vino + dorado)
 
 El usuario compartió una paleta de marca oficial (franjas negro / gris pizarra / gris claro / blanco / cyan / azul petróleo / vino / rojo / dorado / crema) y pidió abandonar por completo el tema oscuro de toda la landing y la tablet interactiva por uno claro, luminoso y corporativo. Esto tocó prácticamente todos los archivos visuales del proyecto:
