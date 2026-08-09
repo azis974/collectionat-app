@@ -101,6 +101,7 @@ const VERTICALS: Record<
     switchActiveClass: string;
     contentBg: string;
     accentText: string;
+    iconBadgeClass: string;
     groups: ModuleGroup[];
     defaultModule: string;
     footerTitle: string;
@@ -111,10 +112,11 @@ const VERTICALS: Record<
     label: "Inmobiliaria",
     subtitle: "Gestión integral",
     icon: Building2,
-    activeClass: "bg-white text-[#083344]",
+    activeClass: "bg-cyan-300 text-slate-900",
     switchActiveClass: "bg-white text-[#083344]",
     contentBg: "bg-cyan-50/40",
     accentText: "text-[#083344]",
+    iconBadgeClass: "bg-cyan-800/60 text-cyan-100",
     groups: INMOBILIARIA_GROUPS,
     defaultModule: "alertas",
     footerTitle: "Acceso prioritario",
@@ -124,10 +126,11 @@ const VERTICALS: Record<
     label: "Gestión Legal",
     subtitle: "Estudio Jurídico",
     icon: Scale,
-    activeClass: "bg-amber-400 text-[#0f172a]",
+    activeClass: "bg-amber-300 text-slate-900",
     switchActiveClass: "bg-amber-400 text-[#0f172a]",
     contentBg: "bg-amber-50/50",
     accentText: "text-amber-700",
+    iconBadgeClass: "bg-amber-900/40 text-amber-200",
     groups: LEGAL_GROUPS,
     defaultModule: "alertas",
     footerTitle: "Estudio Jurídico",
@@ -188,8 +191,8 @@ export default function AppSimulator() {
         <nav className="flex-1 space-y-4">
           {config.groups.map((group) => (
             <div key={group.label}>
-              <p className="mb-1.5 px-2 text-[10px] font-semibold uppercase tracking-widest text-white/30">{group.label}</p>
-              <div className="space-y-1">
+              <p className="mb-1.5 px-2 text-[11px] font-semibold text-white/50">{group.label}</p>
+              <div className="space-y-1.5">
                 {group.items.map((m) => {
                   const active = m.id === activeModule;
                   return (
@@ -199,11 +202,18 @@ export default function AppSimulator() {
                       onClick={() => setActiveModule(m.id)}
                       aria-pressed={active}
                       className={cn(
-                        "flex w-full items-center gap-2.5 rounded-full px-3.5 py-2.5 text-left text-[13px] font-medium transition-colors",
-                        active ? config.activeClass : "text-white/60 hover:bg-white/5 hover:text-white",
+                        "flex w-full items-center gap-3 rounded-full px-2.5 py-2 text-left text-[13px] font-medium transition-colors",
+                        active ? config.activeClass : "bg-white/5 text-white/75 hover:bg-white/10 hover:text-white",
                       )}
                     >
-                      <m.icon size={16} />
+                      <span
+                        className={cn(
+                          "flex h-8 w-8 shrink-0 items-center justify-center rounded-full",
+                          active ? "bg-slate-900 text-white" : config.iconBadgeClass,
+                        )}
+                      >
+                        <m.icon size={15} />
+                      </span>
                       {m.label}
                     </button>
                   );
