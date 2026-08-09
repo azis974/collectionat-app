@@ -140,6 +140,25 @@ El tercer riesgo del checklist: la landing no tenía nada de lo que Google/redes
 
 **Probado en vivo**: `GET /robots.txt` devolvió exactamente las reglas esperadas (`Allow: /`, `Disallow: /dna-erp`, línea `Sitemap:`); `GET /sitemap.xml` devolvió el XML válido con la única URL de la raíz y `lastmod` actual; `GET /opengraph-image` devolvió una imagen PNG de 1200×630 sin errores de build ni de runtime en el servidor.
 
+## Camino a "nivel PRO" — paso 4: Google Analytics 4
+
+El cuarto riesgo del checklist: no había ninguna forma de saber cuánta gente visita la landing, de dónde viene, ni qué secciones mira antes de irse — cero visibilidad para decisiones de marketing.
+
+**Solución**: se agregó el snippet estándar de GA4 (`gtag.js`) en `app/layout.tsx` usando `next/script` con `strategy="afterInteractive"` (no bloquea el render inicial). Igual que con Groq/Resend, sigue el mismo patrón de **degradación honesta**: si no está seteada `NEXT_PUBLIC_GA_MEASUREMENT_ID` en `.env.local`, los dos `<Script>` de GA4 directamente no se renderizan — nada roto, ningún request a Google, la página funciona idéntica sin analytics hasta que se configure.
+
+**Para activarlo:**
+1. Creá una propiedad GA4 gratis en [analytics.google.com](https://analytics.google.com) y copiá el Measurement ID (formato `G-XXXXXXXXXX`).
+2. En `.env.local`, agregá:
+   ```
+   NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+   ```
+   (con prefijo `NEXT_PUBLIC_` porque el script corre en el navegador, no en el servidor).
+3. Reiniciá `npm run dev`.
+
+**Probado en vivo**: sin la variable seteada, confirmé por consola del navegador que no se inyecta ningún `<script>` de `googletagmanager.com` y `window.gtag` es `undefined` (cero impacto). Con una variable de prueba (`G-TESTTEST01`) configurada temporalmente, confirmé que el script se inyecta con la URL correcta, `window.gtag` queda definido como función, y `window.dataLayer` recibe los eventos `js`/`config` esperados — sin errores de consola. La variable de prueba se sacó de `.env.local` después de verificar; falta que pongas tu Measurement ID real para que empiece a registrar visitas de verdad.
+
+> Nota: GA4 usa cookies de analítica. Si en algún momento el tráfico target incluye visitantes de la UE, vale la pena sumar un banner de consentimiento de cookies antes de production — no se agregó ahora porque no fue parte de lo pedido y hoy el foco (Panamá/Qatar, según los teléfonos de contacto) no lo exige de igual manera.
+
 ## Rediseño visual: tema claro con paleta de marca (cyan/petróleo + vino + dorado)
 
 El usuario compartió una paleta de marca oficial (franjas negro / gris pizarra / gris claro / blanco / cyan / azul petróleo / vino / rojo / dorado / crema) y pidió abandonar por completo el tema oscuro de toda la landing y la tablet interactiva por uno claro, luminoso y corporativo. Esto tocó prácticamente todos los archivos visuales del proyecto:

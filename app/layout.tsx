@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const inter = Inter({
@@ -12,6 +13,10 @@ const inter = Inter({
 // this only falls back to localhost so `metadataBase` (required for the OG
 // image/canonical URLs below) resolves correctly in local dev.
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+
+// Set NEXT_PUBLIC_GA_MEASUREMENT_ID (format G-XXXXXXXXXX) to enable Google
+// Analytics — until it's set, the gtag scripts below simply don't render.
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
 const TITLE = "CollectionatApp — Dile adiós a Excel. Centraliza tu empresa.";
 const DESCRIPTION =
@@ -48,6 +53,22 @@ export default function RootLayout({
   return (
     <html lang="es" className={inter.variable}>
       <body>
+        {GA_MEASUREMENT_ID && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="ga4-init" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${GA_MEASUREMENT_ID}');
+              `}
+            </Script>
+          </>
+        )}
         {children}
         <script
           type="application/ld+json"
