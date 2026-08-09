@@ -124,6 +124,8 @@ El segundo riesgo del checklist: `app/api/demo-request/route.ts` validaba todo c
 
 **Probado en vivo sin las variables configuradas**: el endpoint respondió `200 { ok: true }` al visitante como siempre, y el log del servidor mostró exactamente el aviso de "NOT DELIVERED" esperado — confirmando que el modo degradado funciona como se diseñó.
 
+**✅ Confirmado con envío real**: el usuario dio su propia `RESEND_API_KEY` y un email de destino. Con ambas configuradas, el mismo request devolvió `200 { ok: true }` pero esta vez **sin** el aviso de "NOT DELIVERED" ni errores de Resend en el log — la llamada a la API se completó bien. El destino se puede cambiar en cualquier momento editando `DEMO_REQUEST_TO_EMAIL` en `.env.local`, no queda hardcodeado en ningún lado del código.
+
 ## Rediseño visual: tema claro con paleta de marca (cyan/petróleo + vino + dorado)
 
 El usuario compartió una paleta de marca oficial (franjas negro / gris pizarra / gris claro / blanco / cyan / azul petróleo / vino / rojo / dorado / crema) y pidió abandonar por completo el tema oscuro de toda la landing y la tablet interactiva por uno claro, luminoso y corporativo. Esto tocó prácticamente todos los archivos visuales del proyecto:
