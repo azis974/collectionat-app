@@ -21,6 +21,7 @@ import {
   Home,
   FileText,
   Mail,
+  Phone,
   Users,
   AlertTriangle,
   Scale,
@@ -1181,6 +1182,29 @@ export default function CollectionatLanding() {
           <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 sm:flex-row">
             <div className="flex items-center gap-2">
               <span className="font-semibold text-slate-900">Collectionat</span> &copy; 2026. Todos los derechos reservados.
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+              <a
+                href="mailto:info@collectionat.com"
+                className="flex items-center gap-1.5 text-slate-600 transition hover:text-cyan-700"
+              >
+                <Mail className="h-4 w-4" />
+                info@collectionat.com
+              </a>
+              <a
+                href="tel:+50765973835"
+                className="flex items-center gap-1.5 text-slate-600 transition hover:text-cyan-700"
+              >
+                <Phone className="h-4 w-4" />
+                +507 6597-3835
+              </a>
+              <a
+                href="tel:+97451888981"
+                className="flex items-center gap-1.5 text-slate-600 transition hover:text-cyan-700"
+              >
+                <Phone className="h-4 w-4" />
+                +974 5188-8981
+              </a>
             </div>
           </div>
         </footer>
