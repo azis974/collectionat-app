@@ -32,7 +32,6 @@ import {
   Building2,
 } from "lucide-react";
 import OrbitingCirclesGlobe from "@/components/ui/orbiting-circles-02";
-import FUIBentoGridDark from "@/components/ui/bento";
 import AskCollectionatChat from "@/components/ui/ruixen-moon-chat";
 import AppSimulator from "@/components/ui/app-simulator";
 import FloatingOrbs from "@/components/ui/floating-orbs";
@@ -879,12 +878,6 @@ export default function CollectionatLanding() {
 
         {/* Interactive demo video with clickable chapters */}
         <VideoDemoSection />
-
-        {/* Sales bento grid (components/ui/bento.tsx) */}
-        <section className="relative overflow-hidden border-t border-slate-200 bg-slate-50">
-          <FloatingOrbs colors={["#f59e0b", "#0e7490", "#9f1239"]} />
-          <FUIBentoGridDark />
-        </section>
 
         {/* AI chat over centralized data (components/ui/ruixen-moon-chat.tsx) */}
         <section className="border-t border-slate-200 bg-white px-6 py-24">
