@@ -36,6 +36,19 @@ El usuario compartió una captura de la app real (sidebar con grupos — Inicio 
 - El primer módulo del sidebar de Legal pasó de "Panel Principal" (`LayoutGrid`) a "Alertas generales" (`AlertTriangle`), para que ambas verticales arranquen en la misma pantalla conceptual.
 - Verificado interactivamente en el navegador: cambiar de Inmobiliaria a Gestión Legal recolorea todo, cambia los íconos y los datos, sin recargar la tablet.
 
+## Fidelidad total a 8 capturas más de la app real (lado Inmobiliaria)
+
+El usuario compartió 8 capturas más de pantallas específicas de la app real y pidió calcarlas exactamente ("que sea todo igual a las imágenes"). Se reescribieron 6 módulos de `InmobiliariaContent` en `components/ui/app-simulator.tsx`:
+
+- **Recursos humanos**: ahora una sola ficha (Mariana López, antes había 2 empleados genéricos de una iteración anterior) con avatar de iniciales, badge "Activo", panel "DNI digital" con Cargar/Ver/Descargar, chips "Clientes: 1"/"DNI: Pendiente", y debajo una tabla de 5 documentos (Contrato laboral, Tarjeta médica, Renovación, Expediente de trabajo, Contratos y anexos) con ícono propio por tipo (`Pencil`, `Heart`, `RefreshCw`, `FolderInput`, `FileText`) y badge de estado — se agregaron dos tonos de badge nuevos (`solid` = navy sólido, `solidRed` = rojo sólido) para diferenciar "Vigente"/"Renovar" (sólidos) de "Pendiente" (pastel), como en la captura.
+- **Login y password → "Login y password por roles"**: selector de "Rol de acceso" + tarjeta destacada con la descripción del rol y sus permisos como chips, y debajo dos fichas de cuentas de empleado (Ana Torres, Bruno Herrera) con login/password/rol asignado y un aviso "Permisos aplicados por sector y prioridad de cliente original" (ícono `ShieldCheck`).
+- **Metas → "Panel de metas mensuales"**: dos barras de progreso (Ventas / Rentas) con montos reales en pesos, más un formulario de carga (Mes, Meta ventas, Meta rentas, Avance ventas, Avance rentas, Empleado) — reemplaza el viejo formato de "% de objetivos genéricos".
+- **Email corporativo**: pasó de dos tarjetas lado a lado ("Nuevo mensaje" / "Bandeja") a una sola tarjeta apilada (formulario arriba, bandeja abajo), que es como se ve en la captura real.
+- **Propiedades → "Lista de propiedades"**: de tarjetas genéricas a filas con borde izquierdo de color por estado (`Disponible` = navy, `Alquilada` = rojo, `Reservada` = celeste), con tipo/superficie/responsable/fecha/valor — 5 propiedades con datos reales de la captura (Amenábar 2100 3C, Av. Rivadavia 5400 Local 3, etc.).
+- **Contratos y trámites**: el texto de acceso pasó de "Acceso restringido por rol" a "Acceso bloqueado" con la explicación completa del semáforo (rojo/amarillo/verde). El formulario de alta pasó de 4 campos a los 14 reales (Propiedad, Cliente, Semáforo, Tipo trámite, Estado, Etapa del proceso, Entidad, fechas, Valor contrato, Documentación requerida, Notas). Debajo se agregó una sección nueva, "Expedientes en curso", con 4 expedientes reales (trámite municipal, boleto de venta, escritura, renovación) mostrados como tarjetas con borde de color, tags de estado y grilla de Vence/Valor/Etapa/Entidad.
+
+Verificado módulo por módulo en el navegador (simulando los clics del sidebar vía evento nativo, ya que el entorno de preview no compone frames para captura visual) — el texto de cada pantalla coincide palabra por palabra con las capturas compartidas.
+
 ## Rediseño visual: tema claro con paleta de marca (cyan/petróleo + vino + dorado)
 
 El usuario compartió una paleta de marca oficial (franjas negro / gris pizarra / gris claro / blanco / cyan / azul petróleo / vino / rojo / dorado / crema) y pidió abandonar por completo el tema oscuro de toda la landing y la tablet interactiva por uno claro, luminoso y corporativo. Esto tocó prácticamente todos los archivos visuales del proyecto:

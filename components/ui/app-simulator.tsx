@@ -29,6 +29,11 @@ import {
   Upload,
   Eye,
   Download,
+  Pencil,
+  Heart,
+  RefreshCw,
+  FolderInput,
+  ShieldCheck,
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -235,6 +240,8 @@ const BADGE_TONES = {
   amber: "bg-amber-100 text-amber-800",
   emerald: "bg-emerald-100 text-emerald-700",
   gray: "bg-slate-100 text-slate-600",
+  solid: "bg-[#083344] text-white",
+  solidRed: "bg-rose-700 text-white",
 };
 
 function Badge({ tone, children }: { tone: keyof typeof BADGE_TONES; children: ReactNode }) {
@@ -605,34 +612,102 @@ function InmobiliariaContent({ moduleId }: { moduleId: string }) {
   }
 
   if (moduleId === "propiedades") {
-    const rows = [
-      { name: "Depto 4B — Palermo", status: "Alquilado", price: "$185.000/mes" },
-      { name: "Local comercial — Belgrano", status: "Disponible", price: "$310.000/mes" },
-      { name: "Casa — Nordelta", status: "En negociación", price: "$92.000.000" },
-      { name: "Oficina — Microcentro", status: "Disponible", price: "$420.000/mes" },
+    const rows: {
+      name: string;
+      type: string;
+      size: string;
+      responsable: string;
+      day: string;
+      valor: string;
+      status: "Disponible" | "Alquilada" | "Reservada";
+      price: string;
+    }[] = [
+      {
+        name: "Amenábar 2100 3C",
+        type: "Departamento",
+        size: "52 m²",
+        responsable: "Valeria Núñez",
+        day: "6/8/2026",
+        valor: "$718.000",
+        status: "Reservada",
+        price: "$720.000",
+      },
+      {
+        name: "Av. Rivadavia 5400 Local 3",
+        type: "Local",
+        size: "110 m²",
+        responsable: "Carla Medina",
+        day: "8/8/2026",
+        valor: "$1.300.000",
+        status: "Disponible",
+        price: "$1.300.000",
+      },
+      {
+        name: "Av. Santa Fe 3250 6B",
+        type: "Departamento",
+        size: "80 m²",
+        responsable: "Ana Torres",
+        day: "2/8/2026",
+        valor: "$184.500",
+        status: "Disponible",
+        price: "$185.000",
+      },
+      {
+        name: "Barrio Cerrado Los Sauces Lote 12",
+        type: "Terreno",
+        size: "600 m²",
+        responsable: "Martín Silva",
+        day: "11/8/2026",
+        valor: "$312.000",
+        status: "Disponible",
+        price: "$310.000",
+      },
+      {
+        name: "Junín 1450 PB A",
+        type: "Departamento",
+        size: "113 m²",
+        responsable: "Bruno Herrera",
+        day: "4/8/2026",
+        valor: "$950.000",
+        status: "Alquilada",
+        price: "$950.000",
+      },
     ];
+    const borderClass = {
+      Disponible: "border-l-[#083344]",
+      Alquilada: "border-l-rose-700",
+      Reservada: "border-l-sky-300",
+    } as const;
+    const badgeTone = { Disponible: "solid", Alquilada: "solidRed", Reservada: "blue" } as const;
+
     return (
       <div>
-        <PageHeader icon={Building2} title="Propiedades" subtitle="Cartera completa con estado, precio y responsable asignado." />
-        <Card>
-          <div className="mb-4 flex flex-wrap gap-3">
-            <SelectField>Todos los tipos</SelectField>
-            <SelectField>Todos los estados</SelectField>
-          </div>
-          <div className="space-y-2">
-            {rows.map((r) => (
-              <div key={r.name} className="flex flex-wrap items-center justify-between gap-2 rounded-xl bg-neutral-50 px-4 py-3">
-                <span className="text-sm font-medium text-neutral-800">{r.name}</span>
-                <div className="flex items-center gap-3">
-                  <Badge tone={r.status === "Disponible" ? "emerald" : r.status === "Alquilado" ? "blue" : "amber"}>
-                    {r.status}
-                  </Badge>
-                  <span className="text-sm font-semibold text-neutral-700">{r.price}</span>
-                </div>
+        <PageHeader icon={Building2} title="Lista de propiedades" subtitle="Dirección, estado y precio con color por estado." />
+        <div className="space-y-3">
+          {rows.map((r) => (
+            <div
+              key={r.name}
+              className={cn(
+                "flex flex-wrap items-center justify-between gap-3 rounded-xl border-l-4 bg-white p-4 shadow-sm",
+                borderClass[r.status],
+              )}
+            >
+              <div className="min-w-[220px] flex-1">
+                <p className="font-semibold text-neutral-900">{r.name}</p>
+                <p className="text-xs text-neutral-500">
+                  {r.type} · {r.size} · Responsable: {r.responsable}
+                </p>
+                <p className="text-xs text-neutral-500">
+                  Día: {r.day} · Valor: {r.valor}
+                </p>
               </div>
-            ))}
-          </div>
-        </Card>
+              <div className="flex shrink-0 items-center gap-3">
+                <Badge tone={badgeTone[r.status]}>{r.status}</Badge>
+                <span className="text-sm font-semibold text-neutral-800">{r.price}</span>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
@@ -680,17 +755,19 @@ function InmobiliariaContent({ moduleId }: { moduleId: string }) {
   }
 
   if (moduleId === "email") {
-    const inbox: { subject: string; from: string; tag: string; tone: keyof typeof BADGE_TONES; note: string }[] = [
+    const inbox: { subject: string; from: string; category: string; tag: string; tone: keyof typeof BADGE_TONES; note: string }[] = [
       {
         subject: "Renovación de contrato pendiente",
         from: "administracion@empresa.com",
+        category: "Contratos",
         tag: "Recibidos",
-        tone: "red",
+        tone: "solidRed",
         note: "Revisar vencimiento, garantías y documentación antes de enviar a notaría.",
       },
       {
         subject: "Aviso de renta por vencer",
         from: "rentas@empresa.com",
+        category: "Administración",
         tag: "Recibidos",
         tone: "gray",
         note: "Cliente con pago mensual próximo; corresponde seguimiento de administración.",
@@ -698,6 +775,7 @@ function InmobiliariaContent({ moduleId }: { moduleId: string }) {
       {
         subject: "Consulta enviada al propietario",
         from: "ventas@empresa.com",
+        category: "Ventas",
         tag: "Enviados",
         tone: "blue",
         note: "Se confirmó disponibilidad y valor actualizado para la propiedad seleccionada.",
@@ -710,105 +788,121 @@ function InmobiliariaContent({ moduleId }: { moduleId: string }) {
           title="Email corporativo"
           subtitle="Centro visual para enviar, recibir y clasificar correos por sector dentro de la app."
         />
-        <div className="grid gap-4 lg:grid-cols-2">
-          <Card>
-            <p className="mb-4 font-semibold text-neutral-900">Nuevo mensaje</p>
-            <div className="space-y-3">
-              <div>
-                <FieldLabel>Para</FieldLabel>
-                <TextField placeholder="cliente@empresa.com" />
-              </div>
-              <div>
-                <FieldLabel>Asunto</FieldLabel>
-                <TextField placeholder="Seguimiento de contrato o propiedad" />
-              </div>
-              <div>
-                <FieldLabel>Mensaje</FieldLabel>
-                <TextField placeholder="Escribir email corporativo" />
-              </div>
-              <button
-                type="button"
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#083344] py-3 text-sm font-semibold text-white"
-              >
-                <Send size={15} /> Enviar email
-              </button>
+        <Card>
+          <div className="space-y-3">
+            <div>
+              <FieldLabel>Para</FieldLabel>
+              <TextField placeholder="cliente@empresa.com" />
             </div>
-          </Card>
-          <Card>
-            <p className="mb-4 font-semibold text-neutral-900">Bandeja</p>
-            <div className="space-y-3">
-              {inbox.map((m) => (
-                <div key={m.subject} className="rounded-xl bg-neutral-50 p-3.5">
-                  <div className="mb-1 flex items-center justify-between gap-2">
-                    <p className="text-sm font-semibold text-neutral-800">{m.subject}</p>
-                    <Badge tone={m.tone}>{m.tag}</Badge>
-                  </div>
-                  <p className="text-xs text-neutral-500">{m.from}</p>
-                  <p className="mt-1.5 text-xs text-neutral-600">{m.note}</p>
+            <div>
+              <FieldLabel>Asunto</FieldLabel>
+              <TextField placeholder="Seguimiento de contrato o propiedad" />
+            </div>
+            <div>
+              <FieldLabel>Mensaje</FieldLabel>
+              <TextField placeholder="Escribir email corporativo" />
+            </div>
+            <button
+              type="button"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#083344] py-3 text-sm font-semibold text-white"
+            >
+              <Send size={15} /> Enviar email
+            </button>
+          </div>
+
+          <div className="mt-6 space-y-3 border-t border-neutral-100 pt-6">
+            {inbox.map((m) => (
+              <div key={m.subject} className="rounded-xl bg-neutral-50 p-3.5">
+                <div className="mb-1 flex items-center justify-between gap-2">
+                  <p className="text-sm font-semibold text-neutral-800">{m.subject}</p>
+                  <Badge tone={m.tone}>{m.tag}</Badge>
                 </div>
-              ))}
-            </div>
-          </Card>
-        </div>
+                <p className="text-xs text-neutral-500">
+                  {m.from} · {m.category}
+                </p>
+                <p className="mt-1.5 text-xs text-neutral-600">{m.note}</p>
+              </div>
+            ))}
+          </div>
+        </Card>
       </div>
     );
   }
 
   if (moduleId === "rrhh") {
-    const employees: { name: string; role: string; email: string; docs: { name: string; tone: keyof typeof BADGE_TONES; tag: string }[] }[] = [
-      {
-        name: "Camila Rossi",
-        role: "Agente de ventas",
-        email: "camila.rossi@example.com",
-        docs: [
-          { name: "Contrato laboral", tone: "blue", tag: "Vigente" },
-          { name: "Tarjeta médica", tone: "amber", tag: "Renovar" },
-          { name: "Legajo digital", tone: "blue", tag: "Vigente" },
-        ],
-      },
-      {
-        name: "Iván Suárez",
-        role: "Agente de alquileres",
-        email: "ivan.suarez@example.com",
-        docs: [
-          { name: "Contrato laboral", tone: "blue", tag: "Vigente" },
-          { name: "Renovación", tone: "gray", tag: "Pendiente" },
-        ],
-      },
+    const documents: { name: string; icon: LucideIcon; firma: string; status: "Vigente" | "Renovar" | "Pendiente" }[] = [
+      { name: "Contrato laboral", icon: Pencil, firma: "Firma Electrónica", status: "Vigente" },
+      { name: "Tarjeta médica", icon: Heart, firma: "Firma Presencial", status: "Renovar" },
+      { name: "Renovación", icon: RefreshCw, firma: "Firma Pendiente", status: "Pendiente" },
+      { name: "Expediente de trabajo", icon: FolderInput, firma: "Firma Electrónica", status: "Vigente" },
+      { name: "Contratos y anexos", icon: FileText, firma: "Firma Presencial", status: "Vigente" },
     ];
+    const statusTone = { Vigente: "solid", Renovar: "solidRed", Pendiente: "blue" } as const;
+
     return (
       <div>
         <PageHeader
-          icon={Users}
+          icon={Briefcase}
           title="Recursos humanos"
           subtitle="Carpetas separadas por empleado con documentación personal, cargo, PDFs y tipo de firma."
         />
-        <div className="space-y-4">
-          {employees.map((e) => (
-            <Card key={e.name}>
-              <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-                <div>
-                  <p className="font-semibold text-neutral-900">Carpeta de {e.name}</p>
-                  <p className="text-xs text-neutral-500">
-                    {e.role} · {e.email}
-                  </p>
-                </div>
-                <Badge tone="blue">Activo</Badge>
+        <Card>
+          <div className="flex flex-wrap items-center gap-4 border-b border-neutral-100 pb-5">
+            <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-cyan-700 text-lg font-bold text-white">
+              ML
+            </span>
+            <div className="min-w-[160px] flex-1">
+              <p className="font-semibold text-neutral-900">Mariana López</p>
+              <p className="mt-0.5 text-xs text-neutral-500">Cargo: Agente de ventas</p>
+              <p className="text-xs text-neutral-500">Email: mariana.lopez@example.com</p>
+              <span className="mt-2 inline-block">
+                <Badge tone="solid">Activo</Badge>
+              </span>
+            </div>
+            <div className="rounded-xl bg-neutral-50 p-3">
+              <p className="mb-1 flex items-center gap-1.5 text-xs font-semibold text-neutral-700">
+                <FileText size={13} /> DNI digital
+              </p>
+              <p className="mb-2 text-[11px] text-neutral-400">dni-mariana-lopez.pdf</p>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  className="flex items-center gap-1 rounded-lg border border-neutral-200 bg-white px-2.5 py-1.5 text-[11px] font-medium text-neutral-600 hover:bg-neutral-50"
+                >
+                  <Upload size={12} /> Cargar PDF
+                </button>
+                <button
+                  type="button"
+                  className="flex items-center gap-1 rounded-lg border border-neutral-200 bg-white px-2.5 py-1.5 text-[11px] font-medium text-neutral-600 hover:bg-neutral-50"
+                >
+                  <Eye size={12} /> Ver PDF
+                </button>
+                <button
+                  type="button"
+                  className="flex items-center gap-1 rounded-lg border border-neutral-200 bg-white px-2.5 py-1.5 text-[11px] font-medium text-neutral-600 hover:bg-neutral-50"
+                >
+                  <Download size={12} /> Descargar
+                </button>
               </div>
-              <div className="grid gap-2 sm:grid-cols-3">
-                {e.docs.map((d) => (
-                  <div key={d.name} className="rounded-xl bg-neutral-50 p-3">
-                    <div className="mb-1 flex items-center justify-between">
-                      <p className="text-xs font-semibold text-neutral-800">{d.name}</p>
-                      <Badge tone={d.tone}>{d.tag}</Badge>
-                    </div>
-                    <p className="text-[11px] text-neutral-500">PDF cargado · Firma electrónica</p>
-                  </div>
-                ))}
+            </div>
+            <div className="flex shrink-0 flex-col items-stretch gap-2 text-center">
+              <span className="rounded-lg bg-neutral-50 px-3 py-1.5 text-xs text-neutral-600">Clientes: 1</span>
+              <Badge tone="blue">DNI: Pendiente</Badge>
+            </div>
+          </div>
+
+          <div className="mt-2 divide-y divide-neutral-100">
+            {documents.map((d) => (
+              <div key={d.name} className="flex flex-wrap items-center justify-between gap-2 px-1 py-3">
+                <span className="flex min-w-[160px] flex-1 items-center gap-2 text-sm font-medium text-neutral-800">
+                  <d.icon size={15} className="shrink-0 text-neutral-400" /> {d.name}
+                </span>
+                <span className="text-xs text-neutral-500">{d.firma}</span>
+                <Badge tone={statusTone[d.status]}>{d.status}</Badge>
               </div>
-            </Card>
-          ))}
-        </div>
+            ))}
+          </div>
+        </Card>
       </div>
     );
   }
@@ -833,6 +927,88 @@ function InmobiliariaContent({ moduleId }: { moduleId: string }) {
   }
 
   if (moduleId === "contratos") {
+    const expedientes: {
+      title: string;
+      tags: { label: string; tone: keyof typeof BADGE_TONES }[];
+      property: string;
+      client: string;
+      responsable: string;
+      vence: string;
+      valor: string;
+      etapa: string;
+      entidad: string;
+      docs: string;
+      accent: string;
+    }[] = [
+      {
+        title: "Trámite municipal local Rivadavia",
+        tags: [
+          { label: "Gobierno", tone: "gray" },
+          { label: "En proceso", tone: "blue" },
+        ],
+        property: "Av. Rivadavia 5400 Local 3",
+        client: "Juan Pablo Rossi",
+        responsable: "Carla Medina",
+        vence: "30/9/2026",
+        valor: "$1.300.000",
+        etapa: "Municipalidad",
+        entidad: "Municipalidad",
+        docs: "Habilitación comercial, planos aprobados y certificado de libre deuda.",
+        accent: "border-l-neutral-200",
+      },
+      {
+        title: "Boleto venta Amenábar 2100",
+        tags: [
+          { label: "Contrato venta", tone: "gray" },
+          { label: "Importante", tone: "solidRed" },
+          { label: "En revisión", tone: "blue" },
+        ],
+        property: "Amenábar 2100 3C",
+        client: "Diego Fernández",
+        responsable: "Valeria Núñez",
+        vence: "12/10/2026",
+        valor: "$720.000",
+        etapa: "En escribanía",
+        entidad: "Escribanía",
+        docs: "Título de propiedad, informe de dominio, inhibiciones y constancia de CUIT.",
+        accent: "border-l-rose-700",
+      },
+      {
+        title: "Escritura venta Santa Fe 3250",
+        tags: [
+          { label: "Notaría", tone: "gray" },
+          { label: "En proceso", tone: "blue" },
+          { label: "Borrador", tone: "gray" },
+        ],
+        property: "Av. Santa Fe 3250 6B",
+        client: "Sofía Álvarez",
+        responsable: "Ana Torres",
+        vence: "10/11/2026",
+        valor: "$185.000",
+        etapa: "Enviado a notaría",
+        entidad: "Notaría",
+        docs: "Datos del comprador, certificado catastral y comprobantes de fondos.",
+        accent: "border-l-[#083344]",
+      },
+      {
+        title: "Renovación lote Los Sauces",
+        tags: [
+          { label: "Renovación", tone: "gray" },
+          { label: "Stand by", tone: "amber" },
+          { label: "Borrador", tone: "gray" },
+        ],
+        property: "Barrio Cerrado Los Sauces Lote 12",
+        client: "Lucía Martínez",
+        responsable: "Martín Silva",
+        vence: "31/8/2027",
+        valor: "$310.000",
+        etapa: "Preparación interna",
+        entidad: "Administración de consorcio",
+        docs: "",
+        accent: "border-l-neutral-200",
+      },
+    ];
+
     return (
       <div>
         <PageHeader
@@ -840,15 +1016,16 @@ function InmobiliariaContent({ moduleId }: { moduleId: string }) {
           title="Contratos y trámites"
           subtitle="Alta y seguimiento por etapa: notaría, escribanía, registro público, catastro, municipalidad, banco y garantías."
         />
-        <Card className="mb-4 border border-amber-200 bg-amber-50">
-          <p className="text-sm font-semibold text-amber-900">Acceso restringido por rol</p>
-          <p className="mt-1 text-xs text-amber-800">
-            Solo contratos/notaría o administración modifican expedientes; ventas consulta en modo lectura.
+        <Card className="mb-4 bg-neutral-50">
+          <p className="text-sm font-semibold text-neutral-900">Acceso bloqueado</p>
+          <p className="mt-1 text-xs text-neutral-600">
+            Solo contratos/notaría o administración modifican expedientes; ventas consulta semáforo rojo importante,
+            amarillo en proceso/stand by y verde positivo.
           </p>
         </Card>
-        <Card>
+        <Card className="mb-6">
           <div className="grid gap-4 sm:grid-cols-2">
-            <div>
+            <div className="sm:col-span-2">
               <FieldLabel>Nombre del expediente</FieldLabel>
               <TextField placeholder="Contrato alquiler Junín" />
             </div>
@@ -857,15 +1034,100 @@ function InmobiliariaContent({ moduleId }: { moduleId: string }) {
               <SelectField>Seleccionar propiedad</SelectField>
             </div>
             <div>
+              <FieldLabel>Cliente</FieldLabel>
+              <SelectField>Seleccionar cliente</SelectField>
+            </div>
+            <div>
               <FieldLabel>Responsable</FieldLabel>
               <SelectField>Seleccionar responsable</SelectField>
             </div>
             <div>
-              <FieldLabel>Etapa</FieldLabel>
+              <FieldLabel>Semáforo</FieldLabel>
+              <SelectField>En proceso</SelectField>
+            </div>
+            <div>
+              <FieldLabel>Tipo trámite</FieldLabel>
+              <SelectField>Contrato alquiler</SelectField>
+            </div>
+            <div>
+              <FieldLabel>Estado</FieldLabel>
+              <SelectField>Borrador</SelectField>
+            </div>
+            <div>
+              <FieldLabel>Etapa del proceso</FieldLabel>
+              <SelectField>Preparación interna</SelectField>
+            </div>
+            <div>
+              <FieldLabel>Entidad</FieldLabel>
               <SelectField>Notaría</SelectField>
             </div>
+            <div>
+              <FieldLabel>Fecha inicio</FieldLabel>
+              <TextField placeholder="2026-08-07" />
+            </div>
+            <div>
+              <FieldLabel>Fecha vencimiento</FieldLabel>
+              <TextField placeholder="2027-08-07" />
+            </div>
+            <div>
+              <FieldLabel>Valor contrato</FieldLabel>
+              <TextField placeholder="$ 0" />
+            </div>
+            <div className="sm:col-span-2">
+              <FieldLabel>Documentación requerida</FieldLabel>
+              <TextField placeholder="DNI, garantías, título, informes" />
+            </div>
+            <div className="sm:col-span-2">
+              <FieldLabel>Notas</FieldLabel>
+              <TextField placeholder="Notas internas" />
+            </div>
           </div>
+          <button
+            type="button"
+            className="mt-6 w-full rounded-xl bg-[#083344] py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+          >
+            Crear expediente
+          </button>
         </Card>
+
+        <p className="mb-3 text-sm font-semibold text-neutral-900">Expedientes en curso</p>
+        <div className="space-y-3">
+          {expedientes.map((e) => (
+            <div key={e.title} className={cn("rounded-xl border-l-4 bg-white p-4 shadow-sm", e.accent)}>
+              <div className="mb-2 flex flex-wrap items-start justify-between gap-2">
+                <div>
+                  <p className="font-semibold text-neutral-900">{e.title}</p>
+                  <p className="text-xs text-neutral-500">{e.property}</p>
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {e.tags.map((t) => (
+                    <Badge key={t.label} tone={t.tone}>
+                      {t.label}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+              <p className="text-xs text-neutral-500">
+                Cliente: {e.client} · Responsable: {e.responsable}
+              </p>
+              <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-4">
+                <div className="rounded-lg bg-neutral-50 px-2.5 py-1.5 text-[11px] text-neutral-600">
+                  Vence: <span className="font-semibold text-neutral-800">{e.vence}</span>
+                </div>
+                <div className="rounded-lg bg-neutral-50 px-2.5 py-1.5 text-[11px] text-neutral-600">
+                  Valor: <span className="font-semibold text-neutral-800">{e.valor}</span>
+                </div>
+                <div className="rounded-lg bg-neutral-50 px-2.5 py-1.5 text-[11px] text-neutral-600">
+                  Etapa: <span className="font-semibold text-neutral-800">{e.etapa}</span>
+                </div>
+                <div className="rounded-lg bg-neutral-50 px-2.5 py-1.5 text-[11px] text-neutral-600">
+                  Entidad: <span className="font-semibold text-neutral-800">{e.entidad}</span>
+                </div>
+              </div>
+              {e.docs && <p className="mt-2 text-[11px] text-neutral-500">Docs: {e.docs}</p>}
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
@@ -899,27 +1161,60 @@ function InmobiliariaContent({ moduleId }: { moduleId: string }) {
 
   if (moduleId === "metas") {
     const goals = [
-      { label: "Cierre de ventas mensual", value: 68 },
-      { label: "Nuevas propiedades cargadas", value: 82 },
-      { label: "Alertas resueltas", value: 45 },
+      { label: "Ventas", current: 2120000, target: 6400000 },
+      { label: "Rentas", current: 1510000, target: 3800000 },
     ];
+    const fmt = (n: number) => `$${n.toLocaleString("es-AR")}`;
+
     return (
       <div>
-        <PageHeader icon={Target} title="Metas" subtitle="Objetivos del equipo comercial, actualizados en tiempo real." />
-        <Card>
-          <div className="space-y-5">
-            {goals.map((g) => (
-              <div key={g.label}>
-                <div className="mb-1.5 flex items-center justify-between text-sm">
-                  <span className="font-medium text-neutral-700">{g.label}</span>
-                  <span className="font-semibold text-neutral-900">{g.value}%</span>
-                </div>
-                <div className="h-2 w-full rounded-full bg-neutral-100">
-                  <div className="h-2 rounded-full bg-cyan-600" style={{ width: `${g.value}%` }} />
-                </div>
+        <PageHeader icon={Target} title="Panel de metas mensuales" subtitle="Metas de ventas y rentas cargadas por separado." />
+        <div className="mb-4 grid gap-4 sm:grid-cols-2">
+          {goals.map((g) => (
+            <Card key={g.label}>
+              <p className="font-semibold text-neutral-900">{g.label}</p>
+              <p className="mt-1 text-sm text-neutral-500">
+                {fmt(g.current)} de {fmt(g.target)}
+              </p>
+              <div className="mt-3 h-2 w-full rounded-full bg-neutral-100">
+                <div className="h-2 rounded-full bg-[#083344]" style={{ width: `${Math.round((g.current / g.target) * 100)}%` }} />
               </div>
-            ))}
+            </Card>
+          ))}
+        </div>
+        <Card>
+          <div className="grid gap-4 sm:grid-cols-3">
+            <div>
+              <FieldLabel>Mes</FieldLabel>
+              <TextField placeholder="2026-08" />
+            </div>
+            <div>
+              <FieldLabel>Meta ventas</FieldLabel>
+              <TextField placeholder="$ 0" />
+            </div>
+            <div>
+              <FieldLabel>Meta rentas</FieldLabel>
+              <TextField placeholder="$ 0" />
+            </div>
+            <div>
+              <FieldLabel>Avance ventas</FieldLabel>
+              <TextField placeholder="$ 0" />
+            </div>
+            <div>
+              <FieldLabel>Avance rentas</FieldLabel>
+              <TextField placeholder="$ 0" />
+            </div>
+            <div>
+              <FieldLabel>Empleado</FieldLabel>
+              <SelectField>General</SelectField>
+            </div>
           </div>
+          <button
+            type="button"
+            className="mt-6 w-full rounded-xl bg-[#083344] py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+          >
+            Cargar meta mensual
+          </button>
         </Card>
       </div>
     );
@@ -951,31 +1246,60 @@ function InmobiliariaContent({ moduleId }: { moduleId: string }) {
     );
   }
 
-  const vault = [
-    { site: "Portal AFIP", user: "estudio.inmobiliaria" },
-    { site: "Banco — Homebanking empresas", user: "tesoreria.inmob" },
-    { site: "Registro de la Propiedad", user: "gestion.legal01" },
+  const activeRole = {
+    label: "Administración",
+    description: "Control total del sistema, cobranzas, usuarios y permisos.",
+    perms: ["Gestionar usuarios y passwords", "Ver cobranzas y alertas críticas", "Modificar expedientes y contratos"],
+  };
+  const accounts = [
+    { name: "Ana Torres", role: "Agente de ventas", login: "ana.torres@example.com", contact: "Mariana Gómez · Propietario" },
+    { name: "Bruno Herrera", role: "Agente de alquileres", login: "bruno.herrera@example.com", contact: "Diego Fernández · Vendedor" },
   ];
+
   return (
     <div>
       <PageHeader
         icon={KeyRound}
-        title="Login y password"
-        subtitle="Accesos guardados a portales externos, visibles solo para roles autorizados."
+        title="Login y password por roles"
+        subtitle="Acceso interno separado por empleado y rol; cada usuario entra con permisos según su sector."
       />
-      <Card>
-        <div className="space-y-2">
-          {vault.map((v) => (
-            <div key={v.site} className="flex flex-wrap items-center justify-between gap-2 rounded-xl bg-neutral-50 px-4 py-3">
-              <div>
-                <p className="text-sm font-medium text-neutral-800">{v.site}</p>
-                <p className="text-xs text-neutral-500">{v.user}</p>
-              </div>
-              <span className="text-xs font-mono tracking-widest text-neutral-400">••••••••</span>
+      <Card className="mb-4">
+        <div className="grid gap-4 sm:grid-cols-[180px_1fr] sm:items-start">
+          <div>
+            <FieldLabel>Rol de acceso</FieldLabel>
+            <SelectField>{activeRole.label}</SelectField>
+          </div>
+          <div className="rounded-xl bg-neutral-50 p-4">
+            <p className="font-semibold text-neutral-900">{activeRole.label}</p>
+            <p className="mt-0.5 text-sm text-neutral-600">{activeRole.description}</p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {activeRole.perms.map((p) => (
+                <span key={p} className="rounded-full bg-white px-3 py-1.5 text-xs font-medium text-neutral-700 shadow-sm">
+                  {p}
+                </span>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       </Card>
+      <div className="grid gap-4 sm:grid-cols-2">
+        {accounts.map((a) => (
+          <Card key={a.name}>
+            <div className="mb-2 flex items-center justify-between gap-2">
+              <p className="font-semibold text-neutral-900">{a.name}</p>
+              <Badge tone="blue">{a.role}</Badge>
+            </div>
+            <p className="text-xs text-neutral-500">Login: {a.login}</p>
+            <p className="text-xs text-neutral-500">Password: protegido por administración</p>
+            <p className="mt-1 text-xs text-neutral-500">Rol asignado: {a.role} · 1 clientes</p>
+            <p className="mt-3 flex items-center gap-1.5 rounded-lg bg-neutral-50 p-2.5 text-[11px] text-neutral-600">
+              <ShieldCheck size={13} className="shrink-0 text-cyan-700" /> Permisos aplicados por sector y prioridad de
+              cliente original.
+            </p>
+            <p className="mt-2 text-xs text-neutral-500">{a.contact}</p>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 }
