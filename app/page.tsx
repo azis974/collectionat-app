@@ -11,16 +11,10 @@ import {
   Network,
   ArrowRight,
   CheckCircle2,
-  Calculator,
   Menu,
   X,
   LayoutDashboard,
-  FileInput,
   Workflow,
-  BarChart3,
-  UploadCloud,
-  ToggleRight,
-  ToggleLeft,
   Play,
   Loader2,
   Quote,
@@ -38,7 +32,6 @@ import {
   Building2,
 } from "lucide-react";
 import OrbitingCirclesGlobe from "@/components/ui/orbiting-circles-02";
-import { LensCard } from "@/components/ui/lens-card";
 import FUIBentoGridDark from "@/components/ui/bento";
 import AskCollectionatChat from "@/components/ui/ruixen-moon-chat";
 import AppSimulator from "@/components/ui/app-simulator";
@@ -380,15 +373,6 @@ const FEATURES = [
   },
 ];
 
-const DATA_PREVIEW = [
-  { label: "Hojas migradas", value: "1,204", unit: "", note: "▲ 86 esta semana" },
-  { label: "Integraciones", value: "4", unit: "/4", note: "Outlook, Teams, SharePoint, OneDrive" },
-  { label: "Ahorro semanal", value: "6.4", unit: "h/persona", note: "▲ 12% vs. mes anterior" },
-  { label: "Precisión de datos", value: "99.2", unit: "%", note: "0 conflictos sin resolver" },
-  { label: "Usuarios activos", value: "128", unit: "", note: "22 equipos conectados" },
-  { label: "Errores evitados", value: "312", unit: "/mes", note: "vs. hojas de cálculo manuales" },
-];
-
 const TRUST_COMPANIES = [
   "Horizon Retail Group",
   "Meridian Foods",
@@ -458,80 +442,6 @@ const INDUSTRIES = [
       { icon: Lock, name: "Permisos por rol" },
       { icon: Network, name: "Integración Microsoft" },
     ],
-  },
-];
-
-const HOW_IT_WORKS = [
-  {
-    icon: LayoutDashboard,
-    title: "Exploración del Dashboard",
-    description: "Visualiza KPIs clave en tiempo real —ventas, cuentas por cobrar, tareas pendientes— para tomar decisiones sin esperar reportes.",
-  },
-  {
-    icon: FileInput,
-    title: "Gestión de Operaciones",
-    description: "Selecciona el módulo que necesitas y carga tus datos sin fricción mediante formularios optimizados.",
-  },
-  {
-    icon: Workflow,
-    title: "Automatización de Flujos",
-    description: "Activa procesos automatizados con un solo clic: reasignación de tareas, notificaciones y aprobaciones.",
-  },
-  {
-    icon: BarChart3,
-    title: "Reportes Dinámicos",
-    description: "Genera reportes de rendimiento al instante, en gráficos interactivos, sin depender de Excel.",
-  },
-];
-
-const AUTOMATION_RULES = [
-  { name: "Reasignar tarea si vence sin respuesta", active: true },
-  { name: "Notificar a Teams al superar el presupuesto", active: true },
-  { name: "Aprobar automáticamente compras menores a $500", active: false },
-];
-
-const REPORT_BARS = [
-  { label: "Ene", value: 45 },
-  { label: "Feb", value: 62 },
-  { label: "Mar", value: 58 },
-  { label: "Abr", value: 80 },
-  { label: "May", value: 96 },
-];
-
-const CRM_PREVIEW = [
-  { name: "Orion Retail Group", stage: "Negociación", value: "$42,300" },
-  { name: "Meridian Foods", stage: "Propuesta enviada", value: "$18,750" },
-  { name: "Atlas Contracting", stage: "Cierre programado", value: "$96,400" },
-];
-
-const PRODUCT_PAGES = [
-  {
-    tag: "Panel principal",
-    title: "Todo tu negocio en una sola pantalla",
-    description: "La página de inicio reúne los indicadores que más te importan, actualizados en tiempo real, sin pedirle un reporte a nadie.",
-    points: ["KPIs en tiempo real", "Alertas cuando algo se sale de rango", "Accesos directos a cada módulo"],
-    screen: "dashboard" as const,
-  },
-  {
-    tag: "Ventas y CRM",
-    title: "Tu pipeline de ventas, siempre al día",
-    description: "Cada oportunidad, con su historial completo de correos y reuniones, sincronizada con Outlook y Teams — sin hojas de cálculo duplicadas.",
-    points: ["Historial completo por cliente", "Sincronizado con Microsoft 365", "Etapas de negociación visibles para todo el equipo"],
-    screen: "crm" as const,
-  },
-  {
-    tag: "Reportes",
-    title: "Reportes que se arman solos",
-    description: "Elige el periodo y el indicador; el gráfico se genera al instante, listo para exportar o compartir.",
-    points: ["Gráficos interactivos", "Exportación a PDF en un clic", "Cero fórmulas de Excel que mantener"],
-    screen: "reports" as const,
-  },
-  {
-    tag: "Automatización",
-    title: "Flujos que corren en piloto automático",
-    description: "Define la regla una vez y deja que Collectionat reasigne tareas, avise a tu equipo y apruebe lo rutinario por ti.",
-    points: ["Reglas condicionales sin código", "Notificaciones directas a Teams", "Auditoría de cada acción automática"],
-    screen: "automation" as const,
   },
 ];
 
@@ -630,85 +540,6 @@ function VideoDemoSection() {
   );
 }
 
-/** Shared row layout for list-style module previews (CRM, Administración, Propiedades). */
-function ListPreview({ rows }: { rows: { name: string; stage: string; value: string }[] }) {
-  return (
-    <div className="space-y-2">
-      {rows.map((row) => (
-        <div
-          key={row.name}
-          className="flex items-center justify-between gap-2 rounded-lg border border-slate-200 bg-white p-3"
-        >
-          <span className="min-w-0">
-            <span className="block truncate text-xs font-medium text-slate-800">{row.name}</span>
-            <span className="block text-[10px] text-slate-500">{row.stage}</span>
-          </span>
-          <span className="shrink-0 text-xs font-semibold text-cyan-700">{row.value}</span>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-/** Light mini app-screen rendered inside the tablet frame of each product page. */
-function TabletScreen({ type }: { type: "dashboard" | "crm" | "reports" | "automation" }) {
-  if (type === "dashboard") {
-    return (
-      <div className="grid grid-cols-2 gap-3">
-        {DATA_PREVIEW.slice(0, 4).map((item) => (
-          <div key={item.label} className="rounded-xl border border-slate-200 bg-white p-3">
-            <p className="text-[9px] uppercase tracking-wider text-slate-500">{item.label}</p>
-            <p className="mt-1 text-lg font-semibold text-slate-900">
-              {item.value}
-              <span className="ml-1 text-[10px] font-normal text-slate-500">{item.unit}</span>
-            </p>
-          </div>
-        ))}
-      </div>
-    );
-  }
-
-  if (type === "crm") {
-    return <ListPreview rows={CRM_PREVIEW} />;
-  }
-
-  if (type === "reports") {
-    return (
-      <div className="flex h-40 items-end gap-3">
-        {REPORT_BARS.map((bar) => (
-          <div key={bar.label} className="flex flex-1 flex-col items-center gap-1.5">
-            <div className="flex h-28 w-full items-end">
-              <div
-                className="w-full rounded-t-md bg-gradient-to-t from-cyan-600 to-cyan-300"
-                style={{ height: `${bar.value}%` }}
-              />
-            </div>
-            <span className="text-[9px] text-slate-500">{bar.label}</span>
-          </div>
-        ))}
-      </div>
-    );
-  }
-
-  return (
-    <div className="space-y-2">
-      {AUTOMATION_RULES.map((rule) => (
-        <div
-          key={rule.name}
-          className="flex items-center justify-between gap-2 rounded-lg border border-slate-200 bg-white p-3"
-        >
-          <p className="text-xs text-slate-700">{rule.name}</p>
-          {rule.active ? (
-            <ToggleRight size={22} className="shrink-0 text-cyan-600" />
-          ) : (
-            <ToggleLeft size={22} className="shrink-0 text-slate-300" />
-          )}
-        </div>
-      ))}
-    </div>
-  );
-}
-
 const FEATURE_ICON_STYLES = {
   cyan: "bg-cyan-50 text-cyan-600",
   cyanDark: "bg-cyan-100 text-cyan-800",
@@ -723,14 +554,9 @@ const FEATURE_RINGS: Record<string, string> = {
 };
 
 export default function CollectionatLanding() {
-  const [itemsCount, setItemsCount] = useState(150);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeStep, setActiveStep] = useState(0);
   const [activeIndustry, setActiveIndustry] = useState(0);
   const [demoModalOpen, setDemoModalOpen] = useState(false);
-
-  const estimatedHoursSaved = Math.round(itemsCount * 0.4);
-  const estimatedOrganizationScore = Math.min(99, 70 + Math.floor(itemsCount / 50));
 
   return (
     <MotionConfig reducedMotion="user">
@@ -756,11 +582,9 @@ export default function CollectionatLanding() {
             </div>
 
             <nav className="hidden items-center gap-8 text-sm font-medium text-slate-600 md:flex">
+              <a href="#simulador" className="transition-colors hover:text-slate-900">La aplicación</a>
               <a href="#features" className="transition-colors hover:text-slate-900">Características</a>
               <a href="#industrias" className="transition-colors hover:text-slate-900">Industrias</a>
-              <a href="#como-funciona" className="transition-colors hover:text-slate-900">Cómo funciona</a>
-              <a href="#simulador" className="transition-colors hover:text-slate-900">La aplicación</a>
-              <a href="#calculator" className="transition-colors hover:text-slate-900">Calculadora</a>
               <a href="#pricing" className="transition-colors hover:text-slate-900">Planes</a>
             </nav>
 
@@ -798,11 +622,9 @@ export default function CollectionatLanding() {
                 className="overflow-hidden border-b border-slate-200 bg-white md:hidden"
               >
                 <div className="flex flex-col gap-4 px-6 py-4">
+                  <a href="#simulador" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900">La aplicación</a>
                   <a href="#features" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900">Características</a>
                   <a href="#industrias" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900">Industrias</a>
-                  <a href="#como-funciona" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900">Cómo funciona</a>
-                  <a href="#simulador" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900">La aplicación</a>
-                  <a href="#calculator" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900">Calculadora</a>
                   <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900">Planes</a>
                   <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="rounded-xl bg-cyan-600 py-2.5 text-center font-medium text-white">Comenzar Gratis</a>
                 </div>
@@ -850,13 +672,13 @@ export default function CollectionatLanding() {
                 Solicitar demo <ArrowRight size={18} />
               </GlowButton>
               <motion.a
-                href="#calculator"
+                href="#simulador"
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 className="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-8 py-4 text-base font-semibold text-slate-700 shadow-sm transition-colors hover:border-slate-400 hover:text-slate-900 sm:w-auto"
               >
-                Ver cuánto puedes ahorrar
+                Ver la app en vivo
               </motion.a>
             </div>
           </motion.div>
@@ -872,51 +694,40 @@ export default function CollectionatLanding() {
           </motion.div>
         </section>
 
-        {/* Data preview: lens reveals your centralized business data up close */}
-        <section className="relative overflow-hidden border-t border-slate-200 bg-slate-50 px-6 py-24">
-          <FloatingOrbs colors={["#0e7490", "#f59e0b", "#fb7185"]} />
+        {/* The real app, embedded directly — full width, tablet mockup, no separate page to jump to. Shown right after the Hero: seeing the real product is more convincing than reading feature bullets first. */}
+        <section id="simulador" className="relative z-0 border-t border-slate-200 bg-slate-50 px-6 py-24">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6, ease: EASE_OUT }}
-            className="mx-auto mb-12 max-w-2xl text-center"
+            className="mx-auto max-w-2xl text-center"
           >
-            <Eyebrow>Vista previa</Eyebrow>
-            <h2 className="mb-4 mt-4 text-3xl font-black tracking-tighter text-slate-900 sm:text-4xl">
-              Tu empresa, bajo la lupa
+            <Eyebrow>Producto real</Eyebrow>
+            <h2 className="mt-4 text-3xl font-black tracking-tighter text-slate-900 sm:text-4xl">
+              Así se ve Collectionat por dentro
             </h2>
-            <p className="text-lg text-slate-600">
-              Mueve el cursor sobre el panel para inspeccionar tus datos centralizados de cerca.
+            <p className="mt-4 text-lg text-slate-600">
+              Elegí el rubro y recorré el menú lateral — es la misma interfaz que usa tu equipo todos los días.
             </p>
           </motion.div>
 
-          <div className="mx-auto max-w-3xl">
-            <LensCard
-              className="rounded-3xl border border-slate-200 bg-[var(--motiq-surface)] p-6 shadow-sm sm:p-10"
-              radius={130}
-              magnification={1.3}
-              chromatic={0.6}
-            >
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-                {DATA_PREVIEW.map((item) => (
-                  <div
-                    key={item.label}
-                    className="rounded-xl border border-[var(--motiq-border)] bg-[var(--motiq-surface-2)] p-4"
-                  >
-                    <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--motiq-muted)]">
-                      {item.label}
-                    </p>
-                    <p className="mt-1.5 text-2xl font-semibold tracking-tight text-[var(--motiq-fg)]">
-                      {item.value}
-                      <span className="ml-1 text-xs font-normal text-[var(--motiq-muted)]">{item.unit}</span>
-                    </p>
-                    <p className="mt-0.5 text-[11px] text-[var(--motiq-accent-text)]">{item.note}</p>
-                  </div>
-                ))}
+          {/* Tablet device mockup: petrol-cyan bezel + polished inner ring around the interactive app screen */}
+          <motion.div
+            initial={{ opacity: 0, y: 32 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7, ease: EASE_OUT, delay: 0.1 }}
+            className="mx-auto mt-14 max-w-[1200px]"
+          >
+            <div className="rounded-[36px] border-[12px] border-cyan-950 bg-cyan-950 shadow-2xl shadow-cyan-900/20">
+              <div className="rounded-[24px] bg-gradient-to-br from-cyan-800 via-cyan-900 to-cyan-950 p-1">
+                <div className="h-[480px] overflow-hidden rounded-[20px] bg-white sm:h-[560px] lg:h-[720px]">
+                  <AppSimulator />
+                </div>
               </div>
-            </LensCard>
-          </div>
+            </div>
+          </motion.div>
         </section>
 
         {/* Features Grid */}
@@ -1069,293 +880,8 @@ export default function CollectionatLanding() {
           </div>
         </section>
 
-        {/* How it works: step-by-step interactive walkthrough */}
-        <section id="como-funciona" className="border-t border-slate-200 bg-white px-6 py-24">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6, ease: EASE_OUT }}
-            className="mx-auto mb-16 max-w-2xl text-center"
-          >
-            <Eyebrow>Cómo funciona</Eyebrow>
-            <h2 className="mt-4 text-3xl font-black tracking-tighter text-slate-900 sm:text-4xl">
-              De la hoja de cálculo al panel de control, en cuatro pasos
-            </h2>
-            <p className="mt-4 text-lg text-slate-600">
-              Así es como tu equipo interactúa con CollectionatApp todos los días.
-            </p>
-          </motion.div>
-
-          <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-2 lg:items-center">
-            <ol className="space-y-2">
-              {HOW_IT_WORKS.map(({ icon: Icon, title, description }, index) => {
-                const active = activeStep === index;
-                return (
-                  <li key={title}>
-                    <button
-                      type="button"
-                      onClick={() => setActiveStep(index)}
-                      aria-pressed={active}
-                      className={cn(
-                        "flex w-full items-start gap-4 rounded-2xl border p-5 text-left transition-colors",
-                        active ? "border-cyan-300 bg-cyan-50" : "border-slate-200 bg-white hover:bg-slate-50",
-                      )}
-                    >
-                      <span
-                        className={cn(
-                          "flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-sm font-bold transition-colors",
-                          active ? "bg-cyan-600 text-white" : "bg-slate-100 text-slate-500",
-                        )}
-                      >
-                        {index + 1}
-                      </span>
-                      <span className="min-w-0">
-                        <span className="flex items-center gap-2">
-                          <Icon size={16} className={active ? "text-cyan-700" : "text-slate-500"} />
-                          <span className={cn("text-base font-semibold", active ? "text-slate-900" : "text-slate-700")}>
-                            {title}
-                          </span>
-                        </span>
-                        <span className="mt-1.5 block text-sm leading-relaxed text-slate-500">{description}</span>
-                      </span>
-                    </button>
-                  </li>
-                );
-              })}
-            </ol>
-
-            <div className="relative h-[420px] overflow-hidden rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm sm:p-8">
-              <AnimatePresence mode="wait">
-                {activeStep === 0 && (
-                  <motion.div
-                    key="dashboard"
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -12 }}
-                    transition={{ duration: 0.35, ease: EASE_OUT }}
-                  >
-                    <div className="mb-4 flex items-center gap-2 text-xs font-medium text-emerald-600">
-                      <span className="relative flex h-2 w-2">
-                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                        <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
-                      </span>
-                      Datos en vivo
-                    </div>
-                    <div className="grid grid-cols-2 gap-3">
-                      {DATA_PREVIEW.slice(0, 4).map((item) => (
-                        <div key={item.label} className="rounded-xl border border-slate-200 bg-white p-4">
-                          <p className="text-[10px] uppercase tracking-wider text-slate-500">{item.label}</p>
-                          <p className="mt-1 text-xl font-semibold text-slate-900">
-                            {item.value}
-                            <span className="ml-1 text-xs font-normal text-slate-500">{item.unit}</span>
-                          </p>
-                          <p className="mt-0.5 text-[11px] text-cyan-700">{item.note}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-
-                {activeStep === 1 && (
-                  <motion.div
-                    key="operations"
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -12 }}
-                    transition={{ duration: 0.35, ease: EASE_OUT }}
-                  >
-                    <div className="mb-4 flex gap-2">
-                      {["Ventas", "Finanzas", "Inventario"].map((mod, i) => (
-                        <span
-                          key={mod}
-                          className={cn(
-                            "rounded-full px-3 py-1.5 text-xs font-medium",
-                            i === 0 ? "bg-cyan-600 text-white" : "bg-slate-100 text-slate-500",
-                          )}
-                        >
-                          {mod}
-                        </span>
-                      ))}
-                    </div>
-                    <div className="space-y-3">
-                      <div>
-                        <label className="mb-1 block text-xs text-slate-500">Nombre del cliente</label>
-                        <div className="h-10 rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-600">
-                          Orion Retail Group
-                        </div>
-                      </div>
-                      <div>
-                        <label className="mb-1 block text-xs text-slate-500">Monto estimado</label>
-                        <div className="h-10 rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-600">
-                          $42,300.00
-                        </div>
-                      </div>
-                    </div>
-                    <div className="mt-4 flex flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-slate-300 py-6 text-center">
-                      <UploadCloud size={20} className="text-slate-400" />
-                      <p className="text-xs text-slate-500">Arrastra tu archivo aquí o busca en tu equipo</p>
-                    </div>
-                  </motion.div>
-                )}
-
-                {activeStep === 2 && (
-                  <motion.div
-                    key="automation"
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -12 }}
-                    transition={{ duration: 0.35, ease: EASE_OUT }}
-                    className="space-y-3"
-                  >
-                    {AUTOMATION_RULES.map((rule) => (
-                      <div
-                        key={rule.name}
-                        className="flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white p-4"
-                      >
-                        <p className="text-sm text-slate-700">{rule.name}</p>
-                        {rule.active ? (
-                          <ToggleRight size={28} className="shrink-0 text-cyan-600" />
-                        ) : (
-                          <ToggleLeft size={28} className="shrink-0 text-slate-300" />
-                        )}
-                      </div>
-                    ))}
-                    <p className="pt-1 text-center text-xs text-slate-500">
-                      2 de 3 automatizaciones activas — un clic para activar la tercera
-                    </p>
-                  </motion.div>
-                )}
-
-                {activeStep === 3 && (
-                  <motion.div
-                    key="reports"
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -12 }}
-                    transition={{ duration: 0.35, ease: EASE_OUT }}
-                  >
-                    <div className="mb-4 flex items-center justify-between">
-                      <p className="text-sm font-semibold text-slate-900">Ingresos mensuales</p>
-                      <span className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-500">
-                        Exportar PDF
-                      </span>
-                    </div>
-                    <div className="flex h-40 items-end gap-4">
-                      {REPORT_BARS.map((bar) => (
-                        <div key={bar.label} className="flex flex-1 flex-col items-center gap-2">
-                          <div className="flex h-32 w-full items-end">
-                            <div
-                              className="w-full rounded-t-md bg-gradient-to-t from-cyan-600 to-cyan-300"
-                              style={{ height: `${bar.value}%` }}
-                            />
-                          </div>
-                          <span className="text-[10px] text-slate-500">{bar.label}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </div>
-        </section>
-
-        {/* The real app, embedded directly — full width, tablet mockup, no separate page to jump to */}
-        <section id="simulador" className="relative z-0 border-t border-slate-200 bg-slate-50 px-6 py-24">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6, ease: EASE_OUT }}
-            className="mx-auto max-w-2xl text-center"
-          >
-            <Eyebrow>Producto real</Eyebrow>
-            <h2 className="mt-4 text-3xl font-black tracking-tighter text-slate-900 sm:text-4xl">
-              Así se ve Collectionat por dentro
-            </h2>
-            <p className="mt-4 text-lg text-slate-600">
-              Elegí el rubro y recorré el menú lateral — es la misma interfaz que usa tu equipo todos los días.
-            </p>
-          </motion.div>
-
-          {/* Tablet device mockup: petrol-cyan bezel + polished inner ring around the interactive app screen */}
-          <motion.div
-            initial={{ opacity: 0, y: 32 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7, ease: EASE_OUT, delay: 0.1 }}
-            className="mx-auto mt-14 max-w-[1200px]"
-          >
-            <div className="rounded-[36px] border-[12px] border-cyan-950 bg-cyan-950 shadow-2xl shadow-cyan-900/20">
-              <div className="rounded-[24px] bg-gradient-to-br from-cyan-800 via-cyan-900 to-cyan-950 p-1">
-                <div className="h-[480px] overflow-hidden rounded-[20px] bg-white sm:h-[560px] lg:h-[720px]">
-                  <AppSimulator />
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </section>
-
         {/* Interactive demo video with clickable chapters */}
         <VideoDemoSection />
-
-        {/* Product pages showcase — tablet mockups reveal on scroll */}
-        <section className="border-t border-slate-200 bg-white px-6 py-24 text-slate-900">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6, ease: EASE_OUT }}
-            className="mx-auto max-w-2xl text-center"
-          >
-            <Eyebrow>Producto</Eyebrow>
-            <h2 className="mt-4 text-3xl font-black tracking-tighter sm:text-4xl">
-              Explora cada página de Collectionat
-            </h2>
-            <p className="mt-4 text-lg text-slate-600">
-              Desliza hacia abajo para ver cómo luce cada módulo por dentro.
-            </p>
-          </motion.div>
-
-          <div className="mx-auto mt-20 max-w-6xl space-y-24">
-            {PRODUCT_PAGES.map((page, index) => (
-              <motion.div
-                key={page.title}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-120px" }}
-                transition={{ duration: 0.7, ease: EASE_OUT }}
-                className="grid items-center gap-10 lg:grid-cols-2"
-              >
-                <div className={index % 2 === 1 ? "lg:order-2" : ""}>
-                  <Eyebrow>{page.tag}</Eyebrow>
-                  <h3 className="mt-4 text-2xl font-black tracking-tighter sm:text-3xl">{page.title}</h3>
-                  <p className="mt-4 text-slate-600">{page.description}</p>
-                  <ul className="mt-6 space-y-3">
-                    {page.points.map((point) => (
-                      <li key={point} className="flex items-start gap-3 text-sm text-slate-700">
-                        <CheckCircle2 size={18} className="mt-0.5 shrink-0 text-cyan-600" />
-                        {point}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className={index % 2 === 1 ? "lg:order-1" : ""}>
-                  <div className="mx-auto w-full max-w-md rounded-[2rem] border border-slate-200 bg-slate-100 p-3 shadow-xl shadow-slate-300/40">
-                    <div className="mb-2 flex justify-center">
-                      <span className="h-1 w-10 rounded-full bg-slate-300" />
-                    </div>
-                    <div className="min-h-[260px] overflow-hidden rounded-2xl bg-slate-50 p-5">
-                      <TabletScreen type={page.screen} />
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </section>
 
         {/* Sales bento grid (components/ui/bento.tsx) */}
         <section className="relative overflow-hidden border-t border-slate-200 bg-slate-50">
@@ -1368,69 +894,6 @@ export default function CollectionatLanding() {
           <div className="mx-auto max-w-4xl">
             <AskCollectionatChat />
           </div>
-        </section>
-
-        {/* Interactive Calculator Section */}
-        <section id="calculator" className="relative z-0 overflow-hidden border-t border-slate-200 bg-slate-50 px-6 py-24">
-          <FloatingOrbs className="-z-10" colors={["#0e7490", "#fb7185", "#f59e0b"]} />
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6, ease: EASE_OUT }}
-            className="relative z-10 mx-auto max-w-5xl rounded-3xl border border-slate-200 bg-white p-8 shadow-sm sm:p-12"
-          >
-            <div className="mb-4 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-cyan-50 text-cyan-600">
-                <Calculator size={20} />
-              </div>
-              <span className="text-sm font-semibold uppercase tracking-wider text-cyan-700">Simulador de Productividad</span>
-            </div>
-
-            <h2 className="mb-4 text-2xl font-black tracking-tighter text-slate-900 sm:text-4xl">
-              Calcula cuánto tiempo le devuelves a tu equipo
-            </h2>
-            <p className="mb-8 text-slate-600">Desliza para indicar cuántas hojas de cálculo activas maneja hoy tu equipo.</p>
-
-            <div className="grid items-center gap-12 md:grid-cols-2">
-              <div className="space-y-6">
-                <div>
-                  <div className="mb-3 flex justify-between text-sm font-medium">
-                    <span className="text-slate-700">Hojas de cálculo activas:</span>
-                    <span className="text-lg font-bold text-cyan-700">{itemsCount} hojas</span>
-                  </div>
-                  <input
-                    type="range"
-                    min="10"
-                    max="1000"
-                    step="10"
-                    value={itemsCount}
-                    onChange={(e) => setItemsCount(Number(e.target.value))}
-                    className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-slate-200 accent-cyan-600"
-                  />
-                </div>
-              </div>
-
-              <SpotlightCard className="relative overflow-hidden border-slate-200 p-8 text-center hover:border-cyan-300">
-                <DonutRing
-                  gradient="conic-gradient(from 160deg, #67e8f9, #9f1239, #f59e0b, #67e8f9)"
-                  className="-right-10 -top-10 h-36 w-36"
-                />
-                <div className="relative space-y-6">
-                  <div>
-                    <div className="mb-1 text-sm text-slate-500">Tiempo estimado ahorrado al mes</div>
-                    <div className="text-4xl font-black tracking-tighter sm:text-5xl">
-                      <GradientText>{estimatedHoursSaved} horas</GradientText>
-                    </div>
-                  </div>
-                  <div className="border-t border-slate-200 pt-4">
-                    <div className="mb-1 text-sm text-slate-500">Índice de Centralización Estimado</div>
-                    <div className="text-2xl font-black tracking-tighter text-cyan-700">{estimatedOrganizationScore}% de tus datos unificados</div>
-                  </div>
-                </div>
-              </SpotlightCard>
-            </div>
-          </motion.div>
         </section>
 
         {/* Trust section */}

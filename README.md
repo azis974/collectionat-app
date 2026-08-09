@@ -2,6 +2,27 @@
 
 Landing page en Next.js (App Router) + TypeScript + Tailwind CSS para **Collectionat**: una plataforma SaaS que centraliza toda la información crítica de una empresa (ventas, finanzas, operaciones) en un solo lugar, elimina el uso de hojas de cálculo dispersas, y se integra de forma nativa con Microsoft 365 (Outlook, Teams, SharePoint, OneDrive). Con módulos que se adaptan por industria (inmobiliarias, estudios jurídicos, y más a futuro).
 
+## Poda de secciones + reordenamiento por prioridad de venta
+
+El usuario pidió eliminar 4 secciones: "Tu empresa, bajo la lupa" (la lupa/LensCard con KPIs de ejemplo), "Cómo funciona" (los 4 pasos clicables), "Explora cada página de Collectionat" (los mockups de tablet por scroll) y la Calculadora de productividad — y, en el mismo pedido, reordenar las secciones restantes según qué tan importantes le parecerían a un comprador potencial.
+
+**Qué se borró, y por qué quedó limpio:** las 4 secciones no compartían casi nada con el resto de la página excepto un puñado de datos de ejemplo (`DATA_PREVIEW`, `HOW_IT_WORKS`, `CRM_PREVIEW`, `REPORT_BARS`, `AUTOMATION_RULES`, `PRODUCT_PAGES`) y dos componentes (`TabletScreen`, `ListPreview`) que **solo** esas secciones consumían. Se borraron junto con las secciones en vez de dejarlos como código muerto — confirmado con `tsc` y un grep final de que no quedó ninguna referencia colgante. El botón secundario del Hero ("Ver cuánto puedes ahorrar") apuntaba a la Calculadora eliminada; en vez de borrarlo, se re-apuntó a la nueva sección `#simulador` ("Ver la app en vivo"), ya que sigue teniendo sentido como CTA secundario.
+
+**Orden nuevo** (Hero primero, todo lo demás reordenado de mayor a menor peso para alguien evaluando comprar):
+
+1. **Hero** — la propuesta de valor.
+2. **`#simulador` "Producto real"** — subido justo después del Hero, antes de Características. Ver la app interactiva de verdad (el mockup de tablet) es más persuasivo que leer bullets de features, así que se prioriza por sobre explicarla primero.
+3. **Características** — qué hace la plataforma.
+4. **Industrias** — para que el comprador se identifique con su rubro.
+5. **Demo (video)** — refuerzo en video de lo que ya vio interactivo.
+6. **Ventas** (bento grid) — profundidad en un módulo específico.
+7. **Chat AI** — diferenciador puntual.
+8. **Confianza** (testimonios) — prueba social, justo antes de pedir la decisión de compra.
+9. **Planes** — el cierre.
+10. **Footer**.
+
+El nav (desktop y mobile) se reordenó igual: **La aplicación → Características → Industrias → Planes**, para que los links sigan el mismo orden en que aparecen al hacer scroll.
+
 ## Rediseño visual: tema claro con paleta de marca (cyan/petróleo + vino + dorado)
 
 El usuario compartió una paleta de marca oficial (franjas negro / gris pizarra / gris claro / blanco / cyan / azul petróleo / vino / rojo / dorado / crema) y pidió abandonar por completo el tema oscuro de toda la landing y la tablet interactiva por uno claro, luminoso y corporativo. Esto tocó prácticamente todos los archivos visuales del proyecto:
