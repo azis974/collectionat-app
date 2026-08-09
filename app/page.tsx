@@ -30,6 +30,9 @@ import {
   Landmark,
   Lock,
   Building2,
+  Layers,
+  CreditCard,
+  Wand,
 } from "lucide-react";
 import OrbitingCirclesGlobe from "@/components/ui/orbiting-circles-02";
 import AskCollectionatChat from "@/components/ui/ruixen-moon-chat";
@@ -399,6 +402,69 @@ const TESTIMONIALS = [
       "Migramos más de 40 hojas de cálculo en la primera semana. Lo que antes tomaba días de cuadrar ahora se actualiza solo.",
     role: "Jefe de Ventas",
     company: "Empresa de logística, 45 empleados",
+  },
+];
+
+const PRICING_PLANS: {
+  id: string;
+  name: string;
+  tag?: string;
+  tabs?: string;
+  users?: string;
+  price: string;
+  priceUnit?: string;
+  description: string;
+  features: string[];
+  cta: string;
+  highlight: boolean;
+}[] = [
+  {
+    id: "a",
+    name: "Plan A",
+    tabs: "20",
+    users: "2",
+    price: "$4,500",
+    priceUnit: "USD",
+    description: "Conectividad total con infraestructura Microsoft y gestión centralizada.",
+    features: [
+      "20 solapas de gestión activas",
+      "2 usuarios incluidos",
+      "Integración con Outlook, Teams y SharePoint",
+      "Base de datos centralizada",
+    ],
+    cta: "Solicitar Plan A",
+    highlight: false,
+  },
+  {
+    id: "b",
+    name: "Plan B",
+    tabs: "50",
+    users: "3",
+    price: "$9,000",
+    priceUnit: "USD",
+    description: "Alto rendimiento, sincronización avanzada y todo conectado bajo el ecosistema Microsoft.",
+    features: [
+      "50 solapas de gestión activas",
+      "3 usuarios incluidos",
+      "Sincronización avanzada en tiempo real",
+      "Integración completa con Microsoft 365",
+    ],
+    cta: "Elegir Plan B",
+    highlight: true,
+  },
+  {
+    id: "c",
+    name: "Plan C",
+    tag: "A medida",
+    price: "Cotización personalizada",
+    description: "Diseñado en base a la necesidad específica de tu empresa: capacidad y usuarios a medida.",
+    features: [
+      "Capacidad y usuarios definidos con tu equipo",
+      "Módulos e integraciones a medida",
+      "Acompañamiento dedicado de implementación",
+    ],
+    cta: "Solicitar cotización",
+    highlight: false,
   },
 ];
 
@@ -938,6 +1004,7 @@ export default function CollectionatLanding() {
 
         {/* Pricing Section */}
         <section id="pricing" className="relative z-0 overflow-hidden border-t border-slate-200 bg-gradient-to-b from-white via-amber-50/40 to-amber-50/70 px-6 py-24">
+          <FloatingOrbs className="-z-10" colors={["#0e7490", "#f59e0b", "#9f1239"]} />
           <div className="relative z-10 mx-auto max-w-7xl">
             <motion.div
               initial={{ opacity: 0, y: 24 }}
@@ -948,84 +1015,157 @@ export default function CollectionatLanding() {
             >
               <Eyebrow>Planes</Eyebrow>
               <h2 className="mb-4 mt-4 text-3xl font-black tracking-tighter text-slate-900 sm:text-4xl">
-                Planes diseñados para tu crecimiento
+                Planes y precios pensados para crecer con vos
               </h2>
               <p className="text-lg text-slate-600">
-                Comienza gratis y escala a medida que centralizas más de tu empresa.
+                Infraestructura Microsoft, todo conectado — elegí el plan que se ajuste al tamaño de tu equipo.
               </p>
             </motion.div>
 
-            <div className="mx-auto grid max-w-4xl gap-6 md:grid-cols-2">
-              <motion.div
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.5, ease: EASE_OUT }}
-              >
-                <SpotlightCard
-                  className="h-full border-slate-200 p-8 hover:border-cyan-300"
-                  contentClassName="flex h-full flex-col justify-between"
+            <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-3">
+              {PRICING_PLANS.map((plan, index) => (
+                <motion.div
+                  key={plan.id}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.5, ease: EASE_OUT, delay: index * 0.1 }}
+                  className={plan.highlight ? "lg:-mt-4 lg:mb-4" : ""}
                 >
-                  <div>
-                    <div className="mb-2 text-sm font-semibold uppercase tracking-wider text-slate-500">Starter</div>
-                    <div className="mb-4 text-4xl font-black tracking-tighter text-slate-900">
-                      $0 <span className="text-base font-normal text-slate-500">/ mes</span>
+                  {plan.highlight ? (
+                    <div className="relative flex h-full flex-col justify-between overflow-hidden rounded-2xl bg-gradient-to-br from-cyan-600 to-cyan-800 p-8 shadow-[0_0_60px_-15px_rgba(8,145,178,0.55)] ring-1 ring-cyan-900/10">
+                      <DonutRing
+                        gradient="conic-gradient(from 200deg, #ffffff, #a5f3fc, #ffffff)"
+                        className="-right-12 -top-12 h-48 w-48 opacity-30"
+                      />
+                      <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-amber-400 px-4 py-1 text-xs font-bold uppercase tracking-wider text-slate-900 shadow-sm">
+                        Plan recomendado
+                      </span>
+
+                      <div className="relative">
+                        <div className="mb-4 text-sm font-semibold uppercase tracking-wider text-cyan-100">{plan.name}</div>
+
+                        <div className="mb-5 flex gap-3">
+                          <div className="rounded-xl bg-white/10 px-4 py-2.5 text-center backdrop-blur-sm">
+                            <p className="flex items-center justify-center gap-1.5 text-2xl font-black tracking-tighter text-white">
+                              <Layers size={16} className="text-cyan-200" /> {plan.tabs}
+                            </p>
+                            <p className="mt-0.5 text-[10px] uppercase tracking-wide text-cyan-100">Solapas</p>
+                          </div>
+                          <div className="rounded-xl bg-white/10 px-4 py-2.5 text-center backdrop-blur-sm">
+                            <p className="flex items-center justify-center gap-1.5 text-2xl font-black tracking-tighter text-white">
+                              <Users size={16} className="text-cyan-200" /> {plan.users}
+                            </p>
+                            <p className="mt-0.5 text-[10px] uppercase tracking-wide text-cyan-100">Usuarios</p>
+                          </div>
+                        </div>
+
+                        <div className="mb-4 text-4xl font-black tracking-tighter text-white">
+                          {plan.price} <span className="text-base font-normal text-cyan-100">{plan.priceUnit}</span>
+                        </div>
+                        <p className="mb-8 text-sm text-cyan-50/90">{plan.description}</p>
+
+                        <ul className="mb-8 space-y-3.5 text-sm text-white">
+                          {plan.features.map((f) => (
+                            <li key={f} className="flex items-start gap-3">
+                              <CheckCircle2 size={18} className="mt-0.5 shrink-0 text-white" /> {f}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => setDemoModalOpen(true)}
+                        className="group relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl bg-white py-3 font-semibold text-cyan-700 transition-transform hover:scale-[1.02]"
+                      >
+                        {plan.cta} <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
+                      </button>
                     </div>
-                    <p className="mb-8 text-sm text-slate-600">
-                      Ideal para equipos que están comenzando a dejar atrás las hojas de cálculo.
-                    </p>
+                  ) : (
+                    <SpotlightCard
+                      className="h-full border-slate-200 p-8 hover:border-cyan-300"
+                      contentClassName="flex h-full flex-col justify-between"
+                    >
+                      <div>
+                        <div className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-slate-500">
+                          {plan.id === "c" && <Wand size={15} className="text-amber-500" />}
+                          {plan.name}
+                          {plan.tag && (
+                            <span className="rounded-full bg-amber-50 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-amber-700">
+                              {plan.tag}
+                            </span>
+                          )}
+                        </div>
 
-                    <ul className="mb-8 space-y-4 text-sm text-slate-700">
-                      <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-cyan-600" /> Hasta 200 registros centralizados</li>
-                      <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-cyan-600" /> Integración básica con Microsoft 365</li>
-                      <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-cyan-600" /> Acceso web y móvil</li>
-                    </ul>
-                  </div>
-                  <button className="w-full rounded-xl bg-slate-100 py-3 font-medium text-slate-800 transition-colors hover:bg-slate-200">
-                    Elegir Gratis
-                  </button>
-                </SpotlightCard>
-              </motion.div>
+                        {plan.tabs && plan.users ? (
+                          <div className="mb-5 flex gap-3">
+                            <div className="rounded-xl bg-cyan-50 px-4 py-2.5 text-center">
+                              <p className="flex items-center justify-center gap-1.5 text-2xl font-black tracking-tighter text-slate-900">
+                                <Layers size={16} className="text-cyan-600" /> {plan.tabs}
+                              </p>
+                              <p className="mt-0.5 text-[10px] uppercase tracking-wide text-slate-500">Solapas</p>
+                            </div>
+                            <div className="rounded-xl bg-cyan-50 px-4 py-2.5 text-center">
+                              <p className="flex items-center justify-center gap-1.5 text-2xl font-black tracking-tighter text-slate-900">
+                                <Users size={16} className="text-cyan-600" /> {plan.users}
+                              </p>
+                              <p className="mt-0.5 text-[10px] uppercase tracking-wide text-slate-500">Usuarios</p>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="mb-5 rounded-xl bg-amber-50 px-4 py-3 text-sm font-medium text-amber-800">
+                            Capacidad y usuarios definidos según tu operación.
+                          </div>
+                        )}
 
-              <motion.div
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.5, ease: EASE_OUT, delay: 0.1 }}
-              >
-                <div className="relative flex h-full flex-col justify-between overflow-hidden rounded-2xl bg-gradient-to-br from-cyan-600 to-cyan-800 p-8 shadow-[0_0_50px_-15px_rgba(8,145,178,0.5)]">
-                  <DonutRing
-                    gradient="conic-gradient(from 200deg, #ffffff, #a5f3fc, #ffffff)"
-                    className="-right-12 -top-12 h-48 w-48 opacity-30"
-                  />
-                  <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-amber-400 px-4 py-1 text-xs font-bold uppercase tracking-wider text-slate-900">
-                    Más Popular
-                  </span>
-                  <div className="relative">
-                    <div className="mb-2 text-sm font-semibold uppercase tracking-wider text-cyan-100">Business</div>
-                    <div className="mb-4 text-4xl font-black tracking-tighter text-white">
-                      $12 <span className="text-base font-normal text-cyan-100">/ mes</span>
-                    </div>
-                    <p className="mb-8 text-sm text-cyan-50/90">
-                      Para empresas que necesitan rendimiento, integración total y control sin límites.
-                    </p>
+                        <div
+                          className={cn(
+                            "mb-4 font-black tracking-tighter text-slate-900",
+                            plan.priceUnit ? "text-4xl" : "text-2xl",
+                          )}
+                        >
+                          {plan.price} {plan.priceUnit && <span className="text-base font-normal text-slate-500">{plan.priceUnit}</span>}
+                        </div>
+                        <p className="mb-8 text-sm text-slate-600">{plan.description}</p>
 
-                    <ul className="mb-8 space-y-4 text-sm text-white">
-                      <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-white" /> Registros ilimitados</li>
-                      <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-white" /> Integración completa con Outlook, Teams y SharePoint</li>
-                      <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-white" /> Soporte prioritario 24/7</li>
-                    </ul>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => setDemoModalOpen(true)}
-                    className="relative w-full rounded-xl bg-white py-3 font-semibold text-cyan-700 transition-transform hover:scale-[1.02]"
-                  >
-                    Obtener Business
-                  </button>
-                </div>
-              </motion.div>
+                        <ul className="mb-8 space-y-3.5 text-sm text-slate-700">
+                          {plan.features.map((f) => (
+                            <li key={f} className="flex items-start gap-3">
+                              <CheckCircle2 size={18} className="mt-0.5 shrink-0 text-cyan-600" /> {f}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => setDemoModalOpen(true)}
+                        className="flex w-full items-center justify-center gap-2 rounded-xl bg-slate-900 py-3 font-medium text-white transition-colors hover:bg-slate-800"
+                      >
+                        {plan.cta}
+                      </button>
+                    </SpotlightCard>
+                  )}
+                </motion.div>
+              ))}
             </div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.5, ease: EASE_OUT, delay: 0.3 }}
+              className="mx-auto mt-10 flex max-w-2xl items-center justify-center gap-3 rounded-2xl border border-slate-200 bg-white/70 px-6 py-4 text-center shadow-sm backdrop-blur-sm"
+            >
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-amber-50 text-amber-600">
+                <CreditCard size={17} />
+              </span>
+              <p className="text-sm text-slate-600">
+                <span className="font-semibold text-slate-900">Opciones de pago flexibles</span> — planes adaptados a
+                las necesidades de cada cliente para facilitar la inversión.
+              </p>
+            </motion.div>
           </div>
         </section>
 

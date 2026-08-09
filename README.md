@@ -49,6 +49,19 @@ El usuario compartió 8 capturas más de pantallas específicas de la app real y
 
 Verificado módulo por módulo en el navegador (simulando los clics del sidebar vía evento nativo, ya que el entorno de preview no compone frames para captura visual) — el texto de cada pantalla coincide palabra por palabra con las capturas compartidas.
 
+## Planes y Precios: 3 planes reales (Plan A / Plan B / Plan C a medida)
+
+El usuario reemplazó por completo el modelo de precios ficticio (Starter $0, Business $12/mes) por su estructura de precios real, en dólares, con capacidad en "solapas" en vez de suscripción mensual:
+
+- **`PRICING_PLANS`** (nuevo array de datos en `app/page.tsx`): Plan A (20 solapas, 2 usuarios, $4.500 USD), Plan B (50 solapas, 3 usuarios, $9.000 USD, marcado `highlight: true`), Plan C (sin capacidad fija — "a medida", cotización personalizada, sin precio numérico).
+- **Plan B** es la tarjeta destacada: sigue el mismo patrón visual que ya existía (degradado cyan sólido, `DonutRing`, elevada `lg:-mt-4` sobre las otras dos), pero la insignia pasó de "Más Popular" a **"Plan recomendado"** y ahora dice explícitamente por qué en el copy.
+- Cada tarjeta de Plan A/B muestra dos chips con ícono (`Layers` para solapas, `Users` para usuarios) antes del precio — Plan C, al no tener capacidad fija, muestra en su lugar un aviso: "Capacidad y usuarios definidos según tu operación."
+- Las 3 tarjetas comparten el mismo CTA (`setDemoModalOpen(true)`, el formulario real que ya existía) con texto distinto por plan ("Solicitar Plan A" / "Elegir Plan B" / "Solicitar cotización") — no se inventó un flujo de pago nuevo, se reutilizó el único formulario de contacto funcional del sitio.
+- Debajo de las 3 tarjetas se agregó un aviso de **"Opciones de pago flexibles"** (ícono `CreditCard`) con el texto pedido, en una barra centrada con blur, no como una 4ª tarjeta — para no competir visualmente con los 3 planes.
+- Se agregó `FloatingOrbs` a la sección (antes no tenía, solo el degradado de fondo) para que la sección de cierre tenga el mismo nivel de "vida" que el resto de la página.
+
+Verificado en el navegador: el texto de las 3 tarjetas coincide con la estructura pedida, y el botón "Elegir Plan B" abre el modal de solicitud de demo real.
+
 ## Rediseño visual: tema claro con paleta de marca (cyan/petróleo + vino + dorado)
 
 El usuario compartió una paleta de marca oficial (franjas negro / gris pizarra / gris claro / blanco / cyan / azul petróleo / vino / rojo / dorado / crema) y pidió abandonar por completo el tema oscuro de toda la landing y la tablet interactiva por uno claro, luminoso y corporativo. Esto tocó prácticamente todos los archivos visuales del proyecto:
