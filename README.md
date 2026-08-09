@@ -159,6 +159,24 @@ El cuarto riesgo del checklist: no había ninguna forma de saber cuánta gente v
 
 > Nota: GA4 usa cookies de analítica. Si en algún momento el tráfico target incluye visitantes de la UE, vale la pena sumar un banner de consentimiento de cookies antes de production — no se agregó ahora porque no fue parte de lo pedido y hoy el foco (Panamá/Qatar, según los teléfonos de contacto) no lo exige de igual manera.
 
+## Camino a "nivel PRO" — paso 5: auditoría mobile del simulador de tablet
+
+El quinto riesgo del checklist: `AppSimulator` (el mockup interactivo de tablet en la sección "Producto real") tenía el sidebar con `w-72 shrink-0` (288px fijos) sin ninguna variante responsive. Medido en vivo en un viewport de 375px: el sidebar se comía 288px y al `<main>` (`flex-1`) le quedaban solo **64px visibles** para un contenido que necesitaba 273px — completamente inutilizable en cualquier celular.
+
+**Solución**: el sidebar pasó a ser un drawer off-canvas por debajo de `md` (768px):
+
+- Agregado estado `sidebarOpen` (cerrado por default). Un botón "Menú" (`md:hidden`) aparece arriba del contenido en mobile para abrirlo; un backdrop semitransparente aparece detrás del drawer y lo cierra al tocarlo; y elegir cualquier módulo del menú (`selectModule`) cierra el drawer automáticamente además de navegar — así el usuario no tiene que cerrarlo a mano después de tocar una opción.
+- A partir de `md:` el sidebar vuelve a su comportamiento original: `md:static` (dentro del flujo normal, side-by-side con el contenido, sin drawer ni botón de menú — el botón "Menú" tiene `md:hidden`).
+- `p-8` fijo del `<main>` pasó a `p-4 sm:p-6 md:p-8` para no desperdiciar espacio en pantallas chicas, y se agregó `min-w-0` para que el contenido no fuerce overflow horizontal dentro del flex.
+
+**Detalle técnico no trivial**: la primera versión usaba las clases de Tailwind `translate-x-0` / `-translate-x-full` (el patrón estándar para drawers) con `transition-transform`. Verificado en vivo, esto **no funcionaba en este entorno de pruebas** — el navegador embebido de testing no recompone `transform` cuando solo cambia la custom property `--tw-translate-x` sin un ciclo de paint activo (confirmado: `--tw-translate-x` sí quedaba en `0px`, pero el `transform` computado se quedaba pegado en el valor viejo). Se resolvió reemplazando el enfoque por un `left` inline (`style={{ left: sidebarOpen ? 0 : -288 }}`) con `transition: "left 300ms"` — una propiedad directa, sin indirección de custom properties, que además queda automáticamente anulada en desktop porque ahí el elemento es `position: static` (donde `left` no tiene efecto, sin necesitar ningún `!important` adicional).
+
+**Probado en vivo**:
+- 375px (mobile): sidebar arranca en `left: -288px` (oculto), botón "Menú" visible, `<main>` ocupa el ancho completo sin overflow.
+- Abrir → `left: 0px` + aparece el backdrop. Tocar el backdrop → vuelve a `left: -288px` y el backdrop desaparece. Abrir y tocar un módulo (ej. "Resumen") → navega al contenido correcto **y** cierra el drawer en la misma acción.
+- 1280px (desktop): el sidebar vuelve a `position: static` en su lugar original (x=48.5px, ancho 288px), el botón "Menú" queda `display: none`, y el layout es idéntico al de antes del cambio.
+- Sin errores de consola ni del servidor en ningún viewport.
+
 ## Rediseño visual: tema claro con paleta de marca (cyan/petróleo + vino + dorado)
 
 El usuario compartió una paleta de marca oficial (franjas negro / gris pizarra / gris claro / blanco / cyan / azul petróleo / vino / rojo / dorado / crema) y pidió abandonar por completo el tema oscuro de toda la landing y la tablet interactiva por uno claro, luminoso y corporativo. Esto tocó prácticamente todos los archivos visuales del proyecto:
