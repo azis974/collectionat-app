@@ -497,27 +497,14 @@ const INDUSTRIES = [
   },
 ];
 
-const VIDEO_CHAPTERS = [
-  { label: "Dashboard", time: 0 },
-  { label: "Ventas y CRM", time: 32 },
-  { label: "Automatización", time: 65 },
-  { label: "Reportes", time: 100 },
-];
-
-/**
- * Interactive demo video: click-to-play plus clickable chapter markers that
- * seek to a timestamp (real <video> API calls, not decorative). No real
- * footage exists yet — drop one at /public/videos/collectionat-demo.mp4 and
- * this works as-is; until then it gracefully shows the poster/overlay only.
- */
 function VideoDemoSection() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [started, setStarted] = useState(false);
 
-  const playFrom = (time: number) => {
+  const play = () => {
     const video = videoRef.current;
     if (!video) return;
-    video.currentTime = time;
+    video.currentTime = 0;
     video.play().catch(() => {});
     setStarted(true);
   };
@@ -538,7 +525,7 @@ function VideoDemoSection() {
           Ve Collectionat en acción
         </h2>
         <p className="mt-4 text-lg text-slate-600">
-          Un recorrido de dos minutos por el dashboard, ventas, automatización y reportes.
+          Un vistazo rápido de 10 segundos a Collectionat en acción.
         </p>
       </motion.div>
 
@@ -564,28 +551,15 @@ function VideoDemoSection() {
           {!started && (
             <button
               type="button"
-              onClick={() => playFrom(0)}
+              onClick={play}
               className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-white/10"
             >
               <span className="flex h-16 w-16 items-center justify-center rounded-full bg-cyan-600 text-white shadow-lg transition-transform group-hover:scale-110">
                 <Play size={24} fill="white" />
               </span>
-              <span className="text-sm font-medium text-slate-700">Reproducir demo (2:00)</span>
+              <span className="text-sm font-medium text-slate-700">Reproducir demo (0:10)</span>
             </button>
           )}
-        </div>
-
-        <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
-          {VIDEO_CHAPTERS.map((chapter) => (
-            <button
-              key={chapter.label}
-              type="button"
-              onClick={() => playFrom(chapter.time)}
-              className="rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-medium text-slate-600 shadow-sm transition-colors hover:border-cyan-300 hover:text-slate-900"
-            >
-              {chapter.label}
-            </button>
-          ))}
         </div>
       </motion.div>
     </section>
