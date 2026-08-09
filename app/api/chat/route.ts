@@ -28,7 +28,46 @@ Reglas:
 // "llama-3.3-70b-versatile" — see https://console.groq.com/docs/models.
 const GROQ_MODEL = "llama-3.1-8b-instant";
 
+/**
+ * In-memory sliding-window rate limit, keyed by client IP. This is a public
+ * endpoint that calls a metered external API, so without a limit anyone can
+ * spam it and burn through the Groq quota. In-memory is fine for a single
+ * server instance (resets on redeploy/restart); swap for Upstash/Redis if
+ * this ever runs across multiple instances.
+ */
+const RATE_LIMIT_WINDOW_MS = 5 * 60 * 1000; // 5 minutes
+const RATE_LIMIT_MAX = 8; // messages per IP per window
+const requestLog = new Map<string, number[]>();
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const recent = (requestLog.get(ip) ?? []).filter((t) => now - t < RATE_LIMIT_WINDOW_MS);
+
+  if (recent.length >= RATE_LIMIT_MAX) {
+    requestLog.set(ip, recent);
+    return true;
+  }
+
+  recent.push(now);
+  requestLog.set(ip, recent);
+  return false;
+}
+
+function getClientIp(request: Request): string {
+  const forwardedFor = request.headers.get("x-forwarded-for");
+  if (forwardedFor) return forwardedFor.split(",")[0].trim();
+  return request.headers.get("x-real-ip") ?? "unknown";
+}
+
 export async function POST(request: Request) {
+  const ip = getClientIp(request);
+  if (isRateLimited(ip)) {
+    return NextResponse.json(
+      { error: "Estás enviando mensajes muy rápido. Esperá un minuto e intentá de nuevo." },
+      { status: 429 },
+    );
+  }
+
   let body: ChatRequestBody;
   try {
     body = await request.json();
