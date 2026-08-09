@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useRef, useState, type FormEvent } from "react";
-import Image from "next/image";
 import { motion, AnimatePresence, MotionConfig, useScroll } from "framer-motion";
 import {
   Sparkles,
@@ -620,17 +619,8 @@ export default function CollectionatLanding() {
         {/* Navbar */}
         <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/85 backdrop-blur-xl">
           <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
-            <div className="flex items-center gap-3">
-              <div className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl border border-slate-200 bg-cyan-600 shadow-sm">
-                <Image
-                  src="/logo.jpg"
-                  alt="Collectionat Logo"
-                  fill
-                  sizes="40px"
-                  priority
-                  className="object-cover"
-                />
-              </div>
+            <div className="flex items-center gap-2.5">
+              <img src="/logo.png" alt="Collectionat" className="h-10 w-10" />
               <span className="text-xl font-semibold tracking-tight text-slate-900">Collectionat</span>
             </div>
 
