@@ -39,6 +39,7 @@ import {
   TrendingUp,
   Briefcase,
   Crown,
+  Maximize2,
   type LucideIcon,
 } from "lucide-react";
 import Velaris from "@/components/ui/velaris";
@@ -898,6 +899,15 @@ function AppSimulatorSection() {
         <p className="mt-4 text-center text-xs text-neutral-500">
           Vista simulada con datos de ejemplo — así se comporta el control de accesos en la aplicación real.
         </p>
+
+        <div className="mt-6 flex justify-center">
+          <a
+            href="/simulador"
+            className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition-colors hover:border-blue-500/30 hover:bg-white/10"
+          >
+            <Maximize2 size={16} /> Abrir simulador a pantalla completa
+          </a>
+        </div>
       </motion.div>
     </section>
   );
