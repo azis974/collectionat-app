@@ -62,6 +62,25 @@ El usuario reemplazó por completo el modelo de precios ficticio (Starter $0, Bu
 
 Verificado en el navegador: el texto de las 3 tarjetas coincide con la estructura pedida, y el botón "Elegir Plan B" abre el modal de solicitud de demo real.
 
+## Chat con IA real + robot mascota interactivo
+
+El usuario preguntó si el chat "Pregúntale a Collectionat" podía usar IA de verdad en vez de las respuestas enlatadas (`CANNED_RESPONSES`) que tenía desde el principio, y pidió sumar un robot animado al lado, "como si te estuviera ayudando". Le pregunté explícitamente por API key/proveedor y alcance del bot (no respondió), así que avancé con las opciones que yo mismo marqué como recomendadas — quedan documentadas acá para que las cambie si no son lo que quería:
+
+- **Proveedor: Anthropic (Claude), modelo `claude-haiku-4-5-20251001`** — barato y rápido, apropiado para un bot de preguntas frecuentes de una landing. Si preferís más profundidad en las respuestas, cambiá `ANTHROPIC_MODEL` en `app/api/chat/route.ts` a `claude-sonnet-5`.
+- **Alcance: asistente de ventas honesto sobre Collectionat**, no "acceso a tus datos reales" (eso sería inventado, no hay ningún backend detrás de esta landing). El system prompt en `app/api/chat/route.ts` solo conoce lo que está realmente en la página — los 3 planes, los 2 rubros con implementación real, permisos por rol, integraciones — y tiene instrucción explícita de admitir cuando no sabe algo y sugerir pedir una demo, en vez de inventar.
+
+**`app/api/chat/route.ts`** (nuevo) — un Route Handler real que llama a `https://api.anthropic.com/v1/messages` server-side con `fetch` (sin agregar el SDK de Anthropic como dependencia nueva). **Como no tengo tu API key, hasta que la cargues el endpoint responde con un error claro** ("El asistente de IA todavía no está configurado…") en vez de fallar en silencio o inventar una respuesta — probado en este entorno, que no tiene la key, y efectivamente muestra ese aviso.
+
+**Para activarlo de verdad:** creá `.env.local` en la raíz del proyecto (ya está en `.gitignore`, no se sube al repo) con:
+```
+ANTHROPIC_API_KEY=sk-ant-...
+```
+y reiniciá `npm run dev`.
+
+**`components/ui/ruixen-moon-chat.tsx`**: el `send()` ahora hace un `fetch` real a `/api/chat` (antes era un `setTimeout` con texto fijo), con manejo de error real (una caja roja distinta a la de respuesta normal). Las acciones rápidas cambiaron de preguntas sobre "datos de negocio" ficticios (Resumen de ventas, Cuentas por cobrar) a preguntas reales que el prompt puede responder de verdad (planes, integraciones, industrias, permisos por rol).
+
+**Robot mascota (`ChatRobot`)**: SVG animado con `framer-motion`, sin librerías nuevas — flota y se balancea todo el tiempo (`y` + `rotate` en loop), parpadea cada tanto (`scaleY` en los ojos), y mientras el bot está "pensando" el antenna-light pasa a dorado y pulsa más rápido y los brazos se agitan — para que se sienta como que está ayudando activamente, no solo decorativo. Después de que el usuario pidiera "que esté más feliz", se le sumaron cachetes sonrosados, un brillito en cada ojo y una sonrisa grande (antes tenía una carita neutra con una barra por boca).
+
 **Fix: insignia "Plan recomendado" cortada.** El usuario mandó una captura mostrando solo una tira amarilla en el borde superior de la tarjeta de Plan B — la insignia (posicionada con `-top-3.5`, a propósito sobresaliendo del borde de la tarjeta) vivía *adentro* del mismo `<div>` que tenía `overflow-hidden` (necesario para recortar el `DonutRing` decorativo a las esquinas redondeadas), así que quedaba tapada. Se resolvió separando en dos capas: un `<div>` exterior sin `overflow-hidden` que contiene la insignia, y un `<div>` interior con `overflow-hidden` que contiene el degradado, el `DonutRing` y el contenido — la insignia ahora sobresale limpiamente sin que nada la recorte.
 
 **Efecto al presionar cada plan.** Los 3 botones de CTA pasaron de `<button>` a `motion.button` con `whileHover`/`whileTap` (mismo patrón que `GlowButton` en el Hero) — al presionar, el botón se achica ligeramente (`scale: 0.94`) con resorte, dando feedback táctil real en vez de solo el cambio de color que ya tenían.
