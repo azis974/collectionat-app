@@ -5,46 +5,46 @@
 /* Deliberately NOT inside @layer: components/ui/lens-card.tsx ships its own
    defaults inside `@layer motiq`, and unlayered rules always beat layered
    ones regardless of layer declaration order — wrapping this in @layer base
-   would make the win depend on mount timing. Matches Collectionat's black /
-   blue / violet palette instead of the component's default navy/teal. */
+   would make the win depend on mount timing. Matches Collectionat's light /
+   cyan-petrol brand palette instead of the component's default navy/teal. */
 :root {
-  --motiq-bg: #000000;
-  --motiq-surface: #0a0a0b;
-  --motiq-surface-2: #131316;
-  --motiq-border: #262629;
-  --motiq-border-strong: #3a3a40;
-  --motiq-fg: #fafafa;
-  --motiq-fg-secondary: #d4d4d8;
-  --motiq-muted: #a3a3a3;
-  --motiq-accent: #60a5fa;
-  --motiq-accent-text: #93c5fd;
-  --motiq-secondary-accent: #a78bfa;
+  --motiq-bg: #ffffff;
+  --motiq-surface: #ffffff;
+  --motiq-surface-2: #f4f8fa;
+  --motiq-border: #dbe4e8;
+  --motiq-border-strong: #b9c9cf;
+  --motiq-fg: #0f172a;
+  --motiq-fg-secondary: #334155;
+  --motiq-muted: #64748b;
+  --motiq-accent: #0e7490;
+  --motiq-accent-text: #0891b2;
+  --motiq-secondary-accent: #9f1239;
 }
 
 @layer base {
   :root {
     /* shadcn-style tokens: some copied /components/ui components (e.g. orbiting-circles-02)
-       use bg-background / border-border directly. --border is a plain white value; the
-       0.1 alpha is applied in tailwind.config.ts so it matches the site's border-white/10 look. */
-    --background: 0 0% 0%;
-    --foreground: 0 0% 98%;
-    --border: 0 0% 100%;
-    --input: 0 0% 100%;
-    --ring: 217 91% 60%;
-    --card: 0 0% 4%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 4%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 217 91% 60%;
+       use bg-background / border-border directly. --border is a plain dark value; the
+       0.1 alpha is applied in tailwind.config.ts so it matches the site's border-slate-900/10 look. */
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+    --border: 222 20% 10%;
+    --input: 222 20% 10%;
+    --ring: 192 91% 36%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 192 91% 36%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 240 4% 16%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 4% 16%;
-    --muted-foreground: 240 5% 65%;
-    --accent: 240 4% 16%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
+    --secondary: 210 20% 96%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 210 20% 96%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 190 30% 94%;
+    --accent-foreground: 192 91% 20%;
+    --destructive: 350 78% 40%;
+    --destructive-foreground: 0 0% 100%;
   }
 
   html {
@@ -52,15 +52,15 @@
   }
 
   body {
-    @apply bg-black text-white antialiased;
+    @apply bg-white text-slate-900 antialiased;
   }
 
   ::selection {
-    @apply bg-blue-500/30 text-white;
+    @apply bg-cyan-200 text-slate-900;
   }
 
   :focus-visible {
-    outline: 2px solid theme("colors.blue.400");
+    outline: 2px solid theme("colors.cyan.600");
     outline-offset: 2px;
   }
 }
@@ -72,8 +72,8 @@
 
   .bg-grid {
     background-image:
-      linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+      linear-gradient(to right, rgba(15, 23, 42, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(15, 23, 42, 0.05) 1px, transparent 1px);
     background-size: 40px 40px;
   }
 }

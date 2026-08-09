@@ -75,10 +75,10 @@ const VERTICALS: Record<
     label: "Inmobiliaria",
     subtitle: "Gestión integral",
     icon: Building2,
-    activeClass: "bg-white text-[#0b1730]",
-    switchActiveClass: "bg-white text-[#0b1730]",
-    contentBg: "bg-[#eef2f8]",
-    accentText: "text-[#0b1730]",
+    activeClass: "bg-white text-[#083344]",
+    switchActiveClass: "bg-white text-[#083344]",
+    contentBg: "bg-cyan-50/40",
+    accentText: "text-[#083344]",
     modules: INMOBILIARIA_MODULES,
     defaultModule: "resumen",
     footerTitle: "Acceso prioritario",
@@ -88,9 +88,9 @@ const VERTICALS: Record<
     label: "Gestión Legal",
     subtitle: "Estudio Jurídico",
     icon: Scale,
-    activeClass: "bg-amber-400 text-[#241a04]",
-    switchActiveClass: "bg-amber-400 text-[#241a04]",
-    contentBg: "bg-[#faf3e3]",
+    activeClass: "bg-amber-400 text-[#0f172a]",
+    switchActiveClass: "bg-amber-400 text-[#0f172a]",
+    contentBg: "bg-amber-50/50",
     accentText: "text-amber-700",
     modules: LEGAL_MODULES,
     defaultModule: "panel",
@@ -117,7 +117,7 @@ export default function AppSimulator() {
 
   return (
     <div className="flex h-full w-full overflow-hidden bg-white text-sm">
-      <aside className="flex h-full w-72 shrink-0 flex-col bg-[#0b1730] p-4 text-white">
+      <aside className="flex h-full w-72 shrink-0 flex-col bg-[#083344] p-4 text-white">
         <div className="mb-4 flex gap-1.5 rounded-full bg-white/5 p-1">
           {(Object.keys(VERTICALS) as Vertical[]).map((v) => (
             <button
@@ -186,15 +186,15 @@ export default function AppSimulator() {
 }
 
 function Card({ className, children }: { className?: string; children: ReactNode }) {
-  return <div className={cn("rounded-2xl bg-white p-6 shadow-sm", className)}>{children}</div>;
+  return <div className={cn("rounded-2xl border border-slate-100 bg-white p-6 shadow-sm", className)}>{children}</div>;
 }
 
 const BADGE_TONES = {
-  red: "bg-red-100 text-red-700",
-  blue: "bg-blue-100 text-blue-700",
+  red: "bg-rose-100 text-rose-800",
+  blue: "bg-cyan-100 text-cyan-700",
   amber: "bg-amber-100 text-amber-800",
   emerald: "bg-emerald-100 text-emerald-700",
-  gray: "bg-neutral-100 text-neutral-600",
+  gray: "bg-slate-100 text-slate-600",
 };
 
 function Badge({ tone, children }: { tone: keyof typeof BADGE_TONES; children: ReactNode }) {
@@ -227,7 +227,7 @@ function SelectField({ children }: { children: ReactNode }) {
 function PageHeader({ icon: Icon, title, subtitle }: { icon: LucideIcon; title: string; subtitle: string }) {
   return (
     <div className="mb-6 flex items-center gap-3">
-      <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#0b1730] text-white">
+      <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#083344] text-white">
         <Icon size={18} />
       </span>
       <div>
@@ -352,7 +352,7 @@ function InmobiliariaContent({ moduleId }: { moduleId: string }) {
           </div>
           <button
             type="button"
-            className="mt-6 w-full rounded-xl bg-[#0b1730] py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+            className="mt-6 w-full rounded-xl bg-[#083344] py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
           >
             Crear propiedad
           </button>
@@ -410,7 +410,7 @@ function InmobiliariaContent({ moduleId }: { moduleId: string }) {
               </div>
               <button
                 type="button"
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#0b1730] py-3 text-sm font-semibold text-white"
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#083344] py-3 text-sm font-semibold text-white"
               >
                 <Send size={15} /> Enviar email
               </button>
@@ -557,7 +557,7 @@ function InmobiliariaContent({ moduleId }: { moduleId: string }) {
           </div>
           <div className="flex gap-2">
             <TextField placeholder="Preguntar por metas, duplicados o clientes" />
-            <button type="button" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#0b1730] text-white">
+            <button type="button" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#083344] text-white">
               <Send size={16} />
             </button>
           </div>
@@ -649,7 +649,7 @@ function InmobiliariaContent({ moduleId }: { moduleId: string }) {
                   <span className="font-semibold text-neutral-900">{g.value}%</span>
                 </div>
                 <div className="h-2 w-full rounded-full bg-neutral-100">
-                  <div className="h-2 rounded-full bg-[#0b1730]" style={{ width: `${g.value}%` }} />
+                  <div className="h-2 rounded-full bg-cyan-600" style={{ width: `${g.value}%` }} />
                 </div>
               </div>
             ))}
@@ -959,7 +959,7 @@ function LegalContent({ moduleId }: { moduleId: string }) {
                   <span key={`pad-${i}`} />
                 ))}
               {days.map((d) => (
-                <span key={d} className={cn("rounded-lg py-1.5 text-neutral-600", d === 9 && "bg-[#0b1730] font-bold text-white")}>
+                <span key={d} className={cn("rounded-lg py-1.5 text-neutral-600", d === 9 && "bg-cyan-600 font-bold text-white")}>
                   {d}
                 </span>
               ))}

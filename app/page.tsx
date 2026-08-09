@@ -37,7 +37,6 @@ import {
   Lock,
   Building2,
 } from "lucide-react";
-import Velaris from "@/components/ui/velaris";
 import OrbitingCirclesGlobe from "@/components/ui/orbiting-circles-02";
 import { LensCard } from "@/components/ui/lens-card";
 import FUIBentoGridDark from "@/components/ui/bento";
@@ -48,19 +47,19 @@ import { cn } from "@/lib/utils";
 
 const EASE_OUT = [0.16, 1, 0.3, 1] as const;
 
-/** Subtle top-of-page radial glow + grid texture, à la Vercel/Linear. Pure CSS, no canvas. */
+/** Subtle top-of-page radial glow + grid texture — light version: soft cyan/gold wash on white instead of a cosmic blue glow on black. */
 function AmbientGlow() {
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[800px] overflow-hidden">
       <div
-        className="absolute left-1/2 top-[-320px] h-[640px] w-[1100px] -translate-x-1/2 rounded-full opacity-60 blur-[110px]"
+        className="absolute left-1/2 top-[-320px] h-[640px] w-[1100px] -translate-x-1/2 rounded-full opacity-70 blur-[110px]"
         style={{
           background:
-            "radial-gradient(circle, rgba(59,130,246,0.35) 0%, rgba(99,102,241,0.22) 35%, rgba(139,92,246,0.12) 55%, transparent 75%)",
+            "radial-gradient(circle, rgba(8,145,178,0.16) 0%, rgba(245,158,11,0.10) 40%, rgba(159,18,57,0.06) 60%, transparent 75%)",
         }}
       />
       <div
-        className="absolute inset-0 bg-grid opacity-[0.15]"
+        className="absolute inset-0 bg-grid opacity-60"
         style={{
           maskImage: "linear-gradient(to bottom, black, transparent)",
           WebkitMaskImage: "linear-gradient(to bottom, black, transparent)",
@@ -70,27 +69,22 @@ function AmbientGlow() {
   );
 }
 
-/** Fixed gradient bar across the top of the viewport that fills as the page scrolls — ties the whole page together as one continuous piece. */
+/** Fixed gradient bar across the top of the viewport that fills as the page scrolls — cycles through all three brand accents. */
 function ScrollProgressBar() {
   const { scrollYProgress } = useScroll();
   return (
     <motion.div
       aria-hidden="true"
       style={{ scaleX: scrollYProgress }}
-      className="fixed inset-x-0 top-0 z-[60] h-[3px] origin-left bg-gradient-to-r from-blue-500 via-violet-500 to-pink-500"
+      className="fixed inset-x-0 top-0 z-[60] h-[3px] origin-left bg-gradient-to-r from-cyan-600 via-amber-400 to-rose-800"
     />
   );
 }
 
-/** Small uppercase pill label used above every section heading — kept in one place so the whole page reads as one system instead of a patchwork of one-off styles. */
-function Eyebrow({ children, tone = "dark" }: { children: React.ReactNode; tone?: "dark" | "light" }) {
+/** Small uppercase pill label used above every section heading. */
+function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
-    <span
-      className={cn(
-        "inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs font-semibold uppercase tracking-widest",
-        tone === "dark" ? "border-white/10 bg-white/5 text-blue-300" : "border-blue-100 bg-blue-50 text-blue-600",
-      )}
-    >
+    <span className="inline-flex items-center gap-1.5 rounded-full border border-cyan-100 bg-cyan-50 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-widest text-cyan-700">
       {children}
     </span>
   );
@@ -101,7 +95,7 @@ function DonutRing({ gradient, className = "" }: { gradient: string; className?:
   return (
     <div
       aria-hidden="true"
-      className={cn("pointer-events-none absolute rounded-full opacity-60", className)}
+      className={cn("pointer-events-none absolute rounded-full opacity-50", className)}
       style={{
         background: gradient,
         WebkitMask: "radial-gradient(farthest-side, transparent calc(100% - 14px), #000 calc(100% - 14px))",
@@ -111,17 +105,7 @@ function DonutRing({ gradient, className = "" }: { gradient: string; className?:
   );
 }
 
-/** Soft gradient blend between a dark section and a white one, instead of a hard color cut. */
-function SectionSeam({ direction }: { direction: "to-white" | "to-black" }) {
-  return (
-    <div
-      aria-hidden="true"
-      className={cn("h-16 sm:h-20", direction === "to-white" ? "bg-gradient-to-b from-black to-white" : "bg-gradient-to-b from-white to-black")}
-    />
-  );
-}
-
-/** Card wrapper with a spotlight glow that follows the cursor (Aceternity-style), tuned subtle. */
+/** Card wrapper with a spotlight glow that follows the cursor, tuned for a light background. */
 function SpotlightCard({
   children,
   className = "",
@@ -145,14 +129,14 @@ function SpotlightCard({
     <div
       ref={cardRef}
       onMouseMove={handlePointerMove}
-      className={`group relative rounded-2xl border bg-white/[0.03] backdrop-blur-sm transition-colors duration-300 ${className}`}
+      className={`group relative rounded-2xl border bg-white shadow-sm transition-shadow duration-300 hover:shadow-md ${className}`}
     >
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
         style={{
           background:
-            "radial-gradient(420px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(96,165,250,0.14), transparent 65%)",
+            "radial-gradient(420px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(8,145,178,0.08), transparent 65%)",
         }}
       />
       <div className={`relative ${contentClassName}`}>{children}</div>
@@ -160,16 +144,16 @@ function SpotlightCard({
   );
 }
 
-/** Clean two-tone gradient accent for headline text — subtle, not animated. */
+/** Clean two-tone gradient accent for headline text — cyan to wine. */
 function GradientText({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <span className={`bg-gradient-to-r from-blue-400 to-violet-400 bg-clip-text text-transparent ${className}`}>
+    <span className={`bg-gradient-to-r from-cyan-600 to-rose-800 bg-clip-text text-transparent ${className}`}>
       {children}
     </span>
   );
 }
 
-/** Primary CTA with a glow shadow and a diagonal shine sweep on hover. */
+/** Primary CTA — solid cyan/petrol with a shine sweep on hover. */
 function GlowButton({
   href,
   children,
@@ -188,7 +172,7 @@ function GlowButton({
       whileHover={{ scale: 1.03 }}
       whileTap={{ scale: 0.97 }}
       transition={{ type: "spring", stiffness: 400, damping: 17 }}
-      className={`group relative flex items-center justify-center gap-2 overflow-hidden rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-8 py-4 text-base font-semibold text-white shadow-lg shadow-blue-500/20 transition-shadow duration-300 hover:shadow-[0_0_36px_-6px_rgba(59,130,246,0.6)] ${className}`}
+      className={`group relative flex items-center justify-center gap-2 overflow-hidden rounded-xl bg-gradient-to-r from-cyan-600 to-cyan-800 px-8 py-4 text-base font-semibold text-white shadow-lg shadow-cyan-500/25 transition-shadow duration-300 hover:shadow-[0_0_36px_-6px_rgba(8,145,178,0.55)] ${className}`}
     >
       <span
         aria-hidden="true"
@@ -252,7 +236,7 @@ function DemoRequestModal({ onClose }: { onClose: () => void }) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.2 }}
-      className="fixed inset-0 z-[70] flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-[70] flex items-center justify-center bg-slate-900/40 p-4 backdrop-blur-sm"
     >
       <motion.div
         initial={{ opacity: 0, y: 16, scale: 0.98 }}
@@ -260,42 +244,42 @@ function DemoRequestModal({ onClose }: { onClose: () => void }) {
         exit={{ opacity: 0, y: 16, scale: 0.98 }}
         transition={{ duration: 0.25, ease: EASE_OUT }}
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-md rounded-2xl border border-white/10 bg-[#0a0a0c] p-6 sm:p-8"
+        className="relative w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-xl sm:p-8"
       >
         <button
           onClick={onClose}
           aria-label="Cerrar"
-          className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full text-neutral-500 hover:bg-white/10 hover:text-white"
+          className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full text-slate-400 hover:bg-slate-100 hover:text-slate-900"
         >
           <X size={16} />
         </button>
 
         {status === "success" ? (
           <div className="flex flex-col items-center gap-3 py-6 text-center">
-            <CheckCircle2 size={40} className="text-emerald-400" />
-            <p id="demo-modal-title" className="text-base font-semibold text-white">
+            <CheckCircle2 size={40} className="text-emerald-500" />
+            <p id="demo-modal-title" className="text-base font-semibold text-slate-900">
               ¡Listo! Recibimos tu solicitud.
             </p>
-            <p className="text-sm text-neutral-400">Un especialista te va a contactar en menos de 24 horas hábiles.</p>
+            <p className="text-sm text-slate-500">Un especialista te va a contactar en menos de 24 horas hábiles.</p>
             <button
               onClick={onClose}
-              className="mt-2 rounded-full bg-white/10 px-5 py-2 text-sm font-medium text-white hover:bg-white/15"
+              className="mt-2 rounded-full bg-slate-100 px-5 py-2 text-sm font-medium text-slate-700 hover:bg-slate-200"
             >
               Cerrar
             </button>
           </div>
         ) : (
           <>
-            <h3 id="demo-modal-title" className="text-lg font-semibold text-white">
+            <h3 id="demo-modal-title" className="text-lg font-semibold text-slate-900">
               Solicitar una demo
             </h3>
-            <p className="mt-1 text-sm text-neutral-400">
+            <p className="mt-1 text-sm text-slate-500">
               Contanos un poco de tu empresa y coordinamos una demo personalizada.
             </p>
 
             <form onSubmit={handleSubmit} className="mt-6 space-y-4">
               <div>
-                <label htmlFor="demo-name" className="mb-1.5 block text-xs font-medium text-neutral-300">
+                <label htmlFor="demo-name" className="mb-1.5 block text-xs font-medium text-slate-600">
                   Nombre
                 </label>
                 <input
@@ -303,12 +287,12 @@ function DemoRequestModal({ onClose }: { onClose: () => void }) {
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="h-10 w-full rounded-lg border border-white/10 bg-white/[0.03] px-3 text-sm text-white placeholder:text-neutral-600 focus:border-blue-400"
+                  className="h-10 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-cyan-500"
                   placeholder="Tu nombre"
                 />
               </div>
               <div>
-                <label htmlFor="demo-email" className="mb-1.5 block text-xs font-medium text-neutral-300">
+                <label htmlFor="demo-email" className="mb-1.5 block text-xs font-medium text-slate-600">
                   Correo de trabajo
                 </label>
                 <input
@@ -317,12 +301,12 @@ function DemoRequestModal({ onClose }: { onClose: () => void }) {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="h-10 w-full rounded-lg border border-white/10 bg-white/[0.03] px-3 text-sm text-white placeholder:text-neutral-600 focus:border-blue-400"
+                  className="h-10 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-cyan-500"
                   placeholder="tu@empresa.com"
                 />
               </div>
               <div>
-                <label htmlFor="demo-company" className="mb-1.5 block text-xs font-medium text-neutral-300">
+                <label htmlFor="demo-company" className="mb-1.5 block text-xs font-medium text-slate-600">
                   Empresa
                 </label>
                 <input
@@ -330,17 +314,17 @@ function DemoRequestModal({ onClose }: { onClose: () => void }) {
                   required
                   value={company}
                   onChange={(e) => setCompany(e.target.value)}
-                  className="h-10 w-full rounded-lg border border-white/10 bg-white/[0.03] px-3 text-sm text-white placeholder:text-neutral-600 focus:border-blue-400"
+                  className="h-10 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-cyan-500"
                   placeholder="Nombre de tu empresa"
                 />
               </div>
 
-              {status === "error" && <p className="text-sm text-red-400">{error}</p>}
+              {status === "error" && <p className="text-sm text-rose-700">{error}</p>}
 
               <button
                 type="submit"
                 disabled={status === "submitting"}
-                className="flex h-11 w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-sm font-semibold text-white transition-transform hover:scale-[1.02] disabled:opacity-70"
+                className="flex h-11 w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-cyan-600 to-cyan-700 text-sm font-semibold text-white transition-transform hover:scale-[1.02] disabled:opacity-70"
               >
                 {status === "submitting" ? (
                   <>
@@ -361,35 +345,35 @@ function DemoRequestModal({ onClose }: { onClose: () => void }) {
 const FEATURES = [
   {
     icon: FileX2,
-    color: "blue" as const,
+    color: "cyan" as const,
     title: "Adiós a Excel",
     description: "Reemplaza hojas de cálculo dispersas y propensas a errores por un sistema que tu equipo realmente puede confiar.",
     span: "lg:col-span-3",
   },
   {
     icon: Database,
-    color: "indigo" as const,
+    color: "cyanDark" as const,
     title: "Gestión Centralizada Total",
     description: "Toda la información crítica de tu empresa —ventas, finanzas, operaciones— vive en una sola plataforma unificada.",
     span: "lg:col-span-3",
   },
   {
     icon: Zap,
-    color: "amber" as const,
+    color: "gold" as const,
     title: "Alto Rendimiento",
     description: "Datos en tiempo real, sin cuellos de botella ni archivos duplicados: una plataforma que se mueve a la velocidad de tu negocio.",
     span: "lg:col-span-2",
   },
   {
     icon: Network,
-    color: "violet" as const,
+    color: "solid" as const,
     title: "Integración con Microsoft",
     description: "Conecta de forma nativa con Outlook, Teams, SharePoint y OneDrive — tu equipo sigue trabajando donde ya trabaja.",
     span: "lg:col-span-2",
   },
   {
     icon: Lock,
-    color: "teal" as const,
+    color: "wine" as const,
     title: "Permisos por Rol",
     description: "Cada persona ve y edita solo su área — administración, propiedades, ventas. El dueño o administrador general mantiene visibilidad y control total sobre todo el sistema.",
     span: "lg:col-span-2",
@@ -577,8 +561,8 @@ function VideoDemoSection() {
   };
 
   return (
-    <section className="relative z-0 overflow-hidden border-t border-white/5 px-6 py-24">
-      <FloatingOrbs className="-z-10" colors={["#818cf8", "#2dd4bf", "#fbbf24"]} />
+    <section className="relative z-0 overflow-hidden border-t border-slate-200 bg-white px-6 py-24">
+      <FloatingOrbs className="-z-10" colors={["#0e7490", "#f59e0b", "#9f1239"]} />
 
       <motion.div
         initial={{ opacity: 0, y: 24 }}
@@ -588,10 +572,10 @@ function VideoDemoSection() {
         className="relative z-10 mx-auto max-w-2xl text-center"
       >
         <Eyebrow>Demo</Eyebrow>
-        <h2 className="mt-4 text-3xl font-black tracking-tighter text-white sm:text-4xl">
+        <h2 className="mt-4 text-3xl font-black tracking-tighter text-slate-900 sm:text-4xl">
           Ve Collectionat en acción
         </h2>
-        <p className="mt-4 text-lg text-neutral-400">
+        <p className="mt-4 text-lg text-slate-600">
           Un recorrido de dos minutos por el dashboard, ventas, automatización y reportes.
         </p>
       </motion.div>
@@ -603,7 +587,7 @@ function VideoDemoSection() {
         transition={{ duration: 0.6, ease: EASE_OUT, delay: 0.1 }}
         className="relative z-10 mx-auto mt-14 max-w-4xl"
       >
-        <div className="group relative aspect-video overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-blue-950/40 via-black to-violet-950/40">
+        <div className="group relative aspect-video overflow-hidden rounded-3xl border border-slate-200 bg-gradient-to-br from-cyan-50 via-white to-amber-50 shadow-sm">
           <video
             ref={videoRef}
             controls={started}
@@ -619,12 +603,12 @@ function VideoDemoSection() {
             <button
               type="button"
               onClick={() => playFrom(0)}
-              className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/20"
+              className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-white/10"
             >
-              <span className="flex h-16 w-16 items-center justify-center rounded-full bg-white text-black transition-transform group-hover:scale-110">
-                <Play size={24} fill="black" />
+              <span className="flex h-16 w-16 items-center justify-center rounded-full bg-cyan-600 text-white shadow-lg transition-transform group-hover:scale-110">
+                <Play size={24} fill="white" />
               </span>
-              <span className="text-sm font-medium text-neutral-200">Reproducir demo (2:00)</span>
+              <span className="text-sm font-medium text-slate-700">Reproducir demo (2:00)</span>
             </button>
           )}
         </div>
@@ -635,7 +619,7 @@ function VideoDemoSection() {
               key={chapter.label}
               type="button"
               onClick={() => playFrom(chapter.time)}
-              className="rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-xs font-medium text-neutral-300 transition-colors hover:border-blue-500/30 hover:text-white"
+              className="rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-medium text-slate-600 shadow-sm transition-colors hover:border-cyan-300 hover:text-slate-900"
             >
               {chapter.label}
             </button>
@@ -653,30 +637,30 @@ function ListPreview({ rows }: { rows: { name: string; stage: string; value: str
       {rows.map((row) => (
         <div
           key={row.name}
-          className="flex items-center justify-between gap-2 rounded-lg border border-white/10 bg-white/[0.03] p-3"
+          className="flex items-center justify-between gap-2 rounded-lg border border-slate-200 bg-white p-3"
         >
           <span className="min-w-0">
-            <span className="block truncate text-xs font-medium text-white">{row.name}</span>
-            <span className="block text-[10px] text-neutral-500">{row.stage}</span>
+            <span className="block truncate text-xs font-medium text-slate-800">{row.name}</span>
+            <span className="block text-[10px] text-slate-500">{row.stage}</span>
           </span>
-          <span className="shrink-0 text-xs font-semibold text-blue-400">{row.value}</span>
+          <span className="shrink-0 text-xs font-semibold text-cyan-700">{row.value}</span>
         </div>
       ))}
     </div>
   );
 }
 
-/** Dark mini app-screen rendered inside the tablet frame of each product page. */
+/** Light mini app-screen rendered inside the tablet frame of each product page. */
 function TabletScreen({ type }: { type: "dashboard" | "crm" | "reports" | "automation" }) {
   if (type === "dashboard") {
     return (
       <div className="grid grid-cols-2 gap-3">
         {DATA_PREVIEW.slice(0, 4).map((item) => (
-          <div key={item.label} className="rounded-xl border border-white/10 bg-white/[0.03] p-3">
-            <p className="text-[9px] uppercase tracking-wider text-neutral-500">{item.label}</p>
-            <p className="mt-1 text-lg font-semibold text-white">
+          <div key={item.label} className="rounded-xl border border-slate-200 bg-white p-3">
+            <p className="text-[9px] uppercase tracking-wider text-slate-500">{item.label}</p>
+            <p className="mt-1 text-lg font-semibold text-slate-900">
               {item.value}
-              <span className="ml-1 text-[10px] font-normal text-neutral-500">{item.unit}</span>
+              <span className="ml-1 text-[10px] font-normal text-slate-500">{item.unit}</span>
             </p>
           </div>
         ))}
@@ -695,11 +679,11 @@ function TabletScreen({ type }: { type: "dashboard" | "crm" | "reports" | "autom
           <div key={bar.label} className="flex flex-1 flex-col items-center gap-1.5">
             <div className="flex h-28 w-full items-end">
               <div
-                className="w-full rounded-t-md bg-gradient-to-t from-blue-600 to-violet-400"
+                className="w-full rounded-t-md bg-gradient-to-t from-cyan-600 to-cyan-300"
                 style={{ height: `${bar.value}%` }}
               />
             </div>
-            <span className="text-[9px] text-neutral-500">{bar.label}</span>
+            <span className="text-[9px] text-slate-500">{bar.label}</span>
           </div>
         ))}
       </div>
@@ -711,13 +695,13 @@ function TabletScreen({ type }: { type: "dashboard" | "crm" | "reports" | "autom
       {AUTOMATION_RULES.map((rule) => (
         <div
           key={rule.name}
-          className="flex items-center justify-between gap-2 rounded-lg border border-white/10 bg-white/[0.03] p-3"
+          className="flex items-center justify-between gap-2 rounded-lg border border-slate-200 bg-white p-3"
         >
-          <p className="text-xs text-neutral-300">{rule.name}</p>
+          <p className="text-xs text-slate-700">{rule.name}</p>
           {rule.active ? (
-            <ToggleRight size={22} className="shrink-0 text-blue-400" />
+            <ToggleRight size={22} className="shrink-0 text-cyan-600" />
           ) : (
-            <ToggleLeft size={22} className="shrink-0 text-neutral-600" />
+            <ToggleLeft size={22} className="shrink-0 text-slate-300" />
           )}
         </div>
       ))}
@@ -726,17 +710,16 @@ function TabletScreen({ type }: { type: "dashboard" | "crm" | "reports" | "autom
 }
 
 const FEATURE_ICON_STYLES = {
-  blue: "bg-blue-500/10 text-blue-400",
-  indigo: "bg-indigo-500/10 text-indigo-400",
-  amber: "bg-amber-500/10 text-amber-400",
-  violet: "bg-white/10 text-white",
-  teal: "bg-teal-500/10 text-teal-400",
+  cyan: "bg-cyan-50 text-cyan-600",
+  cyanDark: "bg-cyan-100 text-cyan-800",
+  gold: "bg-amber-50 text-amber-600",
+  wine: "bg-rose-50 text-rose-800",
 };
 
 const FEATURE_RINGS: Record<string, string> = {
-  blue: "conic-gradient(from 160deg, #60a5fa, #6366f1, #60a5fa)",
-  indigo: "conic-gradient(from 40deg, #818cf8, #ec4899, #818cf8)",
-  teal: "conic-gradient(from 300deg, #2dd4bf, #3b82f6, #2dd4bf)",
+  cyan: "conic-gradient(from 160deg, #67e8f9, #0e7490, #67e8f9)",
+  cyanDark: "conic-gradient(from 40deg, #0891b2, #164e63, #0891b2)",
+  wine: "conic-gradient(from 300deg, #fb7185, #881337, #fb7185)",
 };
 
 export default function CollectionatLanding() {
@@ -752,14 +735,14 @@ export default function CollectionatLanding() {
   return (
     <MotionConfig reducedMotion="user">
       <ScrollProgressBar />
-      <div className="relative z-0 min-h-screen bg-black font-sans text-neutral-300 selection:bg-blue-500/30 selection:text-white">
+      <div className="relative z-0 min-h-screen bg-white font-sans text-slate-600">
         <AmbientGlow />
 
         {/* Navbar */}
-        <header className="sticky top-0 z-50 border-b border-white/10 bg-black/80 backdrop-blur-xl">
+        <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/85 backdrop-blur-xl">
           <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
             <div className="flex items-center gap-3">
-              <div className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl border border-white/10 bg-blue-600 shadow-lg">
+              <div className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl border border-slate-200 bg-cyan-600 shadow-sm">
                 <Image
                   src="/logo.jpg"
                   alt="Collectionat Logo"
@@ -769,16 +752,16 @@ export default function CollectionatLanding() {
                   className="object-cover"
                 />
               </div>
-              <span className="text-xl font-semibold tracking-tight text-white">Collectionat</span>
+              <span className="text-xl font-semibold tracking-tight text-slate-900">Collectionat</span>
             </div>
 
-            <nav className="hidden items-center gap-8 text-sm font-medium text-neutral-400 md:flex">
-              <a href="#features" className="transition-colors hover:text-white">Características</a>
-              <a href="#industrias" className="transition-colors hover:text-white">Industrias</a>
-              <a href="#como-funciona" className="transition-colors hover:text-white">Cómo funciona</a>
-              <a href="#simulador" className="transition-colors hover:text-white">La aplicación</a>
-              <a href="#calculator" className="transition-colors hover:text-white">Calculadora</a>
-              <a href="#pricing" className="transition-colors hover:text-white">Planes</a>
+            <nav className="hidden items-center gap-8 text-sm font-medium text-slate-600 md:flex">
+              <a href="#features" className="transition-colors hover:text-slate-900">Características</a>
+              <a href="#industrias" className="transition-colors hover:text-slate-900">Industrias</a>
+              <a href="#como-funciona" className="transition-colors hover:text-slate-900">Cómo funciona</a>
+              <a href="#simulador" className="transition-colors hover:text-slate-900">La aplicación</a>
+              <a href="#calculator" className="transition-colors hover:text-slate-900">Calculadora</a>
+              <a href="#pricing" className="transition-colors hover:text-slate-900">Planes</a>
             </nav>
 
             <div className="hidden items-center gap-4 md:flex">
@@ -786,7 +769,7 @@ export default function CollectionatLanding() {
                 href="#pricing"
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
-                className="rounded-xl bg-white px-5 py-2.5 text-sm font-semibold text-black transition-colors hover:bg-neutral-200"
+                className="rounded-xl bg-cyan-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-cyan-700"
               >
                 Comenzar Gratis
               </motion.a>
@@ -797,7 +780,7 @@ export default function CollectionatLanding() {
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-menu"
               aria-label={mobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
-              className="text-neutral-300 hover:text-white md:hidden"
+              className="text-slate-600 hover:text-slate-900 md:hidden"
             >
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -812,16 +795,16 @@ export default function CollectionatLanding() {
                 animate={{ height: "auto", opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
                 transition={{ duration: 0.25, ease: EASE_OUT }}
-                className="overflow-hidden border-b border-white/10 bg-black md:hidden"
+                className="overflow-hidden border-b border-slate-200 bg-white md:hidden"
               >
                 <div className="flex flex-col gap-4 px-6 py-4">
-                  <a href="#features" onClick={() => setMobileMenuOpen(false)} className="text-neutral-300 hover:text-white">Características</a>
-                  <a href="#industrias" onClick={() => setMobileMenuOpen(false)} className="text-neutral-300 hover:text-white">Industrias</a>
-                  <a href="#como-funciona" onClick={() => setMobileMenuOpen(false)} className="text-neutral-300 hover:text-white">Cómo funciona</a>
-                  <a href="#simulador" onClick={() => setMobileMenuOpen(false)} className="text-neutral-300 hover:text-white">La aplicación</a>
-                  <a href="#calculator" onClick={() => setMobileMenuOpen(false)} className="text-neutral-300 hover:text-white">Calculadora</a>
-                  <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="text-neutral-300 hover:text-white">Planes</a>
-                  <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="rounded-xl bg-white py-2.5 text-center font-medium text-black">Comenzar Gratis</a>
+                  <a href="#features" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900">Características</a>
+                  <a href="#industrias" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900">Industrias</a>
+                  <a href="#como-funciona" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900">Cómo funciona</a>
+                  <a href="#simulador" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900">La aplicación</a>
+                  <a href="#calculator" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900">Calculadora</a>
+                  <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900">Planes</a>
+                  <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="rounded-xl bg-cyan-600 py-2.5 text-center font-medium text-white">Comenzar Gratis</a>
                 </div>
               </motion.div>
             )}
@@ -830,17 +813,8 @@ export default function CollectionatLanding() {
 
         {/* Hero Section */}
         <section className="relative z-0 overflow-hidden px-6 pb-32 pt-20">
-          {/* Animated WebGL gradient background (components/ui/velaris.tsx) */}
-          <div className="absolute inset-0 -z-20">
-            <Velaris
-              height="100%"
-              bg="#000000"
-              colors={["#2563eb", "#a855f7", "#ec4899", "#f97316"]}
-              speed={2.4}
-              grain={0.2}
-            />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/50 to-black" />
-          </div>
+          <div className="absolute inset-0 -z-20 bg-gradient-to-b from-cyan-50/70 via-white to-white" />
+          <FloatingOrbs className="-z-10" colors={["#22d3ee", "#f59e0b", "#fb7185"]} />
 
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -848,16 +822,16 @@ export default function CollectionatLanding() {
             transition={{ duration: 0.8, ease: EASE_OUT }}
             className="relative z-10 mx-auto max-w-5xl text-center"
           >
-            <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 text-xs font-medium uppercase tracking-wider text-neutral-300">
-              <Sparkles size={14} className="text-blue-400" /> Gestión todo en uno, integrada con Microsoft
+            <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-xs font-medium uppercase tracking-wider text-slate-600 shadow-sm">
+              <Sparkles size={14} className="text-cyan-600" /> Gestión todo en uno, integrada con Microsoft
             </div>
 
-            <h1 className="mb-8 text-4xl font-black leading-[1.05] tracking-tighter text-white sm:text-6xl lg:text-7xl">
+            <h1 className="mb-8 text-4xl font-black leading-[1.05] tracking-tighter text-slate-900 sm:text-6xl lg:text-7xl">
               Dile adiós a Excel. <br />
               <GradientText>Centraliza tu empresa.</GradientText>
             </h1>
 
-            <p className="mx-auto mb-12 max-w-2xl text-lg leading-relaxed text-neutral-400 sm:text-xl">
+            <p className="mx-auto mb-12 max-w-2xl text-lg leading-relaxed text-slate-600 sm:text-xl">
               CollectionatApp es la plataforma integral de gestión empresarial que elimina la dependencia de hojas de
               cálculo complejas y centraliza todo en una base de datos inteligente y ágil, integrada con la
               infraestructura de Microsoft. Gestión todo en uno, automatización de flujos operativos y una interfaz
@@ -880,7 +854,7 @@ export default function CollectionatLanding() {
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                className="flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-8 py-4 text-base font-semibold text-neutral-300 backdrop-blur-sm transition-colors hover:border-white/20 hover:text-white sm:w-auto"
+                className="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-8 py-4 text-base font-semibold text-slate-700 shadow-sm transition-colors hover:border-slate-400 hover:text-slate-900 sm:w-auto"
               >
                 Ver cuánto puedes ahorrar
               </motion.a>
@@ -899,8 +873,8 @@ export default function CollectionatLanding() {
         </section>
 
         {/* Data preview: lens reveals your centralized business data up close */}
-        <section className="relative overflow-hidden border-t border-white/5 px-6 py-24">
-          <FloatingOrbs colors={["#3b82f6", "#a855f7", "#f472b6"]} />
+        <section className="relative overflow-hidden border-t border-slate-200 bg-slate-50 px-6 py-24">
+          <FloatingOrbs colors={["#0e7490", "#f59e0b", "#fb7185"]} />
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -909,17 +883,17 @@ export default function CollectionatLanding() {
             className="mx-auto mb-12 max-w-2xl text-center"
           >
             <Eyebrow>Vista previa</Eyebrow>
-            <h2 className="mb-4 mt-4 text-3xl font-black tracking-tighter text-white sm:text-4xl">
+            <h2 className="mb-4 mt-4 text-3xl font-black tracking-tighter text-slate-900 sm:text-4xl">
               Tu empresa, bajo la lupa
             </h2>
-            <p className="text-lg text-neutral-400">
+            <p className="text-lg text-slate-600">
               Mueve el cursor sobre el panel para inspeccionar tus datos centralizados de cerca.
             </p>
           </motion.div>
 
           <div className="mx-auto max-w-3xl">
             <LensCard
-              className="rounded-3xl border border-white/10 bg-[var(--motiq-surface)] p-6 sm:p-10"
+              className="rounded-3xl border border-slate-200 bg-[var(--motiq-surface)] p-6 shadow-sm sm:p-10"
               radius={130}
               magnification={1.3}
               chromatic={0.6}
@@ -946,8 +920,8 @@ export default function CollectionatLanding() {
         </section>
 
         {/* Features Grid */}
-        <section id="features" className="relative z-0 overflow-hidden border-t border-white/5 px-6 py-24">
-          <FloatingOrbs className="-z-10" colors={["#f472b6", "#34d399", "#fb923c"]} />
+        <section id="features" className="relative z-0 overflow-hidden border-t border-slate-200 bg-white px-6 py-24">
+          <FloatingOrbs className="-z-10" colors={["#f59e0b", "#0e7490", "#fb7185"]} />
           <div className="relative z-10 mx-auto max-w-7xl">
             <motion.div
               initial={{ opacity: 0, y: 24 }}
@@ -957,17 +931,17 @@ export default function CollectionatLanding() {
               className="mx-auto mb-16 max-w-3xl text-center"
             >
               <Eyebrow>Características</Eyebrow>
-              <h2 className="mb-4 mt-4 text-3xl font-black tracking-tighter text-white sm:text-4xl">
+              <h2 className="mb-4 mt-4 text-3xl font-black tracking-tighter text-slate-900 sm:text-4xl">
                 Todo tu negocio, fuera de las hojas de cálculo
               </h2>
-              <p className="text-lg text-neutral-400">
+              <p className="text-lg text-slate-600">
                 Una plataforma centralizada, veloz y conectada de forma nativa con Microsoft.
               </p>
             </motion.div>
 
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-6 lg:grid-rows-2">
               {FEATURES.map(({ icon: Icon, color, title, description, span }, index) => {
-                const isSolid = color === "violet";
+                const isSolid = color === "solid";
                 return (
                   <motion.div
                     key={title}
@@ -978,29 +952,29 @@ export default function CollectionatLanding() {
                     className={span}
                   >
                     {isSolid ? (
-                      <div className="relative flex h-full flex-col overflow-hidden rounded-2xl bg-gradient-to-br from-violet-600 to-blue-700 p-8">
+                      <div className="relative flex h-full flex-col overflow-hidden rounded-2xl bg-gradient-to-br from-cyan-600 to-cyan-800 p-8 shadow-sm">
                         <DonutRing
-                          gradient="conic-gradient(from 200deg, #ffffff, #93c5fd, #ffffff)"
+                          gradient="conic-gradient(from 200deg, #ffffff, #a5f3fc, #ffffff)"
                           className="-right-10 -top-10 h-40 w-40 opacity-40"
                         />
-                        <div className="relative flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white">
+                        <div className="relative flex h-12 w-12 items-center justify-center rounded-full border border-white/30 bg-white/15 text-white">
                           <Icon size={24} />
                         </div>
                         <h3 className="relative mb-3 mt-6 text-xl font-black tracking-tight text-white">{title}</h3>
-                        <p className="relative leading-relaxed text-blue-50/80">{description}</p>
+                        <p className="relative leading-relaxed text-cyan-50/90">{description}</p>
                       </div>
                     ) : (
-                      <SpotlightCard className="relative h-full overflow-hidden border-white/10 p-8 hover:border-blue-500/30">
+                      <SpotlightCard className="relative h-full overflow-hidden border-slate-200 p-8 hover:border-cyan-300">
                         {FEATURE_RINGS[color] && (
                           <DonutRing gradient={FEATURE_RINGS[color]} className="-right-8 -top-8 h-36 w-36" />
                         )}
                         <div
-                          className={`relative mb-6 flex h-12 w-12 items-center justify-center rounded-full ${FEATURE_ICON_STYLES[color]}`}
+                          className={`relative mb-6 flex h-12 w-12 items-center justify-center rounded-full ${FEATURE_ICON_STYLES[color as keyof typeof FEATURE_ICON_STYLES]}`}
                         >
                           <Icon size={24} />
                         </div>
-                        <h3 className="relative mb-3 text-xl font-black tracking-tight text-white">{title}</h3>
-                        <p className="relative leading-relaxed text-neutral-400">{description}</p>
+                        <h3 className="relative mb-3 text-xl font-black tracking-tight text-slate-900">{title}</h3>
+                        <p className="relative leading-relaxed text-slate-600">{description}</p>
                       </SpotlightCard>
                     )}
                   </motion.div>
@@ -1011,8 +985,8 @@ export default function CollectionatLanding() {
         </section>
 
         {/* Industries: verticals Collectionat serves, with industry-specific modules */}
-        <section id="industrias" className="relative z-0 overflow-hidden border-t border-white/5 px-6 py-24">
-          <FloatingOrbs className="-z-10" colors={["#3b82f6", "#f472b6", "#34d399"]} />
+        <section id="industrias" className="relative z-0 overflow-hidden border-t border-slate-200 bg-slate-50 px-6 py-24">
+          <FloatingOrbs className="-z-10" colors={["#0e7490", "#fb7185", "#f59e0b"]} />
 
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -1022,10 +996,10 @@ export default function CollectionatLanding() {
             className="relative z-10 mx-auto mb-16 max-w-2xl text-center"
           >
             <Eyebrow>Industrias</Eyebrow>
-            <h2 className="mt-4 text-3xl font-black tracking-tighter text-white sm:text-4xl">
+            <h2 className="mt-4 text-3xl font-black tracking-tighter text-slate-900 sm:text-4xl">
               Un Collectionat para cada rubro
             </h2>
-            <p className="mt-4 text-lg text-neutral-400">
+            <p className="mt-4 text-lg text-slate-600">
               Cada equipo trabaja distinto — por eso los módulos se adaptan a tu industria, no al revés. Estos son
               solo algunos ejemplos reales de implementación; ya trabajamos con empresas de varios rubros.
             </p>
@@ -1044,8 +1018,8 @@ export default function CollectionatLanding() {
                     className={cn(
                       "flex items-center gap-2 rounded-full border px-4 py-2.5 text-sm font-medium transition-colors",
                       active
-                        ? "border-blue-500/40 bg-blue-500/10 text-white"
-                        : "border-white/10 bg-white/[0.02] text-neutral-400 hover:border-white/20 hover:text-white",
+                        ? "border-cyan-300 bg-cyan-50 text-cyan-800"
+                        : "border-slate-200 bg-white text-slate-600 shadow-sm hover:border-slate-300 hover:text-slate-900",
                     )}
                   >
                     <Icon size={16} />
@@ -1062,31 +1036,31 @@ export default function CollectionatLanding() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -12 }}
                 transition={{ duration: 0.35, ease: EASE_OUT }}
-                className="grid gap-8 rounded-3xl border border-white/10 bg-white/[0.03] p-8 sm:p-10 lg:grid-cols-[1fr_1.4fr] lg:items-center"
+                className="grid gap-8 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm sm:p-10 lg:grid-cols-[1fr_1.4fr] lg:items-center"
               >
                 <div>
-                  <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-white">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-cyan-500 to-cyan-700 text-white">
                     {(() => {
                       const ActiveIcon = INDUSTRIES[activeIndustry].icon;
                       return <ActiveIcon size={26} />;
                     })()}
                   </div>
-                  <h3 className="mt-5 text-2xl font-black tracking-tight text-white">
+                  <h3 className="mt-5 text-2xl font-black tracking-tight text-slate-900">
                     {INDUSTRIES[activeIndustry].label}
                   </h3>
-                  <p className="mt-3 text-neutral-400">{INDUSTRIES[activeIndustry].description}</p>
+                  <p className="mt-3 text-slate-600">{INDUSTRIES[activeIndustry].description}</p>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
                   {INDUSTRIES[activeIndustry].modules.map((m) => (
                     <div
                       key={m.name}
-                      className="flex flex-col items-center gap-2 rounded-xl border border-white/10 bg-white/[0.02] p-4 text-center"
+                      className="flex flex-col items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 p-4 text-center"
                     >
-                      <span className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-500/10 text-blue-400">
+                      <span className="flex h-10 w-10 items-center justify-center rounded-full bg-cyan-100 text-cyan-700">
                         <m.icon size={18} />
                       </span>
-                      <span className="text-xs font-medium text-neutral-300">{m.name}</span>
+                      <span className="text-xs font-medium text-slate-700">{m.name}</span>
                     </div>
                   ))}
                 </div>
@@ -1096,7 +1070,7 @@ export default function CollectionatLanding() {
         </section>
 
         {/* How it works: step-by-step interactive walkthrough */}
-        <section id="como-funciona" className="border-t border-white/5 px-6 py-24">
+        <section id="como-funciona" className="border-t border-slate-200 bg-white px-6 py-24">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -1105,10 +1079,10 @@ export default function CollectionatLanding() {
             className="mx-auto mb-16 max-w-2xl text-center"
           >
             <Eyebrow>Cómo funciona</Eyebrow>
-            <h2 className="mt-4 text-3xl font-black tracking-tighter text-white sm:text-4xl">
+            <h2 className="mt-4 text-3xl font-black tracking-tighter text-slate-900 sm:text-4xl">
               De la hoja de cálculo al panel de control, en cuatro pasos
             </h2>
-            <p className="mt-4 text-lg text-neutral-400">
+            <p className="mt-4 text-lg text-slate-600">
               Así es como tu equipo interactúa con CollectionatApp todos los días.
             </p>
           </motion.div>
@@ -1125,25 +1099,25 @@ export default function CollectionatLanding() {
                       aria-pressed={active}
                       className={cn(
                         "flex w-full items-start gap-4 rounded-2xl border p-5 text-left transition-colors",
-                        active ? "border-blue-500/30 bg-white/[0.06]" : "border-white/10 bg-white/[0.02] hover:bg-white/[0.04]",
+                        active ? "border-cyan-300 bg-cyan-50" : "border-slate-200 bg-white hover:bg-slate-50",
                       )}
                     >
                       <span
                         className={cn(
                           "flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-sm font-bold transition-colors",
-                          active ? "bg-blue-500 text-white" : "bg-white/5 text-neutral-500",
+                          active ? "bg-cyan-600 text-white" : "bg-slate-100 text-slate-500",
                         )}
                       >
                         {index + 1}
                       </span>
                       <span className="min-w-0">
                         <span className="flex items-center gap-2">
-                          <Icon size={16} className={active ? "text-blue-400" : "text-neutral-500"} />
-                          <span className={cn("text-base font-semibold", active ? "text-white" : "text-neutral-300")}>
+                          <Icon size={16} className={active ? "text-cyan-700" : "text-slate-500"} />
+                          <span className={cn("text-base font-semibold", active ? "text-slate-900" : "text-slate-700")}>
                             {title}
                           </span>
                         </span>
-                        <span className="mt-1.5 block text-sm leading-relaxed text-neutral-400">{description}</span>
+                        <span className="mt-1.5 block text-sm leading-relaxed text-slate-500">{description}</span>
                       </span>
                     </button>
                   </li>
@@ -1151,7 +1125,7 @@ export default function CollectionatLanding() {
               })}
             </ol>
 
-            <div className="relative h-[420px] overflow-hidden rounded-3xl border border-white/10 bg-[#0a0a0c] p-6 sm:p-8">
+            <div className="relative h-[420px] overflow-hidden rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm sm:p-8">
               <AnimatePresence mode="wait">
                 {activeStep === 0 && (
                   <motion.div
@@ -1161,22 +1135,22 @@ export default function CollectionatLanding() {
                     exit={{ opacity: 0, y: -12 }}
                     transition={{ duration: 0.35, ease: EASE_OUT }}
                   >
-                    <div className="mb-4 flex items-center gap-2 text-xs font-medium text-emerald-400">
+                    <div className="mb-4 flex items-center gap-2 text-xs font-medium text-emerald-600">
                       <span className="relative flex h-2 w-2">
                         <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                        <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+                        <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
                       </span>
                       Datos en vivo
                     </div>
                     <div className="grid grid-cols-2 gap-3">
                       {DATA_PREVIEW.slice(0, 4).map((item) => (
-                        <div key={item.label} className="rounded-xl border border-white/10 bg-white/[0.03] p-4">
-                          <p className="text-[10px] uppercase tracking-wider text-neutral-500">{item.label}</p>
-                          <p className="mt-1 text-xl font-semibold text-white">
+                        <div key={item.label} className="rounded-xl border border-slate-200 bg-white p-4">
+                          <p className="text-[10px] uppercase tracking-wider text-slate-500">{item.label}</p>
+                          <p className="mt-1 text-xl font-semibold text-slate-900">
                             {item.value}
-                            <span className="ml-1 text-xs font-normal text-neutral-500">{item.unit}</span>
+                            <span className="ml-1 text-xs font-normal text-slate-500">{item.unit}</span>
                           </p>
-                          <p className="mt-0.5 text-[11px] text-blue-400">{item.note}</p>
+                          <p className="mt-0.5 text-[11px] text-cyan-700">{item.note}</p>
                         </div>
                       ))}
                     </div>
@@ -1197,7 +1171,7 @@ export default function CollectionatLanding() {
                           key={mod}
                           className={cn(
                             "rounded-full px-3 py-1.5 text-xs font-medium",
-                            i === 0 ? "bg-blue-500 text-white" : "bg-white/5 text-neutral-400",
+                            i === 0 ? "bg-cyan-600 text-white" : "bg-slate-100 text-slate-500",
                           )}
                         >
                           {mod}
@@ -1206,21 +1180,21 @@ export default function CollectionatLanding() {
                     </div>
                     <div className="space-y-3">
                       <div>
-                        <label className="mb-1 block text-xs text-neutral-500">Nombre del cliente</label>
-                        <div className="h-10 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2.5 text-sm text-neutral-400">
+                        <label className="mb-1 block text-xs text-slate-500">Nombre del cliente</label>
+                        <div className="h-10 rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-600">
                           Orion Retail Group
                         </div>
                       </div>
                       <div>
-                        <label className="mb-1 block text-xs text-neutral-500">Monto estimado</label>
-                        <div className="h-10 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2.5 text-sm text-neutral-400">
+                        <label className="mb-1 block text-xs text-slate-500">Monto estimado</label>
+                        <div className="h-10 rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-600">
                           $42,300.00
                         </div>
                       </div>
                     </div>
-                    <div className="mt-4 flex flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-white/15 py-6 text-center">
-                      <UploadCloud size={20} className="text-neutral-500" />
-                      <p className="text-xs text-neutral-500">Arrastra tu archivo aquí o busca en tu equipo</p>
+                    <div className="mt-4 flex flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-slate-300 py-6 text-center">
+                      <UploadCloud size={20} className="text-slate-400" />
+                      <p className="text-xs text-slate-500">Arrastra tu archivo aquí o busca en tu equipo</p>
                     </div>
                   </motion.div>
                 )}
@@ -1237,17 +1211,17 @@ export default function CollectionatLanding() {
                     {AUTOMATION_RULES.map((rule) => (
                       <div
                         key={rule.name}
-                        className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.03] p-4"
+                        className="flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white p-4"
                       >
-                        <p className="text-sm text-neutral-300">{rule.name}</p>
+                        <p className="text-sm text-slate-700">{rule.name}</p>
                         {rule.active ? (
-                          <ToggleRight size={28} className="shrink-0 text-blue-400" />
+                          <ToggleRight size={28} className="shrink-0 text-cyan-600" />
                         ) : (
-                          <ToggleLeft size={28} className="shrink-0 text-neutral-600" />
+                          <ToggleLeft size={28} className="shrink-0 text-slate-300" />
                         )}
                       </div>
                     ))}
-                    <p className="pt-1 text-center text-xs text-neutral-500">
+                    <p className="pt-1 text-center text-xs text-slate-500">
                       2 de 3 automatizaciones activas — un clic para activar la tercera
                     </p>
                   </motion.div>
@@ -1262,8 +1236,8 @@ export default function CollectionatLanding() {
                     transition={{ duration: 0.35, ease: EASE_OUT }}
                   >
                     <div className="mb-4 flex items-center justify-between">
-                      <p className="text-sm font-semibold text-white">Ingresos mensuales</p>
-                      <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-neutral-400">
+                      <p className="text-sm font-semibold text-slate-900">Ingresos mensuales</p>
+                      <span className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-500">
                         Exportar PDF
                       </span>
                     </div>
@@ -1272,11 +1246,11 @@ export default function CollectionatLanding() {
                         <div key={bar.label} className="flex flex-1 flex-col items-center gap-2">
                           <div className="flex h-32 w-full items-end">
                             <div
-                              className="w-full rounded-t-md bg-gradient-to-t from-blue-600 to-violet-400"
+                              className="w-full rounded-t-md bg-gradient-to-t from-cyan-600 to-cyan-300"
                               style={{ height: `${bar.value}%` }}
                             />
                           </div>
-                          <span className="text-[10px] text-neutral-500">{bar.label}</span>
+                          <span className="text-[10px] text-slate-500">{bar.label}</span>
                         </div>
                       ))}
                     </div>
@@ -1287,8 +1261,8 @@ export default function CollectionatLanding() {
           </div>
         </section>
 
-        {/* The real app, embedded directly — full width, no frame, no separate page to jump to */}
-        <section id="simulador" className="relative z-0 border-t border-white/5 bg-black px-6 py-24">
+        {/* The real app, embedded directly — full width, tablet mockup, no separate page to jump to */}
+        <section id="simulador" className="relative z-0 border-t border-slate-200 bg-slate-50 px-6 py-24">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -1297,15 +1271,15 @@ export default function CollectionatLanding() {
             className="mx-auto max-w-2xl text-center"
           >
             <Eyebrow>Producto real</Eyebrow>
-            <h2 className="mt-4 text-3xl font-black tracking-tighter text-white sm:text-4xl">
+            <h2 className="mt-4 text-3xl font-black tracking-tighter text-slate-900 sm:text-4xl">
               Así se ve Collectionat por dentro
             </h2>
-            <p className="mt-4 text-lg text-neutral-400">
+            <p className="mt-4 text-lg text-slate-600">
               Elegí el rubro y recorré el menú lateral — es la misma interfaz que usa tu equipo todos los días.
             </p>
           </motion.div>
 
-          {/* Tablet device mockup: dark bezel + polished inner ring around the interactive app screen */}
+          {/* Tablet device mockup: petrol-cyan bezel + polished inner ring around the interactive app screen */}
           <motion.div
             initial={{ opacity: 0, y: 32 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -1313,8 +1287,8 @@ export default function CollectionatLanding() {
             transition={{ duration: 0.7, ease: EASE_OUT, delay: 0.1 }}
             className="mx-auto mt-14 max-w-[1200px]"
           >
-            <div className="rounded-[36px] border-[12px] border-slate-900 bg-slate-900 shadow-2xl shadow-indigo-500/10">
-              <div className="rounded-[24px] bg-gradient-to-br from-slate-700 via-slate-800 to-slate-950 p-1">
+            <div className="rounded-[36px] border-[12px] border-cyan-950 bg-cyan-950 shadow-2xl shadow-cyan-900/20">
+              <div className="rounded-[24px] bg-gradient-to-br from-cyan-800 via-cyan-900 to-cyan-950 p-1">
                 <div className="h-[480px] overflow-hidden rounded-[20px] bg-white sm:h-[560px] lg:h-[720px]">
                   <AppSimulator />
                 </div>
@@ -1326,10 +1300,8 @@ export default function CollectionatLanding() {
         {/* Interactive demo video with clickable chapters */}
         <VideoDemoSection />
 
-        <SectionSeam direction="to-white" />
-
-        {/* Product pages showcase — white section, tablet mockups reveal on scroll */}
-        <section className="bg-white px-6 py-24 text-neutral-900">
+        {/* Product pages showcase — tablet mockups reveal on scroll */}
+        <section className="border-t border-slate-200 bg-white px-6 py-24 text-slate-900">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -1337,11 +1309,11 @@ export default function CollectionatLanding() {
             transition={{ duration: 0.6, ease: EASE_OUT }}
             className="mx-auto max-w-2xl text-center"
           >
-            <Eyebrow tone="light">Producto</Eyebrow>
+            <Eyebrow>Producto</Eyebrow>
             <h2 className="mt-4 text-3xl font-black tracking-tighter sm:text-4xl">
               Explora cada página de Collectionat
             </h2>
-            <p className="mt-4 text-lg text-neutral-600">
+            <p className="mt-4 text-lg text-slate-600">
               Desliza hacia abajo para ver cómo luce cada módulo por dentro.
             </p>
           </motion.div>
@@ -1357,13 +1329,13 @@ export default function CollectionatLanding() {
                 className="grid items-center gap-10 lg:grid-cols-2"
               >
                 <div className={index % 2 === 1 ? "lg:order-2" : ""}>
-                  <Eyebrow tone="light">{page.tag}</Eyebrow>
+                  <Eyebrow>{page.tag}</Eyebrow>
                   <h3 className="mt-4 text-2xl font-black tracking-tighter sm:text-3xl">{page.title}</h3>
-                  <p className="mt-4 text-neutral-600">{page.description}</p>
+                  <p className="mt-4 text-slate-600">{page.description}</p>
                   <ul className="mt-6 space-y-3">
                     {page.points.map((point) => (
-                      <li key={point} className="flex items-start gap-3 text-sm text-neutral-700">
-                        <CheckCircle2 size={18} className="mt-0.5 shrink-0 text-blue-600" />
+                      <li key={point} className="flex items-start gap-3 text-sm text-slate-700">
+                        <CheckCircle2 size={18} className="mt-0.5 shrink-0 text-cyan-600" />
                         {point}
                       </li>
                     ))}
@@ -1371,11 +1343,11 @@ export default function CollectionatLanding() {
                 </div>
 
                 <div className={index % 2 === 1 ? "lg:order-1" : ""}>
-                  <div className="mx-auto w-full max-w-md rounded-[2rem] border border-neutral-200 bg-neutral-100 p-3 shadow-2xl shadow-neutral-300/60">
+                  <div className="mx-auto w-full max-w-md rounded-[2rem] border border-slate-200 bg-slate-100 p-3 shadow-xl shadow-slate-300/40">
                     <div className="mb-2 flex justify-center">
-                      <span className="h-1 w-10 rounded-full bg-neutral-300" />
+                      <span className="h-1 w-10 rounded-full bg-slate-300" />
                     </div>
-                    <div className="min-h-[260px] overflow-hidden rounded-2xl bg-[#0a0a0c] p-5">
+                    <div className="min-h-[260px] overflow-hidden rounded-2xl bg-slate-50 p-5">
                       <TabletScreen type={page.screen} />
                     </div>
                   </div>
@@ -1385,49 +1357,47 @@ export default function CollectionatLanding() {
           </div>
         </section>
 
-        <SectionSeam direction="to-black" />
-
         {/* Sales bento grid (components/ui/bento.tsx) */}
-        <section className="relative overflow-hidden">
-          <FloatingOrbs colors={["#f97316", "#22d3ee", "#a855f7"]} />
+        <section className="relative overflow-hidden border-t border-slate-200 bg-slate-50">
+          <FloatingOrbs colors={["#f59e0b", "#0e7490", "#9f1239"]} />
           <FUIBentoGridDark />
         </section>
 
         {/* AI chat over centralized data (components/ui/ruixen-moon-chat.tsx) */}
-        <section className="border-t border-white/5 px-6 py-24">
+        <section className="border-t border-slate-200 bg-white px-6 py-24">
           <div className="mx-auto max-w-4xl">
             <AskCollectionatChat />
           </div>
         </section>
 
         {/* Interactive Calculator Section */}
-        <section id="calculator" className="relative z-0 overflow-hidden border-t border-white/5 px-6 py-24">
-          <FloatingOrbs className="-z-10" colors={["#22d3ee", "#a855f7", "#fb7185"]} />
+        <section id="calculator" className="relative z-0 overflow-hidden border-t border-slate-200 bg-slate-50 px-6 py-24">
+          <FloatingOrbs className="-z-10" colors={["#0e7490", "#fb7185", "#f59e0b"]} />
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6, ease: EASE_OUT }}
-            className="relative z-10 mx-auto max-w-5xl rounded-3xl border border-white/10 bg-white/[0.03] p-8 sm:p-12"
+            className="relative z-10 mx-auto max-w-5xl rounded-3xl border border-slate-200 bg-white p-8 shadow-sm sm:p-12"
           >
             <div className="mb-4 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-500/10 text-blue-400">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-cyan-50 text-cyan-600">
                 <Calculator size={20} />
               </div>
-              <span className="text-sm font-semibold uppercase tracking-wider text-blue-400">Simulador de Productividad</span>
+              <span className="text-sm font-semibold uppercase tracking-wider text-cyan-700">Simulador de Productividad</span>
             </div>
 
-            <h2 className="mb-4 text-2xl font-black tracking-tighter text-white sm:text-4xl">
+            <h2 className="mb-4 text-2xl font-black tracking-tighter text-slate-900 sm:text-4xl">
               Calcula cuánto tiempo le devuelves a tu equipo
             </h2>
-            <p className="mb-8 text-neutral-400">Desliza para indicar cuántas hojas de cálculo activas maneja hoy tu equipo.</p>
+            <p className="mb-8 text-slate-600">Desliza para indicar cuántas hojas de cálculo activas maneja hoy tu equipo.</p>
 
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div className="space-y-6">
                 <div>
                   <div className="mb-3 flex justify-between text-sm font-medium">
-                    <span className="text-neutral-300">Hojas de cálculo activas:</span>
-                    <span className="text-lg font-bold text-blue-400">{itemsCount} hojas</span>
+                    <span className="text-slate-700">Hojas de cálculo activas:</span>
+                    <span className="text-lg font-bold text-cyan-700">{itemsCount} hojas</span>
                   </div>
                   <input
                     type="range"
@@ -1436,26 +1406,26 @@ export default function CollectionatLanding() {
                     step="10"
                     value={itemsCount}
                     onChange={(e) => setItemsCount(Number(e.target.value))}
-                    className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-white/10 accent-blue-500"
+                    className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-slate-200 accent-cyan-600"
                   />
                 </div>
               </div>
 
-              <SpotlightCard className="relative overflow-hidden border-white/10 p-8 text-center hover:border-blue-500/30">
+              <SpotlightCard className="relative overflow-hidden border-slate-200 p-8 text-center hover:border-cyan-300">
                 <DonutRing
-                  gradient="conic-gradient(from 160deg, #60a5fa, #a855f7, #60a5fa)"
+                  gradient="conic-gradient(from 160deg, #67e8f9, #9f1239, #f59e0b, #67e8f9)"
                   className="-right-10 -top-10 h-36 w-36"
                 />
                 <div className="relative space-y-6">
                   <div>
-                    <div className="mb-1 text-sm text-neutral-400">Tiempo estimado ahorrado al mes</div>
+                    <div className="mb-1 text-sm text-slate-500">Tiempo estimado ahorrado al mes</div>
                     <div className="text-4xl font-black tracking-tighter sm:text-5xl">
                       <GradientText>{estimatedHoursSaved} horas</GradientText>
                     </div>
                   </div>
-                  <div className="border-t border-white/10 pt-4">
-                    <div className="mb-1 text-sm text-neutral-400">Índice de Centralización Estimado</div>
-                    <div className="text-2xl font-black tracking-tighter text-blue-400">{estimatedOrganizationScore}% de tus datos unificados</div>
+                  <div className="border-t border-slate-200 pt-4">
+                    <div className="mb-1 text-sm text-slate-500">Índice de Centralización Estimado</div>
+                    <div className="text-2xl font-black tracking-tighter text-cyan-700">{estimatedOrganizationScore}% de tus datos unificados</div>
                   </div>
                 </div>
               </SpotlightCard>
@@ -1463,10 +1433,8 @@ export default function CollectionatLanding() {
           </motion.div>
         </section>
 
-        <SectionSeam direction="to-white" />
-
-        {/* Trust section — deliberately light/white, breaks the all-dark rhythm */}
-        <section className="bg-white px-6 py-24 text-neutral-900">
+        {/* Trust section */}
+        <section className="border-t border-slate-200 bg-white px-6 py-24 text-slate-900">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -1474,18 +1442,18 @@ export default function CollectionatLanding() {
             transition={{ duration: 0.6, ease: EASE_OUT }}
             className="mx-auto max-w-2xl text-center"
           >
-            <Eyebrow tone="light">Confianza</Eyebrow>
+            <Eyebrow>Confianza</Eyebrow>
             <h2 className="mt-4 text-3xl font-black tracking-tighter sm:text-4xl">
               Empresas que ya centralizaron su operación
             </h2>
-            <p className="mt-4 text-lg text-neutral-600">
+            <p className="mt-4 text-lg text-slate-600">
               Equipos de ventas, finanzas y operaciones que dejaron atrás las hojas de cálculo dispersas.
             </p>
           </motion.div>
 
           <div className="mx-auto mt-14 flex max-w-4xl flex-wrap items-center justify-center gap-x-10 gap-y-4">
             {TRUST_COMPANIES.map((name) => (
-              <span key={name} className="text-lg font-semibold tracking-tight text-neutral-500">
+              <span key={name} className="text-lg font-semibold tracking-tight text-slate-400">
                 {name}
               </span>
             ))}
@@ -1493,7 +1461,7 @@ export default function CollectionatLanding() {
 
           <div className="mx-auto mt-16 grid max-w-6xl gap-6 md:grid-cols-3">
             {TESTIMONIALS.map((t, index) => {
-              const tone = ["bg-blue-600", "bg-indigo-600", "bg-violet-600"][index % 3];
+              const tone = ["bg-cyan-600", "bg-rose-800", "bg-amber-500"][index % 3];
               return (
                 <motion.div
                   key={t.role}
@@ -1501,28 +1469,22 @@ export default function CollectionatLanding() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-80px" }}
                   transition={{ duration: 0.5, ease: EASE_OUT, delay: index * 0.1 }}
-                  className="rounded-2xl border border-neutral-200 bg-neutral-50 p-6 text-left"
+                  className="rounded-2xl border border-slate-200 bg-slate-50 p-6 text-left"
                 >
                   <span className={cn("flex h-10 w-10 items-center justify-center rounded-full text-white", tone)}>
                     <Quote size={16} />
                   </span>
-                  <p className="mt-4 text-sm leading-relaxed text-neutral-700">&ldquo;{t.quote}&rdquo;</p>
-                  <p className="mt-4 text-sm font-semibold text-neutral-900">{t.role}</p>
-                  <p className="text-xs text-neutral-500">{t.company}</p>
+                  <p className="mt-4 text-sm leading-relaxed text-slate-700">&ldquo;{t.quote}&rdquo;</p>
+                  <p className="mt-4 text-sm font-semibold text-slate-900">{t.role}</p>
+                  <p className="text-xs text-slate-500">{t.company}</p>
                 </motion.div>
               );
             })}
           </div>
         </section>
 
-        <SectionSeam direction="to-black" />
-
         {/* Pricing Section */}
-        <section id="pricing" className="relative z-0 overflow-hidden px-6 py-24">
-          <div className="absolute inset-0 -z-10">
-            <Velaris height="100%" bg="#000000" colors={["#10b981", "#f59e0b", "#f43f5e", "#000000"]} speed={1.6} grain={0.15} />
-            <div className="absolute inset-0 bg-black/70" />
-          </div>
+        <section id="pricing" className="relative z-0 overflow-hidden border-t border-slate-200 bg-gradient-to-b from-white via-amber-50/40 to-amber-50/70 px-6 py-24">
           <div className="relative z-10 mx-auto max-w-7xl">
             <motion.div
               initial={{ opacity: 0, y: 24 }}
@@ -1532,10 +1494,10 @@ export default function CollectionatLanding() {
               className="mx-auto mb-16 max-w-3xl text-center"
             >
               <Eyebrow>Planes</Eyebrow>
-              <h2 className="mb-4 mt-4 text-3xl font-black tracking-tighter text-white sm:text-4xl">
+              <h2 className="mb-4 mt-4 text-3xl font-black tracking-tighter text-slate-900 sm:text-4xl">
                 Planes diseñados para tu crecimiento
               </h2>
-              <p className="text-lg text-neutral-400">
+              <p className="text-lg text-slate-600">
                 Comienza gratis y escala a medida que centralizas más de tu empresa.
               </p>
             </motion.div>
@@ -1548,25 +1510,25 @@ export default function CollectionatLanding() {
                 transition={{ duration: 0.5, ease: EASE_OUT }}
               >
                 <SpotlightCard
-                  className="h-full border-white/10 p-8 hover:border-blue-500/30"
+                  className="h-full border-slate-200 p-8 hover:border-cyan-300"
                   contentClassName="flex h-full flex-col justify-between"
                 >
                   <div>
-                    <div className="mb-2 text-sm font-semibold uppercase tracking-wider text-neutral-400">Starter</div>
-                    <div className="mb-4 text-4xl font-black tracking-tighter text-white">
-                      $0 <span className="text-base font-normal text-neutral-400">/ mes</span>
+                    <div className="mb-2 text-sm font-semibold uppercase tracking-wider text-slate-500">Starter</div>
+                    <div className="mb-4 text-4xl font-black tracking-tighter text-slate-900">
+                      $0 <span className="text-base font-normal text-slate-500">/ mes</span>
                     </div>
-                    <p className="mb-8 text-sm text-neutral-400">
+                    <p className="mb-8 text-sm text-slate-600">
                       Ideal para equipos que están comenzando a dejar atrás las hojas de cálculo.
                     </p>
 
-                    <ul className="mb-8 space-y-4 text-sm text-neutral-300">
-                      <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-blue-500" /> Hasta 200 registros centralizados</li>
-                      <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-blue-500" /> Integración básica con Microsoft 365</li>
-                      <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-blue-500" /> Acceso web y móvil</li>
+                    <ul className="mb-8 space-y-4 text-sm text-slate-700">
+                      <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-cyan-600" /> Hasta 200 registros centralizados</li>
+                      <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-cyan-600" /> Integración básica con Microsoft 365</li>
+                      <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-cyan-600" /> Acceso web y móvil</li>
                     </ul>
                   </div>
-                  <button className="w-full rounded-xl bg-white/10 py-3 font-medium text-white transition-colors hover:bg-white/15">
+                  <button className="w-full rounded-xl bg-slate-100 py-3 font-medium text-slate-800 transition-colors hover:bg-slate-200">
                     Elegir Gratis
                   </button>
                 </SpotlightCard>
@@ -1578,20 +1540,20 @@ export default function CollectionatLanding() {
                 viewport={{ once: true, margin: "-80px" }}
                 transition={{ duration: 0.5, ease: EASE_OUT, delay: 0.1 }}
               >
-                <div className="relative flex h-full flex-col justify-between overflow-hidden rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 p-8 shadow-[0_0_50px_-15px_rgba(59,130,246,0.5)]">
+                <div className="relative flex h-full flex-col justify-between overflow-hidden rounded-2xl bg-gradient-to-br from-cyan-600 to-cyan-800 p-8 shadow-[0_0_50px_-15px_rgba(8,145,178,0.5)]">
                   <DonutRing
-                    gradient="conic-gradient(from 200deg, #ffffff, #c7d2fe, #ffffff)"
+                    gradient="conic-gradient(from 200deg, #ffffff, #a5f3fc, #ffffff)"
                     className="-right-12 -top-12 h-48 w-48 opacity-30"
                   />
-                  <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-white px-4 py-1 text-xs font-bold uppercase tracking-wider text-blue-700">
+                  <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-amber-400 px-4 py-1 text-xs font-bold uppercase tracking-wider text-slate-900">
                     Más Popular
                   </span>
                   <div className="relative">
-                    <div className="mb-2 text-sm font-semibold uppercase tracking-wider text-blue-100">Business</div>
+                    <div className="mb-2 text-sm font-semibold uppercase tracking-wider text-cyan-100">Business</div>
                     <div className="mb-4 text-4xl font-black tracking-tighter text-white">
-                      $12 <span className="text-base font-normal text-blue-100">/ mes</span>
+                      $12 <span className="text-base font-normal text-cyan-100">/ mes</span>
                     </div>
-                    <p className="mb-8 text-sm text-blue-50/80">
+                    <p className="mb-8 text-sm text-cyan-50/90">
                       Para empresas que necesitan rendimiento, integración total y control sin límites.
                     </p>
 
@@ -1604,7 +1566,7 @@ export default function CollectionatLanding() {
                   <button
                     type="button"
                     onClick={() => setDemoModalOpen(true)}
-                    className="relative w-full rounded-xl bg-white py-3 font-semibold text-blue-700 transition-transform hover:scale-[1.02]"
+                    className="relative w-full rounded-xl bg-white py-3 font-semibold text-cyan-700 transition-transform hover:scale-[1.02]"
                   >
                     Obtener Business
                   </button>
@@ -1615,21 +1577,21 @@ export default function CollectionatLanding() {
         </section>
 
         {/* Footer */}
-        <footer className="relative overflow-hidden border-t border-white/10 px-6 py-12 text-center text-sm text-neutral-500">
+        <footer className="relative overflow-hidden border-t border-slate-200 bg-white px-6 py-12 text-center text-sm text-slate-500">
           <div
             aria-hidden="true"
             className="pointer-events-none absolute inset-0 -z-10"
             style={{
               backgroundImage: [
-                "radial-gradient(ellipse 40% 80% at 10% 0%, rgba(59,130,246,0.22), transparent 70%)",
-                "radial-gradient(ellipse 40% 80% at 90% 100%, rgba(236,72,153,0.2), transparent 70%)",
-                "radial-gradient(ellipse 50% 60% at 50% 50%, rgba(16,185,129,0.14), transparent 70%)",
+                "radial-gradient(ellipse 40% 80% at 10% 0%, rgba(8,145,178,0.08), transparent 70%)",
+                "radial-gradient(ellipse 40% 80% at 90% 100%, rgba(159,18,57,0.06), transparent 70%)",
+                "radial-gradient(ellipse 50% 60% at 50% 50%, rgba(245,158,11,0.08), transparent 70%)",
               ].join(", "),
             }}
           />
           <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 sm:flex-row">
             <div className="flex items-center gap-2">
-              <span className="font-semibold text-white">Collectionat</span> &copy; 2026. Todos los derechos reservados.
+              <span className="font-semibold text-slate-900">Collectionat</span> &copy; 2026. Todos los derechos reservados.
             </div>
           </div>
         </footer>

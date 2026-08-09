@@ -106,32 +106,32 @@ export default function RuixenMoonChat() {
   };
 
   return (
-    <div className="relative flex w-full flex-col items-center overflow-hidden rounded-3xl border border-white/10 bg-black px-6 py-20">
+    <div className="relative flex w-full flex-col items-center overflow-hidden rounded-3xl border border-slate-200 bg-white px-6 py-20 shadow-sm">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
           backgroundImage: [
-            "radial-gradient(ellipse 45% 45% at 25% 15%, rgba(59,130,246,0.30), transparent 70%)",
-            "radial-gradient(ellipse 45% 45% at 75% 25%, rgba(236,72,153,0.26), transparent 70%)",
-            "radial-gradient(ellipse 50% 50% at 50% 85%, rgba(168,85,247,0.24), transparent 70%)",
+            "radial-gradient(ellipse 45% 45% at 25% 15%, rgba(8,145,178,0.10), transparent 70%)",
+            "radial-gradient(ellipse 45% 45% at 75% 25%, rgba(159,18,57,0.08), transparent 70%)",
+            "radial-gradient(ellipse 50% 50% at 50% 85%, rgba(245,158,11,0.10), transparent 70%)",
           ].join(", "),
         }}
       />
-      <div aria-hidden="true" className="bg-grid pointer-events-none absolute inset-0 -z-10 opacity-20" />
+      <div aria-hidden="true" className="bg-grid pointer-events-none absolute inset-0 -z-10 opacity-40" />
 
       <div className="flex flex-col items-center text-center">
-        <span className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 text-xs font-medium uppercase tracking-wider text-blue-300">
+        <span className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-cyan-100 bg-cyan-50 px-3.5 py-1.5 text-xs font-medium uppercase tracking-wider text-cyan-700">
           <Sparkles size={13} /> Impulsado por IA
         </span>
-        <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">Pregúntale a Collectionat</h2>
-        <p className="mt-2 max-w-md text-neutral-400">
+        <h2 className="text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">Pregúntale a Collectionat</h2>
+        <p className="mt-2 max-w-md text-slate-600">
           Escribe en lenguaje natural y obtén respuestas de tus datos centralizados al instante.
         </p>
       </div>
 
       <div className="mt-10 w-full max-w-2xl">
-        <div className="relative rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-md">
+        <div className="relative rounded-xl border border-slate-200 bg-slate-50">
           <Textarea
             ref={textareaRef}
             value={message}
@@ -148,9 +148,9 @@ export default function RuixenMoonChat() {
             placeholder="¿Cuánto facturamos este mes?"
             className={cn(
               "w-full resize-none border-none px-4 py-3",
-              "bg-transparent text-sm text-white",
+              "bg-transparent text-sm text-slate-900",
               "focus-visible:ring-0 focus-visible:ring-offset-0",
-              "min-h-[48px] placeholder:text-neutral-500"
+              "min-h-[48px] placeholder:text-slate-400"
             )}
             style={{ overflow: "hidden" }}
           />
@@ -160,7 +160,7 @@ export default function RuixenMoonChat() {
               type="button"
               variant="ghost"
               size="icon"
-              className="text-neutral-400 hover:bg-white/10 hover:text-white"
+              className="text-slate-500 hover:bg-slate-200 hover:text-slate-900"
             >
               <Paperclip className="h-4 w-4" />
             </Button>
@@ -172,8 +172,8 @@ export default function RuixenMoonChat() {
               className={cn(
                 "flex items-center gap-1 rounded-lg px-3 py-2 transition-colors",
                 message.trim() && !thinking
-                  ? "bg-blue-600 text-white hover:bg-blue-500"
-                  : "cursor-not-allowed bg-white/10 text-neutral-500"
+                  ? "bg-cyan-600 text-white hover:bg-cyan-700"
+                  : "cursor-not-allowed bg-slate-200 text-slate-400"
               )}
             >
               <ArrowUpIcon className="h-4 w-4" />
@@ -183,7 +183,7 @@ export default function RuixenMoonChat() {
         </div>
 
         {(thinking || reply) && (
-          <div className="mt-4 rounded-xl border border-white/10 bg-white/[0.03] p-4 text-left text-sm text-neutral-300">
+          <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4 text-left text-sm text-slate-700">
             {thinking ? "Consultando tus datos…" : reply}
           </div>
         )}
@@ -195,7 +195,7 @@ export default function RuixenMoonChat() {
               type="button"
               variant="outline"
               onClick={() => handleQuickAction(label)}
-              className="flex items-center gap-2 rounded-full border-white/10 bg-white/[0.03] text-neutral-300 hover:bg-white/10 hover:text-white"
+              className="flex items-center gap-2 rounded-full border-slate-200 bg-white text-slate-600 shadow-sm hover:bg-slate-50 hover:text-slate-900"
             >
               <Icon className="h-4 w-4" />
               <span className="text-xs">{label}</span>

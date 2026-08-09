@@ -9,26 +9,26 @@ const orbits = [
     size: "w-110 h-110 md:w-180 md:h-180",
     duration: 18,
     icons: [
-      { Icon: Mail, alt: "Outlook", angle: -60, color: "text-sky-400" },
-      { Icon: MessagesSquare, alt: "Teams", angle: 0, color: "text-violet-400" },
-      { Icon: FolderKanban, alt: "SharePoint", angle: 60, color: "text-teal-400" },
+      { Icon: Mail, alt: "Outlook", angle: -60, color: "text-cyan-600" },
+      { Icon: MessagesSquare, alt: "Teams", angle: 0, color: "text-rose-800" },
+      { Icon: FolderKanban, alt: "SharePoint", angle: 60, color: "text-cyan-700" },
     ],
   },
   {
     size: "w-150 h-150 md:w-220 md:h-220",
     duration: 24,
     icons: [
-      { Icon: Cloud, alt: "OneDrive", angle: 0, color: "text-blue-400" },
-      { Icon: FileSpreadsheet, alt: "Hojas de cálculo", angle: -90, color: "text-emerald-400" },
+      { Icon: Cloud, alt: "OneDrive", angle: 0, color: "text-cyan-600" },
+      { Icon: FileSpreadsheet, alt: "Hojas de cálculo", angle: -90, color: "text-amber-500" },
     ],
   },
   {
     size: "w-180 h-180 md:w-265 md:h-265",
     duration: 30,
     icons: [
-      { Icon: Database, alt: "Datos centralizados", angle: -60, color: "text-indigo-400" },
-      { Icon: Network, alt: "Conectividad", angle: 0, color: "text-blue-300" },
-      { Icon: Zap, alt: "Rendimiento", angle: 60, color: "text-amber-300" },
+      { Icon: Database, alt: "Datos centralizados", angle: -60, color: "text-rose-800" },
+      { Icon: Network, alt: "Conectividad", angle: 0, color: "text-cyan-700" },
+      { Icon: Zap, alt: "Rendimiento", angle: 60, color: "text-amber-500" },
     ],
   },
 ];
@@ -92,7 +92,7 @@ export default function OrbitingCirclesGlobeDemo() {
                 }
               >
                 <div
-                  className="p-3 sm:p-4 border border-border rounded-full bg-background -mt-8 relative z-10"
+                  className="p-3 sm:p-4 border border-border rounded-full bg-background shadow-sm -mt-8 relative z-10"
                   style={
                     {
                       "--counter-offset": `${-iconData.angle}deg`,

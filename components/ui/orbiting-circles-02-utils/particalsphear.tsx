@@ -84,7 +84,7 @@ export default function ParticleSphereAnimation() {
           const opacity = 0.25 + p.depthScale * 0.6;
           ctx.beginPath();
           ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(147, 197, 253, ${opacity})`;
+          ctx.fillStyle = `rgba(14, 116, 144, ${opacity})`;
           ctx.fill();
         }
       }
