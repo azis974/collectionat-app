@@ -649,15 +649,12 @@ export default function CollectionatLanding() {
             </div>
 
             <h1 className="mb-8 text-4xl font-black leading-[1.05] tracking-tighter text-slate-900 sm:text-6xl lg:text-7xl">
-              Dile adiós a Excel. <br />
-              <GradientText>Centraliza tu empresa.</GradientText>
+              Tu competencia ya <GradientText>dejó el Excel</GradientText>. ¿Qué estás esperando?
             </h1>
 
             <p className="mx-auto mb-12 max-w-2xl text-lg leading-relaxed text-slate-600 sm:text-xl">
-              CollectionatApp es la plataforma integral de gestión empresarial que elimina la dependencia de hojas de
-              cálculo complejas y centraliza todo en una base de datos inteligente y ágil, integrada con la
-              infraestructura de Microsoft. Gestión todo en uno, automatización de flujos operativos y una interfaz
-              de alto rendimiento.
+              La plataforma inteligente que centraliza toda tu operación sin vueltas, sin fórmulas raras y 100%
+              conectada.
             </p>
 
             <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
