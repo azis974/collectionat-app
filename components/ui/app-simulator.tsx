@@ -2,7 +2,7 @@
 
 import { useState, type ReactNode } from "react";
 import {
-  LayoutGrid,
+  Menu,
   Building2,
   KeyRound,
   Bot,
@@ -26,31 +26,62 @@ import {
   Scale,
   DollarSign,
   Briefcase,
+  Upload,
+  Eye,
+  Download,
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const INMOBILIARIA_MODULES = [
-  { id: "login", label: "Login y password", icon: KeyRound },
-  { id: "chat", label: "Chat AI", icon: Bot },
-  { id: "alertas", label: "Alertas generales", icon: AlertTriangle },
-  { id: "resumen", label: "Resumen", icon: Home },
-  { id: "propiedades", label: "Propiedades", icon: Building2 },
-  { id: "nueva-propiedad", label: "Nueva propiedad", icon: Plus },
-  { id: "metas", label: "Metas", icon: Target },
-  { id: "contratos", label: "Contratos y trámites", icon: FileText },
-  { id: "email", label: "Email corporativo", icon: Mail },
-  { id: "rrhh", label: "Recursos humanos", icon: Users },
-  { id: "actividades", label: "Actividades", icon: Calendar },
-  { id: "administracion", label: "Administración", icon: DollarSign },
+type ModuleItem = { id: string; label: string; icon: LucideIcon };
+type ModuleGroup = { label: string; items: ModuleItem[] };
+
+const INMOBILIARIA_GROUPS: ModuleGroup[] = [
+  {
+    label: "Inicio y control",
+    items: [
+      { id: "alertas", label: "Alertas generales", icon: AlertTriangle },
+      { id: "resumen", label: "Resumen", icon: Home },
+    ],
+  },
+  {
+    label: "Equipo y acceso",
+    items: [
+      { id: "rrhh", label: "Recursos humanos", icon: Users },
+      { id: "login", label: "Login y password", icon: KeyRound },
+    ],
+  },
+  {
+    label: "Gestión comercial",
+    items: [
+      { id: "metas", label: "Metas", icon: Target },
+      { id: "email", label: "Email corporativo", icon: Mail },
+      { id: "propiedades", label: "Propiedades", icon: Building2 },
+      { id: "chat", label: "Chat AI", icon: Bot },
+    ],
+  },
+  {
+    label: "Contratos y administración",
+    items: [
+      { id: "contratos", label: "Contratos y trámites", icon: FileText },
+      { id: "nueva-propiedad", label: "Nueva propiedad", icon: Plus },
+      { id: "actividades", label: "Actividades", icon: Calendar },
+      { id: "administracion", label: "Administración", icon: DollarSign },
+    ],
+  },
 ];
 
-const LEGAL_MODULES = [
-  { id: "panel", label: "Panel Principal", icon: LayoutGrid },
-  { id: "causas", label: "Causas", icon: Gavel },
-  { id: "clientes", label: "Clientes", icon: Users },
-  { id: "agenda", label: "Agenda", icon: Calendar },
-  { id: "documentos", label: "Documentos", icon: FolderOpen },
+const LEGAL_GROUPS: ModuleGroup[] = [
+  {
+    label: "Gestión del estudio",
+    items: [
+      { id: "alertas", label: "Alertas generales", icon: AlertTriangle },
+      { id: "causas", label: "Causas", icon: Gavel },
+      { id: "clientes", label: "Clientes", icon: Users },
+      { id: "agenda", label: "Agenda", icon: Calendar },
+      { id: "documentos", label: "Documentos", icon: FolderOpen },
+    ],
+  },
 ];
 
 type Vertical = "inmobiliaria" | "legal";
@@ -65,7 +96,7 @@ const VERTICALS: Record<
     switchActiveClass: string;
     contentBg: string;
     accentText: string;
-    modules: { id: string; label: string; icon: LucideIcon }[];
+    groups: ModuleGroup[];
     defaultModule: string;
     footerTitle: string;
     footerText: string;
@@ -79,8 +110,8 @@ const VERTICALS: Record<
     switchActiveClass: "bg-white text-[#083344]",
     contentBg: "bg-cyan-50/40",
     accentText: "text-[#083344]",
-    modules: INMOBILIARIA_MODULES,
-    defaultModule: "resumen",
+    groups: INMOBILIARIA_GROUPS,
+    defaultModule: "alertas",
     footerTitle: "Acceso prioritario",
     footerText: "Login primero, Chat AI debajo y el resto de categorías ordenadas por operación.",
   },
@@ -92,8 +123,8 @@ const VERTICALS: Record<
     switchActiveClass: "bg-amber-400 text-[#0f172a]",
     contentBg: "bg-amber-50/50",
     accentText: "text-amber-700",
-    modules: LEGAL_MODULES,
-    defaultModule: "panel",
+    groups: LEGAL_GROUPS,
+    defaultModule: "alertas",
     footerTitle: "Estudio Jurídico",
     footerText: "Datos de prueba — el almacenamiento definitivo se habilita con el administrador.",
   },
@@ -117,7 +148,7 @@ export default function AppSimulator() {
 
   return (
     <div className="flex h-full w-full overflow-hidden bg-white text-sm">
-      <aside className="flex h-full w-72 shrink-0 flex-col bg-[#083344] p-4 text-white">
+      <aside className="flex h-full w-72 shrink-0 flex-col overflow-y-auto bg-[#083344] p-4 text-white">
         <div className="mb-4 flex gap-1.5 rounded-full bg-white/5 p-1">
           {(Object.keys(VERTICALS) as Vertical[]).map((v) => (
             <button
@@ -145,27 +176,36 @@ export default function AppSimulator() {
           </div>
         </div>
 
-        <p className="mb-2 px-2 text-[10px] font-semibold uppercase tracking-widest text-white/30">Categorías</p>
+        <p className="mb-3 flex items-center gap-1.5 px-2 text-[10px] font-semibold uppercase tracking-widest text-white/30">
+          <Menu size={12} /> Menú
+        </p>
 
-        <nav className="flex-1 space-y-1 overflow-y-auto pr-1">
-          {config.modules.map((m) => {
-            const active = m.id === activeModule;
-            return (
-              <button
-                key={m.id}
-                type="button"
-                onClick={() => setActiveModule(m.id)}
-                aria-pressed={active}
-                className={cn(
-                  "flex w-full items-center gap-2.5 rounded-full px-3.5 py-2.5 text-left text-[13px] font-medium transition-colors",
-                  active ? config.activeClass : "text-white/60 hover:bg-white/5 hover:text-white",
-                )}
-              >
-                <m.icon size={16} />
-                {m.label}
-              </button>
-            );
-          })}
+        <nav className="flex-1 space-y-4">
+          {config.groups.map((group) => (
+            <div key={group.label}>
+              <p className="mb-1.5 px-2 text-[10px] font-semibold uppercase tracking-widest text-white/30">{group.label}</p>
+              <div className="space-y-1">
+                {group.items.map((m) => {
+                  const active = m.id === activeModule;
+                  return (
+                    <button
+                      key={m.id}
+                      type="button"
+                      onClick={() => setActiveModule(m.id)}
+                      aria-pressed={active}
+                      className={cn(
+                        "flex w-full items-center gap-2.5 rounded-full px-3.5 py-2.5 text-left text-[13px] font-medium transition-colors",
+                        active ? config.activeClass : "text-white/60 hover:bg-white/5 hover:text-white",
+                      )}
+                    >
+                      <m.icon size={16} />
+                      {m.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
         </nav>
 
         <div className="mt-4 rounded-2xl bg-white/5 p-4">
@@ -217,9 +257,9 @@ function TextField({ placeholder }: { placeholder?: string }) {
 
 function SelectField({ children }: { children: ReactNode }) {
   return (
-    <div className="flex items-center justify-between rounded-xl border border-neutral-200 bg-neutral-50 px-3.5 py-2.5 text-sm text-neutral-700">
+    <div className="flex items-center justify-between gap-2 rounded-xl border border-neutral-200 bg-neutral-50 px-3.5 py-2.5 text-sm text-neutral-700">
       {children}
-      <ChevronDown size={16} className="text-neutral-400" />
+      <ChevronDown size={16} className="shrink-0 text-neutral-400" />
     </div>
   );
 }
@@ -238,7 +278,285 @@ function PageHeader({ icon: Icon, title, subtitle }: { icon: LucideIcon; title: 
   );
 }
 
+type HomeAlert = { title: string; detail: string; source: string; priority: "Alta" | "Media" };
+
+const INMOBILIARIA_ALERTS: HomeAlert[] = [
+  {
+    title: "Email duplicado Mariana y Lucía",
+    detail: "Email: mariana.gomez@example.com. Prioridad: Ana Torres.",
+    source: "CRM / Corredor original",
+    priority: "Alta",
+  },
+  {
+    title: "Teléfono duplicado Diego y Juan",
+    detail: "Teléfono: +54 11 5555-1002. Prioridad: Bruno Herrera.",
+    source: "CRM / Corredor original",
+    priority: "Alta",
+  },
+  {
+    title: "Email duplicado Diego y Juan",
+    detail: "Email: diego.fernandez@example.com. Prioridad: Bruno Herrera.",
+    source: "CRM / Corredor original",
+    priority: "Alta",
+  },
+  {
+    title: "Contrato por revisar · Amenábar 2100 3C",
+    detail: "Vencimiento contractual próximo; validar renovación, escribanía y documentación gubernamental.",
+    source: "Contratos / Notaría",
+    priority: "Alta",
+  },
+  {
+    title: "Contrato por revisar · Av. Rivadavia 5400 Local 3",
+    detail: "Vencimiento contractual próximo; validar renovación, escribanía y documentación gubernamental.",
+    source: "Contratos / Notaría",
+    priority: "Alta",
+  },
+  {
+    title: "Renta pendiente · Reserva departamento Santa Fe",
+    detail: "Pendiente por $5.000. Bloqueado para administración/cobranzas.",
+    source: "Administración",
+    priority: "Media",
+  },
+];
+
+const LEGAL_ALERTS: HomeAlert[] = [
+  {
+    title: "Vencimiento de plazo · Expresar agravios",
+    detail: "Apelación con plazo próximo a vencer; coordinar con perito.",
+    source: "Causas / Cámara",
+    priority: "Alta",
+  },
+  {
+    title: "Audiencia próxima · Conciliación laboral",
+    detail: "Audiencia SECLO programada; confirmar asistencia del cliente.",
+    source: "Agenda / Audiencias",
+    priority: "Media",
+  },
+  {
+    title: "Documentación pendiente · Contestación de demanda",
+    detail: "Falta adjuntar prueba documental antes de la presentación.",
+    source: "Documentos / Notaría",
+    priority: "Alta",
+  },
+  {
+    title: "Cliente duplicado · Martínez Gómez",
+    detail: "Mismo DNI cargado en dos expedientes distintos.",
+    source: "Clientes / Carga",
+    priority: "Alta",
+  },
+  {
+    title: "Honorarios pendientes · Textiles del Plata S.A.",
+    detail: "Factura pendiente de cobro hace más de 30 días.",
+    source: "Administración",
+    priority: "Media",
+  },
+  {
+    title: "Vencimiento societario · Renovación de poder",
+    detail: "El poder del apoderado vence este mes; gestionar renovación.",
+    source: "Documentos / Notaría",
+    priority: "Alta",
+  },
+];
+
+/**
+ * Shared "home" screen for both verticals — matches the real app's landing
+ * page (alerts table + KPI dashboard + HR preview stacked in one screen).
+ * Branches on `vertical` for copy/icons/colors instead of duplicating the
+ * whole layout twice, since the client asked for "identical structure,
+ * different theme" between Inmobiliaria and Gestión Legal.
+ */
+function AlertasHomeScreen({ vertical }: { vertical: Vertical }) {
+  const isLegal = vertical === "legal";
+  const alerts = isLegal ? LEGAL_ALERTS : INMOBILIARIA_ALERTS;
+  const BadgeIcon = isLegal ? Scale : Home;
+  const headerBg = isLegal ? "bg-slate-900" : "bg-[#083344]";
+  const avatarBg = isLegal ? "bg-slate-800" : "bg-cyan-700";
+  const chipBg = isLegal ? "bg-amber-100 text-amber-800" : "bg-cyan-100 text-cyan-700";
+  const resolveClass = isLegal
+    ? "border-slate-300 text-slate-700 hover:bg-slate-50"
+    : "border-cyan-200 text-cyan-700 hover:bg-cyan-50";
+  const headingClass = cn("font-bold text-neutral-900", isLegal && "font-serif");
+
+  const stats = isLegal
+    ? [
+        { label: "Expedientes", value: "12" },
+        { label: "Abogados", value: "4" },
+        { label: "Honorarios", value: "$1.240.000" },
+        { label: "Alertas", value: String(LEGAL_ALERTS.length) },
+      ]
+    : [
+        { label: "Propiedades", value: "5" },
+        { label: "Empleados", value: "4" },
+        { label: "Pipeline", value: "$3.465.000" },
+        { label: "Alertas", value: String(INMOBILIARIA_ALERTS.length) },
+      ];
+
+  const employee = isLegal
+    ? {
+        name: "Bruno Aguirre",
+        role: "Abogado asociado",
+        email: "bruno.aguirre@example.com",
+        initials: "BA",
+        docLabel: "Matrícula digital",
+        fileName: "matricula-bruno-aguirre.pdf",
+        chips: ["Causas: 5", "Matrícula: Vigente"],
+      }
+    : {
+        name: "Mariana López",
+        role: "Agente de ventas",
+        email: "mariana.lopez@example.com",
+        initials: "ML",
+        docLabel: "DNI digital",
+        fileName: "dni-mariana-lopez.pdf",
+        chips: ["Clientes: 1", "DNI: Pendiente"],
+      };
+
+  return (
+    <div>
+      <div className="mb-6 flex items-center gap-3">
+        <span className={cn("flex h-10 w-10 items-center justify-center rounded-xl text-white", headerBg)}>
+          <AlertTriangle size={18} />
+        </span>
+        <div>
+          <h1 className={cn("text-xl", headingClass)}>Alertas generales</h1>
+          <p className="text-sm text-neutral-500">Vencimientos, rentas y duplicados separados por sector.</p>
+        </div>
+      </div>
+
+      <Card className="mb-6">
+        <div className="mb-4 flex flex-wrap items-center gap-3">
+          <div className="w-44">
+            <FieldLabel>Tipo de alerta</FieldLabel>
+            <SelectField>Todas</SelectField>
+          </div>
+          <div className="w-44">
+            <FieldLabel>Prioridad</FieldLabel>
+            <SelectField>Todas</SelectField>
+          </div>
+          <span className={cn("ml-auto self-end rounded-full px-3 py-1.5 text-xs font-semibold", chipBg)}>
+            {alerts.length} activas
+          </span>
+        </div>
+        <div className="space-y-2">
+          {alerts.map((a) => (
+            <div
+              key={a.title}
+              className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-neutral-50 p-4"
+            >
+              <div className="min-w-[200px] flex-1">
+                <p className="text-sm font-semibold text-neutral-800">{a.title}</p>
+                <p className="text-xs text-neutral-500">{a.detail}</p>
+              </div>
+              <span className="hidden shrink-0 text-xs text-neutral-400 sm:block">{a.source}</span>
+              <Badge tone={a.priority === "Alta" ? "red" : "amber"}>{a.priority}</Badge>
+              <button
+                type="button"
+                className={cn(
+                  "flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors",
+                  resolveClass,
+                )}
+              >
+                <CheckCircle2 size={13} /> Resolver
+              </button>
+            </div>
+          ))}
+        </div>
+      </Card>
+
+      <Card className="mb-6">
+        <div className={cn("mb-3 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold text-white", headerBg)}>
+          <BadgeIcon size={14} /> {isLegal ? "Gestión Legal" : "Gestión inmobiliaria"}
+        </div>
+        <h2 className={cn("text-xl", headingClass)}>
+          {isLegal ? "Panel y control de expedientes" : "Dashboard y control de clientes"}
+        </h2>
+        <p className="mt-1 text-sm text-neutral-500">
+          {isLegal
+            ? "Vista rápida de expedientes, equipo, alertas y honorarios en curso."
+            : "Vista rápida de propiedades, equipo, alertas y pipeline operativo."}
+        </p>
+        <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {stats.map((s) => (
+            <div key={s.label} className="rounded-xl bg-neutral-50 p-3 text-center">
+              <p className="text-lg font-bold text-neutral-900">{s.value}</p>
+              <p className="text-xs text-neutral-500">{s.label}</p>
+            </div>
+          ))}
+        </div>
+      </Card>
+
+      <div className="mb-4 flex items-center gap-3">
+        <span className={cn("flex h-10 w-10 items-center justify-center rounded-xl text-white", headerBg)}>
+          <Users size={18} />
+        </span>
+        <div>
+          <h2 className={cn("text-lg", headingClass)}>Recursos humanos</h2>
+          <p className="text-sm text-neutral-500">
+            Carpetas separadas por empleado con documentación personal, cargo, PDFs y tipo de firma.
+          </p>
+        </div>
+      </div>
+
+      <Card>
+        <div className="flex flex-wrap items-center gap-4">
+          <span
+            className={cn(
+              "flex h-14 w-14 shrink-0 items-center justify-center rounded-xl text-sm font-bold text-white",
+              avatarBg,
+            )}
+          >
+            {employee.initials}
+          </span>
+          <div className="min-w-[180px] flex-1">
+            <div className="flex flex-wrap items-center gap-2">
+              <p className="font-semibold text-neutral-900">{employee.name}</p>
+              <Badge tone="emerald">Activo</Badge>
+            </div>
+            <p className="mt-0.5 text-xs text-neutral-500">
+              Cargo: {employee.role} · Email: {employee.email}
+            </p>
+          </div>
+          <div className="rounded-xl bg-neutral-50 p-3">
+            <p className="mb-1 flex items-center gap-1.5 text-xs font-semibold text-neutral-700">
+              <FileText size={13} /> {employee.docLabel}
+            </p>
+            <p className="mb-2 text-[11px] text-neutral-400">{employee.fileName}</p>
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                className="flex items-center gap-1 rounded-lg border border-neutral-200 bg-white px-2.5 py-1.5 text-[11px] font-medium text-neutral-600 hover:bg-neutral-50"
+              >
+                <Upload size={12} /> Cargar PDF
+              </button>
+              <button
+                type="button"
+                className="flex items-center gap-1 rounded-lg border border-neutral-200 bg-white px-2.5 py-1.5 text-[11px] font-medium text-neutral-600 hover:bg-neutral-50"
+              >
+                <Eye size={12} /> Ver PDF
+              </button>
+              <button
+                type="button"
+                className="flex items-center gap-1 rounded-lg border border-neutral-200 bg-white px-2.5 py-1.5 text-[11px] font-medium text-neutral-600 hover:bg-neutral-50"
+              >
+                <Download size={12} /> Descargar
+              </button>
+            </div>
+          </div>
+          <div className="flex shrink-0 flex-col items-stretch gap-2 text-center">
+            <span className="rounded-lg bg-neutral-50 px-3 py-1.5 text-xs text-neutral-600">{employee.chips[0]}</span>
+            <Badge tone="amber">{employee.chips[1]}</Badge>
+          </div>
+        </div>
+      </Card>
+    </div>
+  );
+}
+
 function InmobiliariaContent({ moduleId }: { moduleId: string }) {
+  if (moduleId === "alertas") {
+    return <AlertasHomeScreen vertical="inmobiliaria" />;
+  }
+
   if (moduleId === "resumen") {
     return (
       <div>
@@ -431,58 +749,6 @@ function InmobiliariaContent({ moduleId }: { moduleId: string }) {
               ))}
             </div>
           </Card>
-        </div>
-      </div>
-    );
-  }
-
-  if (moduleId === "alertas") {
-    const alerts: { title: string; tone: keyof typeof BADGE_TONES; priority: string; note: string; source: string }[] = [
-      {
-        title: "Email duplicado — dos contactos",
-        tone: "red",
-        priority: "Alta",
-        note: "Mismo email en dos fichas de cliente distintas.",
-        source: "CRM / Corredor original",
-      },
-      {
-        title: "Teléfono duplicado — dos contactos",
-        tone: "red",
-        priority: "Alta",
-        note: "Mismo teléfono en dos fichas de cliente distintas.",
-        source: "CRM / Corredor original",
-      },
-      {
-        title: "Contrato por revisar — Amenábar 2100",
-        tone: "red",
-        priority: "Alta",
-        note: "Vencimiento contractual próximo; validar renovación, escribanía y documentación.",
-        source: "Contratos / Notaría",
-      },
-      {
-        title: "Renta pendiente — Depto Santa Fe",
-        tone: "amber",
-        priority: "Media",
-        note: "Pendiente por $5.000. Bloqueado para administración/cobranzas.",
-        source: "Administración",
-      },
-    ];
-    return (
-      <div>
-        <PageHeader icon={AlertTriangle} title="Alertas generales" subtitle="Vencimientos, rentas y duplicados separados por sector." />
-        <div className="grid gap-4 sm:grid-cols-2">
-          {alerts.map((a) => (
-            <Card key={a.title}>
-              <div className="mb-2 flex items-start justify-between gap-2">
-                <p className="text-sm font-semibold text-neutral-800">{a.title}</p>
-                <Badge tone={a.tone}>{a.priority}</Badge>
-              </div>
-              <p className="text-xs text-neutral-500">{a.note}</p>
-              <p className="mt-2 flex items-center gap-1 text-[11px] text-neutral-400">
-                <CheckCircle2 size={12} /> {a.source}
-              </p>
-            </Card>
-          ))}
         </div>
       </div>
     );
@@ -811,43 +1077,8 @@ const LEGAL_DEADLINES: { title: string; tags: string[]; status: string; date: st
 ];
 
 function LegalContent({ moduleId }: { moduleId: string }) {
-  if (moduleId === "panel") {
-    return (
-      <div>
-        <LegalPageHeader
-          icon={LayoutGrid}
-          title="Panel Principal"
-          subtitle="Estado general del estudio: causas activas, próximos vencimientos y clientes."
-        />
-        <div className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
-          {[
-            { label: "Causas activas", value: "12" },
-            { label: "Clientes", value: "5" },
-            { label: "Vencimientos (7 días)", value: "3" },
-            { label: "Documentos", value: "28" },
-          ].map((s) => (
-            <Card key={s.label} className="text-center">
-              <p className="text-2xl font-bold text-neutral-900">{s.value}</p>
-              <p className="mt-1 text-xs text-neutral-500">{s.label}</p>
-            </Card>
-          ))}
-        </div>
-        <Card>
-          <p className="mb-3 font-semibold text-neutral-900">Próximos vencimientos</p>
-          <div className="space-y-2">
-            {LEGAL_DEADLINES.slice(0, 2).map((d) => (
-              <div key={d.title} className="flex flex-wrap items-center justify-between gap-2 rounded-xl bg-neutral-50 px-4 py-3">
-                <div>
-                  <p className="text-sm font-medium text-neutral-800">{d.title}</p>
-                  <p className="text-xs text-neutral-500">{d.case}</p>
-                </div>
-                <Badge tone={d.status === "Vencido" ? "red" : "amber"}>{d.status}</Badge>
-              </div>
-            ))}
-          </div>
-        </Card>
-      </div>
-    );
+  if (moduleId === "alertas") {
+    return <AlertasHomeScreen vertical="legal" />;
   }
 
   if (moduleId === "causas") {

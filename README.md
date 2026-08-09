@@ -23,6 +23,19 @@ El usuario pidió eliminar 4 secciones: "Tu empresa, bajo la lupa" (la lupa/Lens
 
 El nav (desktop y mobile) se reordenó igual: **La aplicación → Características → Industrias → Planes**, para que los links sigan el mismo orden en que aparecen al hacer scroll.
 
+## Rediseño fiel de la pantalla "home" de la tablet (captura real de Inmobiliaria)
+
+El usuario compartió una captura de la app real (sidebar con grupos — Inicio y control / Equipo y acceso / Gestión comercial / Contratos y administración — y una pantalla de "Alertas generales" que en realidad combina tabla de alertas + dashboard de KPIs + ficha de RRHH) y pidió que `components/ui/app-simulator.tsx` reflejara eso exactamente, además de actualizar el título/subtítulo de la sección `#simulador` en `app/page.tsx`.
+
+- **Sidebar agrupado**: `INMOBILIARIA_GROUPS` reemplaza la lista plana de 12 módulos por 4 grupos con encabezado, en el mismo orden que la captura. Legal quedó como un solo grupo ("Gestión del estudio") ya que el pedido no especificaba agrupamiento para ese lado.
+- **`AlertasHomeScreen`**: un solo componente compartido entre ambas verticales (recibe `vertical` y bifurca colores/íconos/copy adentro) en vez de duplicar todo el layout — así "estructura idéntica, tema distinto" (pedido explícito) queda garantizado por construcción, no por disciplina manual. Es ahora el `defaultModule` de las dos verticales (antes era "resumen"/"panel").
+  - Tabla de alertas con filtros ("Tipo de alerta"/"Prioridad"), contador "N activas" y botón "Resolver" por fila.
+  - Tarjeta de dashboard con badge de marca ("Gestión inmobiliaria" / "Gestión Legal") y 4 KPIs.
+  - Tarjeta de RRHH con avatar de iniciales (sin inventar una foto real), badge "Activo", panel de documento digital (Cargar PDF / Ver PDF / Descargar) y 2 chips de estado.
+- **Variante Gestión Legal**: mismo componente, `isLegal` cambia el header/badges a `slate-900` (negro elegante) en vez del petróleo cyan, el ícono de marca a `Scale` en vez de `Home`, tipografía `font-serif` en los títulos (ya usada en el resto de la sección legal), el stat "Propiedades" se reemplaza por "Expedientes", y los datos de alertas/empleado son 100% legales (vencimientos de causas, honorarios, un abogado asociado en vez de un agente inmobiliario) — no se reutilizó texto inmobiliario con una capa de pintura encima.
+- El primer módulo del sidebar de Legal pasó de "Panel Principal" (`LayoutGrid`) a "Alertas generales" (`AlertTriangle`), para que ambas verticales arranquen en la misma pantalla conceptual.
+- Verificado interactivamente en el navegador: cambiar de Inmobiliaria a Gestión Legal recolorea todo, cambia los íconos y los datos, sin recargar la tablet.
+
 ## Rediseño visual: tema claro con paleta de marca (cyan/petróleo + vino + dorado)
 
 El usuario compartió una paleta de marca oficial (franjas negro / gris pizarra / gris claro / blanco / cyan / azul petróleo / vino / rojo / dorado / crema) y pidió abandonar por completo el tema oscuro de toda la landing y la tablet interactiva por uno claro, luminoso y corporativo. Esto tocó prácticamente todos los archivos visuales del proyecto:

@@ -702,10 +702,10 @@ export default function CollectionatLanding() {
           >
             <Eyebrow>Producto real</Eyebrow>
             <h2 className="mt-4 text-3xl font-black tracking-tighter text-slate-900 sm:text-4xl">
-              Así se ve Collectionat por dentro
+              Mirá cómo cambia el control de <GradientText>tu empresa</GradientText> en una sola pantalla.
             </h2>
             <p className="mt-4 text-lg text-slate-600">
-              Elegí el rubro y recorré el menú lateral — es la misma interfaz que usa tu equipo todos los días.
+              Te pone a vos y a tu negocio en el centro de la escena de inmediato.
             </p>
           </motion.div>
 
