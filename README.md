@@ -126,6 +126,20 @@ El segundo riesgo del checklist: `app/api/demo-request/route.ts` validaba todo c
 
 **✅ Confirmado con envío real**: el usuario dio su propia `RESEND_API_KEY` y un email de destino. Con ambas configuradas, el mismo request devolvió `200 { ok: true }` pero esta vez **sin** el aviso de "NOT DELIVERED" ni errores de Resend en el log — la llamada a la API se completó bien. El destino se puede cambiar en cualquier momento editando `DEMO_REQUEST_TO_EMAIL` en `.env.local`, no queda hardcodeado en ningún lado del código.
 
+## Camino a "nivel PRO" — paso 3: SEO
+
+El tercer riesgo del checklist: la landing no tenía nada de lo que Google/redes sociales necesitan para indexarla y mostrarla bien — sin `<title>`/`<meta description>` reales, sin imagen de preview al compartir un link (Open Graph/Twitter Card), sin `robots.txt` ni `sitemap.xml`, y sin datos estructurados para que un buscador entienda qué es "CollectionatApp" más allá del texto suelto.
+
+**Solución, usando solo primitivas nativas de Next.js (cero dependencias nuevas):**
+
+- **`app/layout.tsx`**: se agregó el objeto `metadata` (API de Next.js `Metadata`) con título y descripción reales orientados a venta ("CollectionatApp — Dile adiós a Excel. Centraliza tu empresa."), `robots: {index: true, follow: true}`, `alternates.canonical`, y los objetos completos `openGraph`/`twitter` (tipo `website`, locale `es_AR`, imagen de preview). También se agregó un `<script type="application/ld+json">` en el body con schema.org `SoftwareApplication`, incluyendo los 3 planes reales (`Plan A` USD 4500, `Plan B` USD 9000, `Plan C` cotización a medida) como `offers` — así un buscador puede mostrar precio/producto directamente en resultados enriquecidos.
+- **`app/opengraph-image.tsx`** (nuevo): genera la imagen de preview (1200×630) al vuelo con `next/og` (`ImageResponse`, edge runtime) — nada de mantener un PNG estático a mano que se desactualiza; el diseño (wordmark + headline + acentos cyan/dorado radiales) sale del mismo código, así que cambiar el copy del layout no rompe la imagen.
+- **`app/robots.ts`** (nuevo): permite indexar todo (`allow: "/"`) salvo `/dna-erp` (`disallow`), que es un demo estructural interno clonado de otra app de referencia, no contenido pensado para aparecer en buscadores. Apunta a `sitemap.xml`.
+- **`app/sitemap.ts`** (nuevo): un único `<url>` — la raíz del sitio — con la misma exclusión deliberada de `/dna-erp`.
+- Ambos (`robots.ts` y `sitemap.ts`) y el `metadataBase` del layout usan `NEXT_PUBLIC_SITE_URL` (con fallback a `http://localhost:3000` en dev), así que para producción alcanza con setear esa única variable de entorno al dominio real y se propaga a las 3 piezas (canonical, Open Graph, robots, sitemap) sin tocar código.
+
+**Probado en vivo**: `GET /robots.txt` devolvió exactamente las reglas esperadas (`Allow: /`, `Disallow: /dna-erp`, línea `Sitemap:`); `GET /sitemap.xml` devolvió el XML válido con la única URL de la raíz y `lastmod` actual; `GET /opengraph-image` devolvió una imagen PNG de 1200×630 sin errores de build ni de runtime en el servidor.
+
 ## Rediseño visual: tema claro con paleta de marca (cyan/petróleo + vino + dorado)
 
 El usuario compartió una paleta de marca oficial (franjas negro / gris pizarra / gris claro / blanco / cyan / azul petróleo / vino / rojo / dorado / crema) y pidió abandonar por completo el tema oscuro de toda la landing y la tablet interactiva por uno claro, luminoso y corporativo. Esto tocó prácticamente todos los archivos visuales del proyecto:

@@ -8,10 +8,36 @@ const inter = Inter({
   display: "swap",
 });
 
+// Set NEXT_PUBLIC_SITE_URL to your real production domain before deploying —
+// this only falls back to localhost so `metadataBase` (required for the OG
+// image/canonical URLs below) resolves correctly in local dev.
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+
+const TITLE = "CollectionatApp — Dile adiós a Excel. Centraliza tu empresa.";
+const DESCRIPTION =
+  "CollectionatApp es la plataforma integral de gestión empresarial que elimina la dependencia de hojas de cálculo complejas y centraliza todo en una base de datos inteligente y ágil integrada con Microsoft (Outlook, Teams, SharePoint y OneDrive). Con módulos adaptados a tu industria — inmobiliarias, estudios jurídicos y más — más automatización de flujos y una interfaz de alto rendimiento.";
+
 export const metadata: Metadata = {
-  title: "CollectionatApp — Dile adiós a Excel. Centraliza tu empresa.",
-  description:
-    "CollectionatApp es la plataforma integral de gestión empresarial que elimina la dependencia de hojas de cálculo complejas y centraliza todo en una base de datos inteligente y ágil integrada con Microsoft (Outlook, Teams, SharePoint y OneDrive). Con módulos adaptados a tu industria — inmobiliarias, estudios jurídicos y más — más automatización de flujos y una interfaz de alto rendimiento.",
+  metadataBase: new URL(SITE_URL),
+  title: TITLE,
+  description: DESCRIPTION,
+  robots: { index: true, follow: true },
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: "es_AR",
+    url: "/",
+    siteName: "CollectionatApp",
+    title: TITLE,
+    description: DESCRIPTION,
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "CollectionatApp" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+    images: ["/opengraph-image"],
+  },
 };
 
 export default function RootLayout({
@@ -21,7 +47,28 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" className={inter.variable}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <script
+          type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "SoftwareApplication",
+              name: "CollectionatApp",
+              applicationCategory: "BusinessApplication",
+              operatingSystem: "Web",
+              description: DESCRIPTION,
+              offers: [
+                { "@type": "Offer", name: "Plan A", price: "4500", priceCurrency: "USD" },
+                { "@type": "Offer", name: "Plan B", price: "9000", priceCurrency: "USD" },
+                { "@type": "Offer", name: "Plan C", description: "Cotización personalizada a medida" },
+              ],
+            }),
+          }}
+        />
+      </body>
     </html>
   );
 }
