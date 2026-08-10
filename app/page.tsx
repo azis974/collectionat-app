@@ -525,7 +525,7 @@ function VideoDemoSection() {
           Ve Collectionat en acción
         </h2>
         <p className="mt-4 text-lg text-slate-600">
-          Un vistazo rápido de 10 segundos a Collectionat en acción.
+          Un recorrido de 1 minuto por Collectionat en acción.
         </p>
       </motion.div>
 
@@ -557,7 +557,7 @@ function VideoDemoSection() {
               <span className="flex h-16 w-16 items-center justify-center rounded-full bg-cyan-600 text-white shadow-lg transition-transform group-hover:scale-110">
                 <Play size={24} fill="white" />
               </span>
-              <span className="text-sm font-medium text-slate-700">Reproducir demo (0:10)</span>
+              <span className="text-sm font-medium text-slate-700">Reproducir demo (1:00)</span>
             </button>
           )}
         </div>
