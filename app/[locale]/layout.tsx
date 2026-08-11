@@ -10,8 +10,9 @@ const inter = Inter({
   display: "swap",
 });
 
-const LOCALES = ["es", "en"] as const;
+const LOCALES = ["es", "en", "ar"] as const;
 type Locale = (typeof LOCALES)[number];
+const RTL_LOCALES: readonly Locale[] = ["ar"];
 
 // Set NEXT_PUBLIC_SITE_URL to your real production domain before deploying —
 // this only falls back to localhost so `metadataBase` (required for the OG
@@ -51,6 +52,14 @@ const CONTENT: Record<
     canonical: "/en",
     planCQuote: "Custom quote",
   },
+  ar: {
+    title: "CollectionatApp — وداعًا لإكسل. مركّز إدارة شركتك بالكامل",
+    description:
+      "CollectionatApp هي منصة إدارة الأعمال المتكاملة التي تلغي الاعتماد على جداول البيانات المعقدة وتُركّز كل شيء في قاعدة بيانات ذكية ومرنة، متصلة بشكل أصلي مع مايكروسوفت (Outlook وTeams وSharePoint وOneDrive). مع وحدات مصممة خصيصًا لقطاعك — العقارات والمكاتب القانونية وغيرها — بالإضافة إلى أتمتة سير العمل وواجهة عالية الأداء.",
+    ogLocale: "ar_AR",
+    canonical: "/ar",
+    planCQuote: "عرض سعر مخصص",
+  },
 };
 
 export function generateStaticParams() {
@@ -69,7 +78,7 @@ export function generateMetadata({ params }: { params: { locale: string } }): Me
     robots: { index: true, follow: true },
     alternates: {
       canonical: c.canonical,
-      languages: { es: "/", en: "/en" },
+      languages: { es: "/", en: "/en", ar: "/ar" },
     },
     openGraph: {
       type: "website",
@@ -100,8 +109,10 @@ export default function LocaleLayout({
   if (!LOCALES.includes(locale)) notFound();
   const c = CONTENT[locale];
 
+  const dir = RTL_LOCALES.includes(locale) ? "rtl" : "ltr";
+
   return (
-    <html lang={locale} className={inter.variable}>
+    <html lang={locale} dir={dir} className={inter.variable}>
       <body>
         {GA_MEASUREMENT_ID && (
           <>

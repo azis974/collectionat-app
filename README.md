@@ -370,6 +370,40 @@ El cliente pidió una versión completa en inglés para el mercado del Golfo/ár
 - `/sitemap.xml` y `/robots.txt` reflejan ambos idiomas correctamente.
 - `npx tsc --noEmit` limpio, sin errores de consola en ninguna ruta probada.
 
+## Versión en árabe (`/ar`, RTL)
+
+Igual que con inglés, sin tocar ni una línea de las páginas en español o inglés que ya estaban en producción — árabe se agregó como página completamente nueva, con selector de idioma **solo** en la página en inglés (píldora "EN / AR" al lado de "Contact Us", agregada porque el cliente pidió explícitamente que no apareciera en español ni en árabe).
+
+**Lo agregado:**
+
+- **`components/pages/landing-ar.tsx`** y **`components/ui/app-simulator-ar.tsx`** y **`components/ui/ruixen-moon-chat-ar.tsx`** (todos nuevos): traducción completa al árabe — incluyendo las +1000 líneas de datos de ejemplo del simulador (alertas, propiedades, RRHH, contratos, causas judiciales), tal como se pidió explícitamente ("todo completo, simulador incluido").
+- **`app/[locale]/layout.tsx`**: se agregó `"ar"` a la lista de locales, con `dir="rtl"` en el `<html>` cuando el idioma es árabe (`dir="ltr"` para español/inglés), más metadata (title/description/OG) en árabe.
+- **`app/api/chat/route.ts`**: tercer system prompt completo en árabe + mensajes de error localizados, seleccionados por el mismo campo `locale` que ya se usaba para inglés.
+
+**Sobre el RTL — qué se resolvió automático y qué se ajustó a mano:**
+
+La mayoría del layout se espeja solo: como el sitio usa `flexbox` con `flex-row` (el valor por defecto) en casi todos los contenedores, y CSS especifica que la dirección de `row` depende de `dir`, alcanzó con poner `dir="rtl"` en el `<html>` para que el header, las tarjetas, y la mayoría de las secciones se ordenen de derecha a izquierda solas — **verificado en vivo**, no asumido: con el navbar en árabe, el logo terminó en x=1201 (extremo derecho) y el bloque de contacto en x=24 (extremo izquierdo) de un viewport de 1280px, exactamente espejado respecto a la versión en inglés.
+
+Lo que **sí** hubo que ajustar a mano (porque no depende de `dir` automáticamente):
+
+- El drawer mobile del simulador de tablet (`app-simulator-ar.tsx`): cambiado de animar `left` a animar `right`, para que abra desde el lado derecho — el lado "de inicio" en una interfaz RTL. Verificado en vivo: cerrado en `right: -288px`, abierto en `right: 0px`, con el `<aside>` estático en desktop terminando también del lado derecho (x=928.5 de 1216.5, container completo).
+- Los íconos de flecha de los CTA ("Solicitar demo →"): cambiados de `ArrowRight` a `ArrowLeft` de lucide-react, porque "adelante" apunta a la izquierda en una lectura de derecha a izquierda.
+- Las flechas del calendario (mes anterior/siguiente) en el módulo Agenda: intercambiadas (`ChevronRight` para "anterior", `ChevronLeft` para "siguiente"), mismo motivo.
+- Números de teléfono, emails, nombres de archivo y nombres propios en inglés/español (ALTRQYH, MEGATRONICS, direcciones, CUIT) quedaron con `dir="ltr"` explícito dentro del texto en árabe, para que no se lean al revés (comportamiento bidi estándar, pero mejor ser explícito que confiar en la detección automática del navegador).
+- Bordes de acento de color (`border-l-4` en las tarjetas de propiedades/expedientes) cambiados a `border-s-4` (propiedad lógica de Tailwind — "start", que en RTL es la derecha) en vez de `border-r-4` hardcodeado.
+
+**Alcance honesto**: esto es un RTL de buena calidad para lo que importa (dirección de lectura, navegación, formularios, iconografía direccional) — no se persiguió un espejado pixel-perfecto de cada micro-detalle visual (por ejemplo, algunos `gap`/`padding` menores podrían afinarse más), ya que hacerlo llevaría mucho más tiempo de pulido por un beneficio marginal. Si en el uso real aparece algo que se vea mal, es un ajuste puntual, no un rediseño.
+
+**Probado en vivo, ruta por ruta:**
+- `/ar` carga con `lang="ar"` y `dir="rtl"`, título y todo el contenido en árabe (incluido el simulador de tablet completo).
+- El drawer mobile del simulador abre desde la derecha, confirmado por posición real (no solo por clase CSS).
+- El chat de IA en árabe responde en árabe real y grounded (probado con "كم تكلفة الباقة B؟" → respuesta correcta citando USD 9,000, 50 tabs, 3 usuarios).
+- El formulario de demo funciona de punta a punta en árabe — modal, confirmación de éxito, y log del servidor, todo en árabe.
+- La píldora "EN / AR" aparece únicamente en `/en` (ni en `/` ni en `/ar`), y el link a `/ar` tiene el `href` correcto.
+- `/` sigue siendo español sin ningún cambio (`lang="es"`, `dir="ltr"`, mismo contenido).
+- `/sitemap.xml` lista las tres URLs (`/`, `/en`, `/ar`); `/dna-erp` sigue funcionando.
+- `npx tsc --noEmit` limpio, sin errores de consola en ninguna ruta probada.
+
 ## Notas
 
 - **Tipografía**: `Inter` cargada vía `next/font/google` en `app/layout.tsx` (variable `--font-sans`, referenciada por `tailwind.config.ts`). *Antes había un bug: el config apuntaba a `var(--font-sans)` sin que esa variable existiera en ningún lado — un `var()` no resuelto invalida toda la propiedad `font-family`, así que el navegador caía a su serif por defecto. Ya está corregido.*

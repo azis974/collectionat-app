@@ -8,7 +8,7 @@ import {
   Database,
   Zap,
   Network,
-  ArrowRight,
+  ArrowLeft,
   CheckCircle2,
   Menu,
   X,
@@ -35,8 +35,8 @@ import {
   Wand,
 } from "lucide-react";
 import OrbitingCirclesGlobe from "@/components/ui/orbiting-circles-02";
-import AskCollectionatChat from "@/components/ui/ruixen-moon-chat-en";
-import AppSimulator from "@/components/ui/app-simulator-en";
+import AskCollectionatChat from "@/components/ui/ruixen-moon-chat-ar";
+import AppSimulator from "@/components/ui/app-simulator-ar";
 import FloatingOrbs from "@/components/ui/floating-orbs";
 import { cn } from "@/lib/utils";
 
@@ -79,7 +79,7 @@ function ScrollProgressBar() {
 /** Small uppercase pill label used above every section heading. */
 function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full border border-cyan-100 bg-cyan-50 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-widest text-cyan-700">
+    <span className="inline-flex items-center gap-1.5 rounded-full border border-cyan-100 bg-cyan-50 px-3.5 py-1.5 text-xs font-semibold text-cyan-700">
       {children}
     </span>
   );
@@ -171,7 +171,7 @@ function GlowButton({
     >
       <span
         aria-hidden="true"
-        className="absolute inset-0 -translate-x-full skew-x-12 bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full"
+        className="absolute inset-0 translate-x-full skew-x-12 bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 ease-out group-hover:-translate-x-full"
       />
       <span className="relative flex items-center gap-2">{children}</span>
     </motion.a>
@@ -191,8 +191,6 @@ function DemoRequestModal({ onClose }: { onClose: () => void }) {
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
 
-  // Mounted only while the modal is open (see the call site), so a fresh
-  // mount already means fresh state — no reset-on-close effect needed.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     window.addEventListener("keydown", onKey);
@@ -210,14 +208,14 @@ function DemoRequestModal({ onClose }: { onClose: () => void }) {
         body: JSON.stringify({ name, email, company }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Could not send the request.");
+      if (!res.ok) throw new Error(data.error || "تعذّر إرسال الطلب.");
       setStatus("success");
       setName("");
       setEmail("");
       setCompany("");
     } catch (err) {
       setStatus("error");
-      setError(err instanceof Error ? err.message : "Could not send the request.");
+      setError(err instanceof Error ? err.message : "تعذّر إرسال الطلب.");
     }
   };
 
@@ -243,8 +241,8 @@ function DemoRequestModal({ onClose }: { onClose: () => void }) {
       >
         <button
           onClick={onClose}
-          aria-label="Close"
-          className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full text-slate-400 hover:bg-slate-100 hover:text-slate-900"
+          aria-label="إغلاق"
+          className="absolute end-4 top-4 flex h-8 w-8 items-center justify-center rounded-full text-slate-400 hover:bg-slate-100 hover:text-slate-900"
         >
           <X size={16} />
         </button>
@@ -253,29 +251,29 @@ function DemoRequestModal({ onClose }: { onClose: () => void }) {
           <div className="flex flex-col items-center gap-3 py-6 text-center">
             <CheckCircle2 size={40} className="text-emerald-500" />
             <p id="demo-modal-title" className="text-base font-semibold text-slate-900">
-              All set! We received your request.
+              تم! استلمنا طلبك.
             </p>
-            <p className="text-sm text-slate-500">A specialist will contact you within 24 business hours.</p>
+            <p className="text-sm text-slate-500">سيتواصل معك أحد المختصين خلال أقل من 24 ساعة عمل.</p>
             <button
               onClick={onClose}
               className="mt-2 rounded-full bg-slate-100 px-5 py-2 text-sm font-medium text-slate-700 hover:bg-slate-200"
             >
-              Close
+              إغلاق
             </button>
           </div>
         ) : (
           <>
             <h3 id="demo-modal-title" className="text-lg font-semibold text-slate-900">
-              Request a Demo
+              طلب عرض تجريبي
             </h3>
             <p className="mt-1 text-sm text-slate-500">
-              Tell us a bit about your company and we&apos;ll set up a personalized demo.
+              أخبرنا قليلًا عن شركتك ولنحدد موعدًا لعرض تجريبي مخصص.
             </p>
 
             <form onSubmit={handleSubmit} className="mt-6 space-y-4">
               <div>
                 <label htmlFor="demo-name" className="mb-1.5 block text-xs font-medium text-slate-600">
-                  Name
+                  الاسم
                 </label>
                 <input
                   id="demo-name"
@@ -283,12 +281,12 @@ function DemoRequestModal({ onClose }: { onClose: () => void }) {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className="h-10 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-cyan-500"
-                  placeholder="Your name"
+                  placeholder="اسمك"
                 />
               </div>
               <div>
                 <label htmlFor="demo-email" className="mb-1.5 block text-xs font-medium text-slate-600">
-                  Work email
+                  البريد الإلكتروني للعمل
                 </label>
                 <input
                   id="demo-email"
@@ -296,13 +294,14 @@ function DemoRequestModal({ onClose }: { onClose: () => void }) {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  dir="ltr"
                   className="h-10 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-cyan-500"
                   placeholder="you@company.com"
                 />
               </div>
               <div>
                 <label htmlFor="demo-company" className="mb-1.5 block text-xs font-medium text-slate-600">
-                  Company
+                  الشركة
                 </label>
                 <input
                   id="demo-company"
@@ -310,7 +309,7 @@ function DemoRequestModal({ onClose }: { onClose: () => void }) {
                   value={company}
                   onChange={(e) => setCompany(e.target.value)}
                   className="h-10 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-cyan-500"
-                  placeholder="Your company name"
+                  placeholder="اسم شركتك"
                 />
               </div>
 
@@ -323,10 +322,10 @@ function DemoRequestModal({ onClose }: { onClose: () => void }) {
               >
                 {status === "submitting" ? (
                   <>
-                    <Loader2 size={16} className="animate-spin" /> Sending…
+                    <Loader2 size={16} className="animate-spin" /> جارٍ الإرسال…
                   </>
                 ) : (
-                  "Request Demo"
+                  "طلب العرض التجريبي"
                 )}
               </button>
             </form>
@@ -341,36 +340,36 @@ const FEATURES = [
   {
     icon: FileX2,
     color: "cyan" as const,
-    title: "Goodbye to Excel",
-    description: "Replace scattered, error-prone spreadsheets with a system your team can actually trust.",
+    title: "وداعًا لإكسل",
+    description: "استبدل جداول البيانات المتناثرة والمعرّضة للأخطاء بنظام يثق به فريقك فعليًا.",
     span: "lg:col-span-3",
   },
   {
     icon: Database,
     color: "cyanDark" as const,
-    title: "Total Centralized Management",
-    description: "All your company's critical information — sales, finance, operations — lives in one unified platform.",
+    title: "إدارة مركزية شاملة",
+    description: "جميع بيانات شركتك الحيوية — المبيعات والمالية والعمليات — تعيش في منصة واحدة موحّدة.",
     span: "lg:col-span-3",
   },
   {
     icon: Zap,
     color: "gold" as const,
-    title: "High Performance",
-    description: "Real-time data, no bottlenecks or duplicate files: a platform that moves at the speed of your business.",
+    title: "أداء عالٍ",
+    description: "بيانات لحظية دون اختناقات أو ملفات مكررة: منصة تتحرك بسرعة عملك.",
     span: "lg:col-span-2",
   },
   {
     icon: Network,
     color: "solid" as const,
-    title: "Microsoft Integration",
-    description: "Connects natively with Outlook, Teams, SharePoint, and OneDrive — your team keeps working where they already work.",
+    title: "تكامل مع مايكروسوفت",
+    description: "تتصل بشكل أصلي مع Outlook وTeams وSharePoint وOneDrive — يستمر فريقك بالعمل من حيث اعتاد.",
     span: "lg:col-span-2",
   },
   {
     icon: Lock,
     color: "wine" as const,
-    title: "Role-Based Permissions",
-    description: "Each person sees and edits only their area — administration, properties, sales. The owner or general administrator keeps full visibility and control over the entire system.",
+    title: "صلاحيات حسب الدور",
+    description: "كل شخص يرى ويُعدّل قسمه فقط — الإدارة أو العقارات أو المبيعات. بينما يحتفظ المالك أو المدير العام برؤية وتحكّم كاملَين في النظام بأكمله.",
     span: "lg:col-span-2",
   },
 ];
@@ -380,15 +379,15 @@ const TRUST_COMPANIES = ["ALTRQYH", "MEGATRONICS"];
 const TESTIMONIALS = [
   {
     quote:
-      "Before Collectionat, every area at ALTRQYH managed its information in separate spreadsheets that never reconciled with each other. Today sales, finance, and operations work from a single database connected to Outlook and Teams — we stopped losing hours cross-checking numbers and started making decisions in real time.",
+      "قبل Collectionat، كان كل قسم في ALTRQYH يدير بياناته في جداول منفصلة لا تتطابق أبدًا. اليوم تعمل المبيعات والمالية والعمليات من قاعدة بيانات واحدة متصلة بـOutlook وTeams — توقفنا عن إهدار الساعات في مطابقة الأرقام وبدأنا باتخاذ القرارات في الوقت الفعلي.",
     company: "ALTRQYH",
-    role: "General Management",
+    role: "الإدارة العامة",
   },
   {
     quote:
-      "At MEGATRONICS we migrated all our stock control, orders, and technical tracking to Collectionat in under two weeks. Automatic alerts and Microsoft 365 integration let us stay ahead of deadlines and cut down on errors that used to cost us time and money.",
+      "في MEGATRONICS نقلنا كل عمليات مراقبة المخزون والطلبات والمتابعة الفنية إلى Collectionat في أقل من أسبوعين. سمحت لنا التنبيهات التلقائية والتكامل مع Microsoft 365 بالاستعداد للمواعيد النهائية وتقليل الأخطاء التي كانت تكلّفنا وقتًا ومالًا.",
     company: "MEGATRONICS",
-    role: "Operations Management",
+    role: "إدارة العمليات",
   },
 ];
 
@@ -407,92 +406,92 @@ const PRICING_PLANS: {
 }[] = [
   {
     id: "a",
-    name: "Plan A",
+    name: "الباقة A",
     tabs: "20",
     users: "2",
     price: "$4,500",
     priceUnit: "USD",
-    description: "Total connectivity with Microsoft infrastructure and centralized management.",
+    description: "اتصال كامل ببنية Microsoft التحتية وإدارة مركزية.",
     features: [
-      "20 active management tabs",
-      "2 users included",
-      "Integration with Outlook, Teams, and SharePoint",
-      "Centralized database",
+      "20 تبويب إدارة نشط",
+      "مستخدمان ضمن الباقة",
+      "تكامل مع Outlook وTeams وSharePoint",
+      "قاعدة بيانات مركزية",
     ],
-    cta: "Request Plan A",
+    cta: "اطلب الباقة A",
     highlight: false,
   },
   {
     id: "b",
-    name: "Plan B",
+    name: "الباقة B",
     tabs: "50",
     users: "3",
     price: "$9,000",
     priceUnit: "USD",
-    description: "High performance, advanced sync, and everything connected under the Microsoft ecosystem.",
+    description: "أداء عالٍ، مزامنة متقدمة، وكل شيء متصل ضمن منظومة Microsoft.",
     features: [
-      "50 active management tabs",
-      "3 users included",
-      "Advanced real-time sync",
-      "Full Microsoft 365 integration",
+      "50 تبويب إدارة نشط",
+      "3 مستخدمين ضمن الباقة",
+      "مزامنة لحظية متقدمة",
+      "تكامل كامل مع Microsoft 365",
     ],
-    cta: "Choose Plan B",
+    cta: "اختر الباقة B",
     highlight: true,
   },
   {
     id: "c",
-    name: "Plan C",
-    tag: "Custom",
-    price: "Custom quote",
-    description: "Designed around your company's specific needs: custom capacity and users.",
+    name: "الباقة C",
+    tag: "مخصصة",
+    price: "عرض سعر مخصص",
+    description: "مصمَّمة بناءً على احتياجات شركتك المحددة: سعة ومستخدمون حسب الطلب.",
     features: [
-      "Capacity and users defined with your team",
-      "Custom modules and integrations",
-      "Dedicated implementation support",
+      "سعة ومستخدمون يُحدَّدون مع فريقك",
+      "وحدات وتكاملات مخصصة",
+      "مرافقة مخصصة للتنفيذ",
     ],
-    cta: "Request a Quote",
+    cta: "اطلب عرض سعر",
     highlight: false,
   },
 ];
 
 const INDUSTRIES = [
   {
-    label: "Real Estate",
+    label: "العقارات",
     icon: Home,
     description:
-      "Properties, contracts, and your sales team in one place — with corporate email and built-in deadline alerts.",
+      "العقارات والعقود وفريق المبيعات في مكان واحد — مع بريد إلكتروني مؤسسي وتنبيهات استحقاق مدمجة.",
     modules: [
-      { icon: Home, name: "Properties" },
-      { icon: FileText, name: "Contracts & Filings" },
-      { icon: Mail, name: "Corporate Email" },
-      { icon: Users, name: "Human Resources" },
-      { icon: Sparkles, name: "AI Chat" },
-      { icon: AlertTriangle, name: "General Alerts" },
+      { icon: Home, name: "العقارات" },
+      { icon: FileText, name: "العقود والإجراءات" },
+      { icon: Mail, name: "البريد الإلكتروني المؤسسي" },
+      { icon: Users, name: "الموارد البشرية" },
+      { icon: Sparkles, name: "محادثة الذكاء الاصطناعي" },
+      { icon: AlertTriangle, name: "التنبيهات العامة" },
     ],
   },
   {
-    label: "Law Firms",
+    label: "المكاتب القانونية",
     icon: Scale,
     description:
-      "Cases, clients, and court deadlines, with direct access to official portals so you never have to leave the platform.",
+      "القضايا والعملاء والمواعيد القضائية، مع وصول مباشر للبوابات الرسمية دون مغادرة المنصة.",
     modules: [
-      { icon: Gavel, name: "Cases" },
-      { icon: Users, name: "Clients" },
-      { icon: Calendar, name: "Calendar" },
-      { icon: FolderOpen, name: "Documents" },
-      { icon: Landmark, name: "Official Portals" },
+      { icon: Gavel, name: "القضايا" },
+      { icon: Users, name: "العملاء" },
+      { icon: Calendar, name: "التقويم" },
+      { icon: FolderOpen, name: "المستندات" },
+      { icon: Landmark, name: "البوابات الرسمية" },
     ],
   },
   {
-    label: "Your Industry Too",
+    label: "قطاعك أيضًا",
     icon: Building2,
     description:
-      "Real estate and law firms are just two examples: every Collectionat implementation is built to order, with the modules and permissions your company actually needs.",
+      "العقارات والمكاتب القانونية مجرد مثالين: كل تطبيق لـCollectionat يُصمَّم خصيصًا، بالوحدات والصلاحيات التي تحتاجها شركتك فعليًا.",
     modules: [
-      { icon: LayoutDashboard, name: "Custom Dashboard" },
-      { icon: Workflow, name: "Workflow Automation" },
-      { icon: Lock, name: "Role-Based Permissions" },
-      { icon: Network, name: "Microsoft Integration" },
+      { icon: LayoutDashboard, name: "لوحة تحكم مخصصة" },
+      { icon: Workflow, name: "أتمتة سير العمل" },
+      { icon: Lock, name: "صلاحيات حسب الدور" },
+      { icon: Network, name: "تكامل مايكروسوفت" },
     ],
   },
 ];
@@ -520,12 +519,12 @@ function VideoDemoSection() {
         transition={{ duration: 0.6, ease: EASE_OUT }}
         className="relative z-10 mx-auto max-w-2xl text-center"
       >
-        <Eyebrow>Demo</Eyebrow>
+        <Eyebrow>عرض تجريبي</Eyebrow>
         <h2 className="mt-4 text-3xl font-black tracking-tighter text-slate-900 sm:text-4xl">
-          See Collectionat in Action
+          شاهد Collectionat في العمل
         </h2>
         <p className="mt-4 text-lg text-slate-600">
-          A 1-minute walkthrough of Collectionat in action.
+          جولة مدتها دقيقة واحدة على Collectionat أثناء العمل.
         </p>
       </motion.div>
 
@@ -545,7 +544,7 @@ function VideoDemoSection() {
             className="h-full w-full object-cover"
           >
             <source src="/videos/collectionat-demo.mp4" type="video/mp4" />
-            Your browser does not support the video element.
+            متصفحك لا يدعم عنصر الفيديو.
           </video>
 
           {!started && (
@@ -557,7 +556,7 @@ function VideoDemoSection() {
               <span className="flex h-16 w-16 items-center justify-center rounded-full bg-cyan-600 text-white shadow-lg transition-transform group-hover:scale-110">
                 <Play size={24} fill="white" />
               </span>
-              <span className="text-sm font-medium text-slate-700">Play demo (1:00)</span>
+              <span className="text-sm font-medium text-slate-700">تشغيل العرض (1:00)</span>
             </button>
           )}
         </div>
@@ -579,7 +578,7 @@ const FEATURE_RINGS: Record<string, string> = {
   wine: "conic-gradient(from 300deg, #fb7185, #881337, #fb7185)",
 };
 
-export default function CollectionatLandingEN() {
+export default function CollectionatLandingAR() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeIndustry, setActiveIndustry] = useState(0);
   const [demoModalOpen, setDemoModalOpen] = useState(false);
@@ -599,20 +598,16 @@ export default function CollectionatLandingEN() {
             </div>
 
             <nav className="hidden items-center gap-8 text-sm font-medium text-slate-600 md:flex">
-              <a href="#simulador" className="transition-colors hover:text-slate-900">The App</a>
-              <a href="#features" className="transition-colors hover:text-slate-900">Features</a>
-              <a href="#industrias" className="transition-colors hover:text-slate-900">Industries</a>
-              <a href="#pricing" className="transition-colors hover:text-slate-900">Plans</a>
+              <a href="#simulador" className="transition-colors hover:text-slate-900">التطبيق</a>
+              <a href="#features" className="transition-colors hover:text-slate-900">المميزات</a>
+              <a href="#industrias" className="transition-colors hover:text-slate-900">القطاعات</a>
+              <a href="#pricing" className="transition-colors hover:text-slate-900">الباقات</a>
             </nav>
 
             <div className="hidden items-center gap-4 md:flex">
-              <div className="flex items-center gap-1 rounded-full border border-slate-200 bg-white p-1 text-xs font-semibold">
-                <span className="rounded-full bg-cyan-600 px-3 py-1.5 text-white">EN</span>
-                <a href="/ar" className="rounded-full px-3 py-1.5 text-slate-500 transition-colors hover:text-slate-900">AR</a>
-              </div>
-              <div className="text-right">
-                <p className="text-xs font-semibold text-slate-900">Contact Us</p>
-                <p className="flex items-center gap-2 text-xs text-slate-500">
+              <div className="text-end">
+                <p className="text-xs font-semibold text-slate-900">تواصل معنا</p>
+                <p className="flex items-center gap-2 text-xs text-slate-500" dir="ltr">
                   <a href="tel:+50765973835" className="flex items-center gap-1 transition-colors hover:text-cyan-700">
                     <Phone className="h-3 w-3" /> +507 6597-3835
                   </a>
@@ -628,7 +623,7 @@ export default function CollectionatLandingEN() {
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-menu"
-              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-label={mobileMenuOpen ? "إغلاق القائمة" : "فتح القائمة"}
               className="text-slate-600 hover:text-slate-900 md:hidden"
             >
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -647,17 +642,13 @@ export default function CollectionatLandingEN() {
                 className="overflow-hidden border-b border-slate-200 bg-white md:hidden"
               >
                 <div className="flex flex-col gap-4 px-6 py-4">
-                  <a href="#simulador" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900">The App</a>
-                  <a href="#features" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900">Features</a>
-                  <a href="#industrias" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900">Industries</a>
-                  <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900">Plans</a>
-                  <div className="flex items-center justify-center gap-1 self-center rounded-full border border-slate-200 bg-white p-1 text-xs font-semibold">
-                    <span className="rounded-full bg-cyan-600 px-3 py-1.5 text-white">EN</span>
-                    <a href="/ar" onClick={() => setMobileMenuOpen(false)} className="rounded-full px-3 py-1.5 text-slate-500 transition-colors hover:text-slate-900">AR</a>
-                  </div>
+                  <a href="#simulador" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900">التطبيق</a>
+                  <a href="#features" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900">المميزات</a>
+                  <a href="#industrias" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900">القطاعات</a>
+                  <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900">الباقات</a>
                   <div className="rounded-xl bg-slate-50 p-3 text-center">
-                    <p className="text-sm font-semibold text-slate-900">Contact Us</p>
-                    <div className="mt-1.5 flex flex-col gap-1">
+                    <p className="text-sm font-semibold text-slate-900">تواصل معنا</p>
+                    <div className="mt-1.5 flex flex-col gap-1" dir="ltr">
                       <a
                         href="tel:+50765973835"
                         onClick={() => setMobileMenuOpen(false)}
@@ -691,17 +682,16 @@ export default function CollectionatLandingEN() {
             transition={{ duration: 0.8, ease: EASE_OUT }}
             className="relative z-10 mx-auto max-w-5xl text-center"
           >
-            <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-xs font-medium uppercase tracking-wider text-slate-600 shadow-sm">
-              <Sparkles size={14} className="text-cyan-600" /> All-in-one management, integrated with Microsoft
+            <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-xs font-medium text-slate-600 shadow-sm">
+              <Sparkles size={14} className="text-cyan-600" /> إدارة شاملة، متكاملة مع مايكروسوفت
             </div>
 
-            <h1 className="mb-8 text-4xl font-black leading-[1.05] tracking-tighter text-slate-900 sm:text-6xl lg:text-7xl">
-              Your competitors already <GradientText>ditched Excel</GradientText>. What are you waiting for?
+            <h1 className="mb-8 text-4xl font-black leading-[1.15] tracking-tight text-slate-900 sm:text-6xl lg:text-7xl">
+              منافسوك <GradientText>تخلّوا عن إكسل</GradientText> بالفعل. ماذا تنتظر؟
             </h1>
 
             <p className="mx-auto mb-12 max-w-2xl text-lg leading-relaxed text-slate-600 sm:text-xl">
-              The smart platform that centralizes your entire operation — no hassle, no weird formulas, and 100%
-              connected.
+              المنصة الذكية التي تُركّز عملياتك بالكامل دون تعقيد، دون معادلات غريبة، ومتصلة بنسبة 100%.
             </p>
 
             <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -713,7 +703,7 @@ export default function CollectionatLandingEN() {
                   setDemoModalOpen(true);
                 }}
               >
-                Request Demo <ArrowRight size={18} />
+                اطلب عرضًا تجريبيًا <ArrowLeft size={18} />
               </GlowButton>
               <motion.a
                 href="#simulador"
@@ -722,7 +712,7 @@ export default function CollectionatLandingEN() {
                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 className="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-8 py-4 text-base font-semibold text-slate-700 shadow-sm transition-colors hover:border-slate-400 hover:text-slate-900 sm:w-auto"
               >
-                See the App Live
+                شاهد التطبيق مباشرة
               </motion.a>
             </div>
           </motion.div>
@@ -738,7 +728,7 @@ export default function CollectionatLandingEN() {
           </motion.div>
         </section>
 
-        {/* The real app, embedded directly — full width, tablet mockup, no separate page to jump to. Shown right after the Hero: seeing the real product is more convincing than reading feature bullets first. */}
+        {/* The real app, embedded directly — full width, tablet mockup, no separate page to jump to. */}
         <section id="simulador" className="relative z-0 border-t border-slate-200 bg-slate-50 px-6 py-24">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -747,12 +737,12 @@ export default function CollectionatLandingEN() {
             transition={{ duration: 0.6, ease: EASE_OUT }}
             className="mx-auto max-w-2xl text-center"
           >
-            <Eyebrow>Real Product</Eyebrow>
-            <h2 className="mt-4 text-3xl font-black tracking-tighter text-slate-900 sm:text-4xl">
-              See how <GradientText>your company</GradientText> takes control from a single screen.
+            <Eyebrow>منتج حقيقي</Eyebrow>
+            <h2 className="mt-4 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
+              شاهد كيف تتغيّر إدارة <GradientText>شركتك</GradientText> بالكامل من شاشة واحدة.
             </h2>
             <p className="mt-4 text-lg text-slate-600">
-              It puts you and your business center stage, instantly.
+              يضعك أنت وعملك في مركز الصورة فورًا.
             </p>
           </motion.div>
 
@@ -785,12 +775,12 @@ export default function CollectionatLandingEN() {
               transition={{ duration: 0.6, ease: EASE_OUT }}
               className="mx-auto mb-16 max-w-3xl text-center"
             >
-              <Eyebrow>Features</Eyebrow>
-              <h2 className="mb-4 mt-4 text-3xl font-black tracking-tighter text-slate-900 sm:text-4xl">
-                Your Whole Business, Out of the Spreadsheets
+              <Eyebrow>المميزات</Eyebrow>
+              <h2 className="mb-4 mt-4 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
+                كل أعمالك، بعيدًا عن جداول البيانات
               </h2>
               <p className="text-lg text-slate-600">
-                A centralized, fast platform, natively connected to Microsoft.
+                منصة مركزية وسريعة ومتصلة بشكل أصلي مع مايكروسوفت.
               </p>
             </motion.div>
 
@@ -810,7 +800,7 @@ export default function CollectionatLandingEN() {
                       <div className="relative flex h-full flex-col overflow-hidden rounded-2xl bg-gradient-to-br from-cyan-600 to-cyan-800 p-8 shadow-sm">
                         <DonutRing
                           gradient="conic-gradient(from 200deg, #ffffff, #a5f3fc, #ffffff)"
-                          className="-right-10 -top-10 h-40 w-40 opacity-40"
+                          className="-top-10 end-[-2.5rem] h-40 w-40 opacity-40"
                         />
                         <div className="relative flex h-12 w-12 items-center justify-center rounded-full border border-white/30 bg-white/15 text-white">
                           <Icon size={24} />
@@ -821,7 +811,7 @@ export default function CollectionatLandingEN() {
                     ) : (
                       <SpotlightCard className="relative h-full overflow-hidden border-slate-200 p-8 hover:border-cyan-300">
                         {FEATURE_RINGS[color] && (
-                          <DonutRing gradient={FEATURE_RINGS[color]} className="-right-8 -top-8 h-36 w-36" />
+                          <DonutRing gradient={FEATURE_RINGS[color]} className="-top-8 end-[-2rem] h-36 w-36" />
                         )}
                         <div
                           className={`relative mb-6 flex h-12 w-12 items-center justify-center rounded-full ${FEATURE_ICON_STYLES[color as keyof typeof FEATURE_ICON_STYLES]}`}
@@ -850,14 +840,13 @@ export default function CollectionatLandingEN() {
             transition={{ duration: 0.6, ease: EASE_OUT }}
             className="relative z-10 mx-auto mb-16 max-w-2xl text-center"
           >
-            <Eyebrow>Industries</Eyebrow>
-            <h2 className="mt-4 text-3xl font-black tracking-tighter text-slate-900 sm:text-4xl">
-              A Collectionat for Every Industry
+            <Eyebrow>القطاعات</Eyebrow>
+            <h2 className="mt-4 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
+              Collectionat مصمم لكل قطاع
             </h2>
             <p className="mt-4 text-lg text-slate-600">
-              Every team works differently — that&apos;s why the modules adapt to your industry, not the other way
-              around. These are just a few real implementation examples; we already work with companies across
-              several industries.
+              كل فريق يعمل بطريقة مختلفة — لذلك تتكيّف الوحدات مع قطاعك، لا العكس. هذه مجرد أمثلة حقيقية على
+              التطبيق؛ نحن نعمل بالفعل مع شركات من قطاعات متعددة.
             </p>
           </motion.div>
 
@@ -928,7 +917,7 @@ export default function CollectionatLandingEN() {
         {/* Interactive demo video */}
         <VideoDemoSection />
 
-        {/* AI chat over centralized data (components/ui/ruixen-moon-chat-en.tsx) */}
+        {/* AI chat over centralized data (components/ui/ruixen-moon-chat-ar.tsx) */}
         <section className="border-t border-slate-200 bg-white px-6 py-24">
           <div className="mx-auto max-w-4xl">
             <AskCollectionatChat />
@@ -944,18 +933,18 @@ export default function CollectionatLandingEN() {
             transition={{ duration: 0.6, ease: EASE_OUT }}
             className="mx-auto max-w-2xl text-center"
           >
-            <Eyebrow>Trust</Eyebrow>
-            <h2 className="mt-4 text-3xl font-black tracking-tighter sm:text-4xl">
-              Companies That Already Centralized Their Operations
+            <Eyebrow>الثقة</Eyebrow>
+            <h2 className="mt-4 text-3xl font-black tracking-tight sm:text-4xl">
+              شركات ركّزت عملياتها بالفعل
             </h2>
             <p className="mt-4 text-lg text-slate-600">
-              Sales, finance, and operations teams that left scattered spreadsheets behind.
+              فرق مبيعات ومالية وعمليات تركت وراءها جداول البيانات المتناثرة.
             </p>
           </motion.div>
 
           <div className="mx-auto mt-14 flex max-w-4xl flex-wrap items-center justify-center gap-x-10 gap-y-4">
             {TRUST_COMPANIES.map((name) => (
-              <span key={name} className="text-lg font-semibold tracking-tight text-slate-600">
+              <span key={name} className="text-lg font-semibold tracking-tight text-slate-600" dir="ltr">
                 {name}
               </span>
             ))}
@@ -971,13 +960,13 @@ export default function CollectionatLandingEN() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-80px" }}
                   transition={{ duration: 0.5, ease: EASE_OUT, delay: index * 0.1 }}
-                  className="rounded-2xl border border-slate-200 bg-slate-50 p-6 text-left"
+                  className="rounded-2xl border border-slate-200 bg-slate-50 p-6 text-right"
                 >
                   <span className={cn("flex h-10 w-10 items-center justify-center rounded-full text-white", tone)}>
                     <Quote size={16} />
                   </span>
                   <p className="mt-4 text-sm leading-relaxed text-slate-700">&ldquo;{t.quote}&rdquo;</p>
-                  <p className="mt-4 text-sm font-semibold tracking-tight text-slate-900">{t.company}</p>
+                  <p className="mt-4 text-sm font-semibold tracking-tight text-slate-900" dir="ltr">{t.company}</p>
                   <p className="text-xs text-slate-500">{t.role}</p>
                 </motion.div>
               );
@@ -996,12 +985,12 @@ export default function CollectionatLandingEN() {
               transition={{ duration: 0.6, ease: EASE_OUT }}
               className="mx-auto mb-16 max-w-3xl text-center"
             >
-              <Eyebrow>Plans</Eyebrow>
-              <h2 className="mb-4 mt-4 text-3xl font-black tracking-tighter text-slate-900 sm:text-4xl">
-                Plans and Pricing Built to Grow With You
+              <Eyebrow>الباقات</Eyebrow>
+              <h2 className="mb-4 mt-4 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
+                باقات وأسعار مصمَّمة لتنمو معك
               </h2>
               <p className="text-lg text-slate-600">
-                Microsoft infrastructure, everything connected — choose the plan that fits your team&apos;s size.
+                بنية Microsoft التحتية، كل شيء متصل — اختر الباقة التي تناسب حجم فريقك.
               </p>
             </motion.div>
 
@@ -1017,35 +1006,35 @@ export default function CollectionatLandingEN() {
                 >
                   {plan.highlight ? (
                     <div className="relative rounded-2xl shadow-[0_0_60px_-15px_rgba(8,145,178,0.55)] ring-1 ring-cyan-900/10">
-                      <span className="absolute -top-3.5 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full bg-amber-400 px-4 py-1 text-xs font-bold uppercase tracking-wider text-slate-900 shadow-sm">
-                        Recommended Plan
+                      <span className="absolute -top-3.5 start-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full bg-amber-400 px-4 py-1 text-xs font-bold text-slate-900 shadow-sm">
+                        الباقة الموصى بها
                       </span>
 
                       <div className="relative flex h-full flex-col justify-between overflow-hidden rounded-2xl bg-gradient-to-br from-cyan-600 to-cyan-800 p-8">
                       <DonutRing
                         gradient="conic-gradient(from 200deg, #ffffff, #a5f3fc, #ffffff)"
-                        className="-right-12 -top-12 h-48 w-48 opacity-30"
+                        className="-top-12 end-[-3rem] h-48 w-48 opacity-30"
                       />
 
                       <div className="relative">
-                        <div className="mb-4 text-sm font-semibold uppercase tracking-wider text-cyan-100">{plan.name}</div>
+                        <div className="mb-4 text-sm font-semibold text-cyan-100">{plan.name}</div>
 
                         <div className="mb-5 flex gap-3">
                           <div className="rounded-xl bg-white/10 px-4 py-2.5 text-center backdrop-blur-sm">
                             <p className="flex items-center justify-center gap-1.5 text-2xl font-black tracking-tighter text-white">
                               <Layers size={16} className="text-cyan-200" /> {plan.tabs}
                             </p>
-                            <p className="mt-0.5 text-[10px] uppercase tracking-wide text-cyan-100">Tabs</p>
+                            <p className="mt-0.5 text-[10px] text-cyan-100">تبويبات</p>
                           </div>
                           <div className="rounded-xl bg-white/10 px-4 py-2.5 text-center backdrop-blur-sm">
                             <p className="flex items-center justify-center gap-1.5 text-2xl font-black tracking-tighter text-white">
                               <Users size={16} className="text-cyan-200" /> {plan.users}
                             </p>
-                            <p className="mt-0.5 text-[10px] uppercase tracking-wide text-cyan-100">Users</p>
+                            <p className="mt-0.5 text-[10px] text-cyan-100">مستخدمون</p>
                           </div>
                         </div>
 
-                        <div className="mb-4 text-4xl font-black tracking-tighter text-white">
+                        <div className="mb-4 text-4xl font-black tracking-tighter text-white" dir="ltr">
                           {plan.price} <span className="text-base font-normal text-cyan-100">{plan.priceUnit}</span>
                         </div>
                         <p className="mb-8 text-sm text-cyan-50/90">{plan.description}</p>
@@ -1067,7 +1056,7 @@ export default function CollectionatLandingEN() {
                         transition={{ type: "spring", stiffness: 400, damping: 17 }}
                         className="group relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl bg-white py-3 font-semibold text-cyan-700"
                       >
-                        {plan.cta} <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
+                        {plan.cta} <ArrowLeft size={16} className="transition-transform group-hover:-translate-x-0.5" />
                       </motion.button>
                       </div>
                     </div>
@@ -1077,11 +1066,11 @@ export default function CollectionatLandingEN() {
                       contentClassName="flex h-full flex-col justify-between"
                     >
                       <div>
-                        <div className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-slate-500">
+                        <div className="mb-4 flex items-center gap-2 text-sm font-semibold text-slate-500">
                           {plan.id === "c" && <Wand size={15} className="text-amber-500" />}
                           {plan.name}
                           {plan.tag && (
-                            <span className="rounded-full bg-amber-50 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-amber-700">
+                            <span className="rounded-full bg-amber-50 px-2.5 py-0.5 text-[10px] font-bold text-amber-700">
                               {plan.tag}
                             </span>
                           )}
@@ -1093,18 +1082,18 @@ export default function CollectionatLandingEN() {
                               <p className="flex items-center justify-center gap-1.5 text-2xl font-black tracking-tighter text-slate-900">
                                 <Layers size={16} className="text-cyan-600" /> {plan.tabs}
                               </p>
-                              <p className="mt-0.5 text-[10px] uppercase tracking-wide text-slate-500">Tabs</p>
+                              <p className="mt-0.5 text-[10px] text-slate-500">تبويبات</p>
                             </div>
                             <div className="rounded-xl bg-cyan-50 px-4 py-2.5 text-center">
                               <p className="flex items-center justify-center gap-1.5 text-2xl font-black tracking-tighter text-slate-900">
                                 <Users size={16} className="text-cyan-600" /> {plan.users}
                               </p>
-                              <p className="mt-0.5 text-[10px] uppercase tracking-wide text-slate-500">Users</p>
+                              <p className="mt-0.5 text-[10px] text-slate-500">مستخدمون</p>
                             </div>
                           </div>
                         ) : (
                           <div className="mb-5 rounded-xl bg-amber-50 px-4 py-3 text-sm font-medium text-amber-800">
-                            Capacity and users defined based on your operation.
+                            السعة والمستخدمون يُحدَّدون وفق عملياتك.
                           </div>
                         )}
 
@@ -1113,6 +1102,7 @@ export default function CollectionatLandingEN() {
                             "mb-4 font-black tracking-tighter text-slate-900",
                             plan.priceUnit ? "text-4xl" : "text-2xl",
                           )}
+                          dir={plan.priceUnit ? "ltr" : undefined}
                         >
                           {plan.price} {plan.priceUnit && <span className="text-base font-normal text-slate-500">{plan.priceUnit}</span>}
                         </div>
@@ -1154,8 +1144,8 @@ export default function CollectionatLandingEN() {
                 <CreditCard size={17} />
               </span>
               <p className="text-sm text-slate-600">
-                <span className="font-semibold text-slate-900">Flexible Payment Options</span> — plans tailored to
-                each client&apos;s needs to make the investment easier.
+                <span className="font-semibold text-slate-900">خيارات دفع مرنة</span> — باقات مصممة حسب احتياجات كل
+                عميل لتسهيل الاستثمار.
               </p>
             </motion.div>
           </div>
@@ -1176,9 +1166,9 @@ export default function CollectionatLandingEN() {
           />
           <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 sm:flex-row">
             <div className="flex items-center gap-2">
-              <span className="font-semibold text-slate-900">Collectionat</span> &copy; 2026. All rights reserved.
+              <span className="font-semibold text-slate-900">Collectionat</span> &copy; 2026. جميع الحقوق محفوظة.
             </div>
-            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2" dir="ltr">
               <a
                 href="mailto:info@collectionat.com"
                 className="flex items-center gap-1.5 text-slate-600 transition hover:text-cyan-700"
