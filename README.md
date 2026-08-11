@@ -343,6 +343,33 @@ Se corrió Lighthouse real (CLI, no la versión simplificada de DevTools) contra
 
 **Performance**: quedó en un rango de 46–61/100 entre corridas (Lighthouse con throttling de CPU 4x para simular mobile es ruidoso en esta máquina compartida, así que el número puntual varía, pero el diagnóstico de fondo es consistente). La causa raíz real: **toda la landing (`app/page.tsx`) es un único Client Component** (`"use client"` en la primera línea) — más de 1200 líneas, todas las secciones, todo `framer-motion`, y el simulador de tablet completo se hidratan de una sola vez en el navegador. Eso explica un `Total Blocking Time` alto y un main-thread work de varios segundos bajo throttling. **No se tocó esto en esta pasada** porque partir el árbol en Server/Client Components y hacer `next/dynamic` de las secciones más pesadas (el simulador de tablet, el chat de IA) es un cambio de arquitectura real con riesgo de romper algo — vale la pena hacerlo como su propia tarea, con tiempo para probar cada sección después del split, en vez de mezclarlo con una auditoría.
 
+## Versión en inglés (`/en`)
+
+El cliente pidió una versión completa en inglés para el mercado del Golfo/árabe, aclarando explícitamente que tenían que ser **páginas separadas** (no un simple toggle de idioma) — cada una editable de forma independiente sin afectar a la otra. El árabe con RTL (right-to-left) se dejó para una tarea futura; por ahora, español e inglés.
+
+**Arquitectura, sin tocar ni una línea de la página en español que ya estaba en producción:**
+
+- **`middleware.ts`** (nuevo): reescribe `/` → `/es` internamente. La URL visible en la barra del navegador sigue siendo `collectionat.com` — cero cambios de SEO, cero links rotos, nada se mueve para quien ya tenía la página indexada o guardada.
+- **`app/[locale]/layout.tsx`** (nuevo): reemplaza al viejo `app/layout.tsx` (eliminado). Pone `<html lang="es">` o `<html lang="en">` según corresponda, y genera metadata (title, description, Open Graph, `hreflang`) distinta por idioma.
+- **`app/[locale]/page.tsx`** (nuevo): un dispatcher liviano — si `locale === "es"` renderiza `LandingES`, si es `"en"` renderiza `LandingEN`.
+- **`components/pages/landing-es.tsx`**: copia exacta y sin modificar de lo que antes era `app/page.tsx` — mismo componente, solo cambió de ubicación.
+- **`components/pages/landing-en.tsx`** (nuevo): traducción profesional completa (no literal) de la landing — hero, características, industrias, precios, testimonios, footer, nav, todo.
+- **`components/ui/app-simulator-en.tsx`** (nuevo): traducción completa del simulador interactivo de tablet — sidebar, ambas verticales (Inmobiliaria/Legal), y **las +1000 líneas de datos de ejemplo** (alertas, propiedades, RRHH, contratos, causas judiciales, clientes, vencimientos). El cliente pidió explícitamente traducir todo esto también, no solo la página de marketing.
+- **`components/ui/ruixen-moon-chat-en.tsx`** (nuevo): versión en inglés del widget de chat con IA.
+- **`app/api/chat/route.ts`**: el mismo endpoint ahora acepta un campo `locale` en el body (`"es"` por default, `"en"` si se manda explícito) y elige entre dos system prompts completos (uno en español, uno en inglés) y mensajes de error localizados — así el chat responde en inglés cuando lo llaman desde `/en`, sin necesidad de duplicar la ruta de API.
+- **`app/dna-erp/layout.tsx`** (nuevo, no planeado): al borrar el `app/layout.tsx` de raíz, `/dna-erp` (que no vive bajo `[locale]`) se quedó sin ningún layout que le diera `<html>/<body>` — se detectó probando la ruta y se le agregó su propio layout mínimo para que siga funcionando exactamente igual que antes.
+- **`app/sitemap.ts`**: ahora lista tanto `/` como `/en`.
+
+**Probado en vivo, ruta por ruta:**
+- `/` sigue sirviendo español exactamente igual que antes (mismo `lang="es"`, mismo contenido) — la reescritura del middleware es invisible.
+- `/en` sirve inglés completo: `lang="en"`, título/metadata en inglés, todo el contenido de la página y del simulador de tablet traducido.
+- El chat de IA en `/en` responde en inglés de verdad (probado con "What does Plan B include?" → respuesta grounded correcta en los datos reales del plan).
+- El formulario de demo en `/en` funciona end-to-end — el modal, la confirmación de éxito y el log del servidor quedan en inglés.
+- El menú mobile y el drawer del simulador de tablet, ambos traducidos y funcionando en `/en`.
+- `/dna-erp` sigue funcionando igual que siempre (se verificó específicamente porque el borrado del layout de raíz lo hubiera roto si no se le agregaba uno propio).
+- `/sitemap.xml` y `/robots.txt` reflejan ambos idiomas correctamente.
+- `npx tsc --noEmit` limpio, sin errores de consola en ninguna ruta probada.
+
 ## Notas
 
 - **Tipografía**: `Inter` cargada vía `next/font/google` en `app/layout.tsx` (variable `--font-sans`, referenciada por `tailwind.config.ts`). *Antes había un bug: el config apuntaba a `var(--font-sans)` sin que esa variable existiera en ningún lado — un `var()` no resuelto invalida toda la propiedad `font-family`, así que el navegador caía a su serif por defecto. Ya está corregido.*
