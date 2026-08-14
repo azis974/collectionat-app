@@ -343,14 +343,14 @@ const FEATURES = [
     color: "cyan" as const,
     title: "Adiós a Excel",
     description: "Reemplaza hojas de cálculo dispersas y propensas a errores por un sistema que tu equipo realmente puede confiar.",
-    span: "lg:col-span-3",
+    span: "lg:col-span-2",
   },
   {
     icon: Database,
     color: "cyanDark" as const,
     title: "Gestión Centralizada Total",
     description: "Toda la información crítica de tu empresa —ventas, finanzas, operaciones— vive en una sola plataforma unificada.",
-    span: "lg:col-span-3",
+    span: "lg:col-span-2",
   },
   {
     icon: Zap,
@@ -360,10 +360,10 @@ const FEATURES = [
     span: "lg:col-span-2",
   },
   {
-    icon: Network,
-    color: "solid" as const,
-    title: "Integración con Microsoft",
-    description: "Conecta de forma nativa con Outlook, Teams, SharePoint y OneDrive — tu equipo sigue trabajando donde ya trabaja.",
+    icon: Sparkles,
+    color: "solidWine" as const,
+    title: "Impulsado por IA",
+    description: "Un asistente con inteligencia artificial que conoce los datos reales de tu empresa y responde tus preguntas al instante, sin reportes manuales ni esperas.",
     span: "lg:col-span-2",
   },
   {
@@ -371,6 +371,13 @@ const FEATURES = [
     color: "wine" as const,
     title: "Permisos por Rol",
     description: "Cada persona ve y edita solo su área — administración, propiedades, ventas. El dueño o administrador general mantiene visibilidad y control total sobre todo el sistema.",
+    span: "lg:col-span-2",
+  },
+  {
+    icon: Network,
+    color: "solid" as const,
+    title: "Integración con Microsoft",
+    description: "Conecta de forma nativa con Outlook, Teams, SharePoint y OneDrive — tu equipo sigue trabajando donde ya trabaja.",
     span: "lg:col-span-2",
   },
 ];
@@ -788,7 +795,12 @@ export default function CollectionatLanding() {
 
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-6 lg:grid-rows-2">
               {FEATURES.map(({ icon: Icon, color, title, description, span }, index) => {
-                const isSolid = color === "solid";
+                const isSolid = color === "solid" || color === "solidWine";
+                const solidGradient = color === "solidWine" ? "from-rose-700 to-rose-950" : "from-cyan-600 to-cyan-800";
+                const solidRing = color === "solidWine"
+                  ? "conic-gradient(from 200deg, #ffffff, #fda4af, #ffffff)"
+                  : "conic-gradient(from 200deg, #ffffff, #a5f3fc, #ffffff)";
+                const solidText = color === "solidWine" ? "text-rose-50/90" : "text-cyan-50/90";
                 return (
                   <motion.div
                     key={title}
@@ -799,16 +811,16 @@ export default function CollectionatLanding() {
                     className={span}
                   >
                     {isSolid ? (
-                      <div className="relative flex h-full flex-col overflow-hidden rounded-2xl bg-gradient-to-br from-cyan-600 to-cyan-800 p-8 shadow-sm">
+                      <div className={`relative flex h-full flex-col overflow-hidden rounded-2xl bg-gradient-to-br ${solidGradient} p-8 shadow-sm`}>
                         <DonutRing
-                          gradient="conic-gradient(from 200deg, #ffffff, #a5f3fc, #ffffff)"
+                          gradient={solidRing}
                           className="-right-10 -top-10 h-40 w-40 opacity-40"
                         />
                         <div className="relative flex h-12 w-12 items-center justify-center rounded-full border border-white/30 bg-white/15 text-white">
                           <Icon size={24} />
                         </div>
                         <h3 className="relative mb-3 mt-6 text-xl font-black tracking-tight text-white">{title}</h3>
-                        <p className="relative leading-relaxed text-cyan-50/90">{description}</p>
+                        <p className={`relative leading-relaxed ${solidText}`}>{description}</p>
                       </div>
                     ) : (
                       <SpotlightCard className="relative h-full overflow-hidden border-slate-200 p-8 hover:border-cyan-300">

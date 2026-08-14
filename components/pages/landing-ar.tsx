@@ -342,14 +342,14 @@ const FEATURES = [
     color: "cyan" as const,
     title: "وداعًا لإكسل",
     description: "استبدل جداول البيانات المتناثرة والمعرّضة للأخطاء بنظام يثق به فريقك فعليًا.",
-    span: "lg:col-span-3",
+    span: "lg:col-span-2",
   },
   {
     icon: Database,
     color: "cyanDark" as const,
     title: "إدارة مركزية شاملة",
     description: "جميع بيانات شركتك الحيوية — المبيعات والمالية والعمليات — تعيش في منصة واحدة موحّدة.",
-    span: "lg:col-span-3",
+    span: "lg:col-span-2",
   },
   {
     icon: Zap,
@@ -359,10 +359,10 @@ const FEATURES = [
     span: "lg:col-span-2",
   },
   {
-    icon: Network,
-    color: "solid" as const,
-    title: "تكامل مع مايكروسوفت",
-    description: "تتصل بشكل أصلي مع Outlook وTeams وSharePoint وOneDrive — يستمر فريقك بالعمل من حيث اعتاد.",
+    icon: Sparkles,
+    color: "solidWine" as const,
+    title: "مدعوم بالذكاء الاصطناعي",
+    description: "مساعد ذكاء اصطناعي يعرف بيانات شركتك الحقيقية ويجيب عن أسئلتك فورًا — دون تقارير يدوية أو انتظار.",
     span: "lg:col-span-2",
   },
   {
@@ -370,6 +370,13 @@ const FEATURES = [
     color: "wine" as const,
     title: "صلاحيات حسب الدور",
     description: "كل شخص يرى ويُعدّل قسمه فقط — الإدارة أو العقارات أو المبيعات. بينما يحتفظ المالك أو المدير العام برؤية وتحكّم كاملَين في النظام بأكمله.",
+    span: "lg:col-span-2",
+  },
+  {
+    icon: Network,
+    color: "solid" as const,
+    title: "تكامل مع مايكروسوفت",
+    description: "تتصل بشكل أصلي مع Outlook وTeams وSharePoint وOneDrive — يستمر فريقك بالعمل من حيث اعتاد.",
     span: "lg:col-span-2",
   },
 ];
@@ -786,7 +793,12 @@ export default function CollectionatLandingAR() {
 
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-6 lg:grid-rows-2">
               {FEATURES.map(({ icon: Icon, color, title, description, span }, index) => {
-                const isSolid = color === "solid";
+                const isSolid = color === "solid" || color === "solidWine";
+                const solidGradient = color === "solidWine" ? "from-rose-700 to-rose-950" : "from-cyan-600 to-cyan-800";
+                const solidRing = color === "solidWine"
+                  ? "conic-gradient(from 200deg, #ffffff, #fda4af, #ffffff)"
+                  : "conic-gradient(from 200deg, #ffffff, #a5f3fc, #ffffff)";
+                const solidText = color === "solidWine" ? "text-rose-50/90" : "text-cyan-50/90";
                 return (
                   <motion.div
                     key={title}
@@ -797,16 +809,16 @@ export default function CollectionatLandingAR() {
                     className={span}
                   >
                     {isSolid ? (
-                      <div className="relative flex h-full flex-col overflow-hidden rounded-2xl bg-gradient-to-br from-cyan-600 to-cyan-800 p-8 shadow-sm">
+                      <div className={`relative flex h-full flex-col overflow-hidden rounded-2xl bg-gradient-to-br ${solidGradient} p-8 shadow-sm`}>
                         <DonutRing
-                          gradient="conic-gradient(from 200deg, #ffffff, #a5f3fc, #ffffff)"
+                          gradient={solidRing}
                           className="-top-10 end-[-2.5rem] h-40 w-40 opacity-40"
                         />
                         <div className="relative flex h-12 w-12 items-center justify-center rounded-full border border-white/30 bg-white/15 text-white">
                           <Icon size={24} />
                         </div>
                         <h3 className="relative mb-3 mt-6 text-xl font-black tracking-tight text-white">{title}</h3>
-                        <p className="relative leading-relaxed text-cyan-50/90">{description}</p>
+                        <p className={`relative leading-relaxed ${solidText}`}>{description}</p>
                       </div>
                     ) : (
                       <SpotlightCard className="relative h-full overflow-hidden border-slate-200 p-8 hover:border-cyan-300">
