@@ -38,6 +38,7 @@ import OrbitingCirclesGlobe from "@/components/ui/orbiting-circles-02";
 import AskCollectionatChat from "@/components/ui/ruixen-moon-chat-ar";
 import AppSimulator from "@/components/ui/app-simulator-ar";
 import FloatingOrbs from "@/components/ui/floating-orbs";
+import WhatsAppFloatButton from "@/components/ui/whatsapp-float-button";
 import { cn } from "@/lib/utils";
 
 const EASE_OUT = [0.16, 1, 0.3, 1] as const;
@@ -209,6 +210,7 @@ function DemoRequestModal({ onClose }: { onClose: () => void }) {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "تعذّر إرسال الطلب.");
+      (window as any).fbq?.("track", "Lead");
       setStatus("success");
       setName("");
       setEmail("");
@@ -1210,6 +1212,8 @@ export default function CollectionatLandingAR() {
       <AnimatePresence>
         {demoModalOpen && <DemoRequestModal onClose={() => setDemoModalOpen(false)} />}
       </AnimatePresence>
+
+      <WhatsAppFloatButton label="راسلنا عبر واتساب" />
     </MotionConfig>
   );
 }
