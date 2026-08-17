@@ -78,9 +78,12 @@ const INMOBILIARIA_GROUPS: ModuleGroup[] = [
 
 const LEGAL_GROUPS: ModuleGroup[] = [
   {
-    label: "Gestión del estudio",
+    label: "Inicio y control",
+    items: [{ id: "alertas", label: "Alertas generales", icon: AlertTriangle }],
+  },
+  {
+    label: "Gestión legal",
     items: [
-      { id: "alertas", label: "Alertas generales", icon: AlertTriangle },
       { id: "causas", label: "Causas", icon: Gavel },
       { id: "clientes", label: "Clientes", icon: Users },
       { id: "agenda", label: "Agenda", icon: Calendar },
@@ -97,44 +100,44 @@ const VERTICALS: Record<
     label: string;
     subtitle: string;
     icon: LucideIcon;
+    dark: string;
+    darkClass: string;
     activeClass: string;
     switchActiveClass: string;
-    contentBg: string;
     accentText: string;
     iconBadgeClass: string;
     groups: ModuleGroup[];
     defaultModule: string;
-    footerTitle: string;
-    footerText: string;
+    sessionName: string;
   }
 > = {
   inmobiliaria: {
-    label: "Inmobiliaria",
-    subtitle: "Gestión integral",
+    label: "Nexo Real Estate",
+    subtitle: "Collectionat OS",
     icon: Building2,
-    activeClass: "bg-cyan-300 text-slate-900",
-    switchActiveClass: "bg-white text-[#083344]",
-    contentBg: "bg-cyan-50/40",
-    accentText: "text-[#083344]",
-    iconBadgeClass: "bg-cyan-800/60 text-cyan-100",
+    dark: "#881337",
+    darkClass: "bg-rose-900",
+    activeClass: "bg-rose-100 text-rose-900",
+    switchActiveClass: "bg-white text-rose-900 shadow-sm",
+    accentText: "text-rose-900",
+    iconBadgeClass: "bg-rose-50 text-rose-700",
     groups: INMOBILIARIA_GROUPS,
     defaultModule: "alertas",
-    footerTitle: "Acceso prioritario",
-    footerText: "Login primero, Chat AI debajo y el resto de categorías ordenadas por operación.",
+    sessionName: "Martina Barbis",
   },
   legal: {
-    label: "Gestión Legal",
+    label: "Nexo Legal OS",
     subtitle: "Estudio Jurídico",
     icon: Scale,
-    activeClass: "bg-amber-300 text-slate-900",
-    switchActiveClass: "bg-amber-400 text-[#0f172a]",
-    contentBg: "bg-amber-50/50",
-    accentText: "text-amber-700",
-    iconBadgeClass: "bg-amber-900/40 text-amber-200",
+    dark: "#083344",
+    darkClass: "bg-[#083344]",
+    activeClass: "bg-cyan-100 text-[#083344]",
+    switchActiveClass: "bg-white text-[#083344] shadow-sm",
+    accentText: "text-[#083344]",
+    iconBadgeClass: "bg-cyan-50 text-cyan-700",
     groups: LEGAL_GROUPS,
     defaultModule: "alertas",
-    footerTitle: "Estudio Jurídico",
-    footerText: "Datos de prueba — el almacenamiento definitivo se habilita con el administrador.",
+    sessionName: "Martina Barbis",
   },
 };
 
@@ -172,9 +175,9 @@ export default function AppSimulator() {
 
       <aside
         style={{ left: sidebarOpen ? 0 : -288, transition: "left 300ms ease-in-out" }}
-        className="absolute inset-y-0 z-30 flex h-full w-72 shrink-0 flex-col overflow-y-auto bg-[#083344] p-4 text-white md:static md:!left-auto"
+        className="absolute inset-y-0 z-30 flex h-full w-72 shrink-0 flex-col overflow-y-auto border-r border-slate-200 bg-[#faf9f6] p-4 text-slate-900 md:static md:!left-auto"
       >
-        <div className="mb-4 flex gap-1.5 rounded-full bg-white/5 p-1">
+        <div className="mb-4 flex gap-1.5 rounded-full border border-slate-200 bg-white p-1">
           {(Object.keys(VERTICALS) as Vertical[]).map((v) => (
             <button
               key={v}
@@ -183,7 +186,7 @@ export default function AppSimulator() {
               aria-pressed={vertical === v}
               className={cn(
                 "flex-1 rounded-full px-2.5 py-1.5 text-[11px] font-semibold transition-colors",
-                vertical === v ? VERTICALS[v].switchActiveClass : "text-white/50 hover:text-white",
+                vertical === v ? VERTICALS[v].switchActiveClass : "text-slate-400 hover:text-slate-600",
               )}
             >
               {VERTICALS[v].label}
@@ -191,25 +194,23 @@ export default function AppSimulator() {
           ))}
         </div>
 
-        <div className="mb-6 flex items-center gap-3 rounded-2xl bg-white/5 px-3 py-3">
-          <span className={cn("flex h-10 w-10 items-center justify-center rounded-xl bg-white", config.accentText)}>
+        <div className="mb-6 flex items-center gap-3 px-1">
+          <span className={cn("flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white", config.darkClass)}>
             <config.icon size={20} />
           </span>
-          <div>
-            <p className="text-sm font-bold leading-tight">{config.label}</p>
-            <p className="text-[11px] text-white/50">{config.subtitle}</p>
+          <div className="min-w-0">
+            <p className="truncate text-sm font-bold leading-tight text-slate-900">
+              {config.label} <span className="font-normal text-slate-400">·</span> {config.subtitle}
+            </p>
+            <p className="text-[11px] text-slate-500">Operaciones · Argentina</p>
           </div>
         </div>
-
-        <p className="mb-3 flex items-center gap-1.5 px-2 text-[10px] font-semibold uppercase tracking-widest text-white/30">
-          <Menu size={12} /> Menú
-        </p>
 
         <nav className="flex-1 space-y-4">
           {config.groups.map((group) => (
             <div key={group.label}>
-              <p className="mb-1.5 px-2 text-[11px] font-semibold text-white/50">{group.label}</p>
-              <div className="space-y-1.5">
+              <p className="mb-1.5 px-2 text-[10px] font-bold uppercase tracking-widest text-slate-400">{group.label}</p>
+              <div className="space-y-1">
                 {group.items.map((m) => {
                   const active = m.id === activeModule;
                   return (
@@ -220,13 +221,13 @@ export default function AppSimulator() {
                       aria-pressed={active}
                       className={cn(
                         "flex w-full items-center gap-3 rounded-full px-2.5 py-2 text-left text-[13px] font-medium transition-colors",
-                        active ? config.activeClass : "bg-white/5 text-white/75 hover:bg-white/10 hover:text-white",
+                        active ? config.activeClass : "text-slate-600 hover:bg-slate-100",
                       )}
                     >
                       <span
                         className={cn(
                           "flex h-8 w-8 shrink-0 items-center justify-center rounded-full",
-                          active ? "bg-slate-900 text-white" : config.iconBadgeClass,
+                          active ? cn(config.darkClass, "text-white") : config.iconBadgeClass,
                         )}
                       >
                         <m.icon size={15} />
@@ -240,13 +241,18 @@ export default function AppSimulator() {
           ))}
         </nav>
 
-        <div className="mt-4 rounded-2xl bg-white/5 p-4">
-          <p className="text-xs font-semibold text-white">{config.footerTitle}</p>
-          <p className="mt-1.5 text-[11px] leading-relaxed text-white/50">{config.footerText}</p>
+        <div className="mt-4 flex items-center gap-2.5 rounded-2xl border border-slate-200 bg-white p-3">
+          <span className={cn("flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[11px] font-bold text-white", config.darkClass)}>
+            {config.sessionName.split(" ").map((n) => n[0]).join("")}
+          </span>
+          <div className="min-w-0">
+            <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">Sesión operativa</p>
+            <p className="truncate text-xs font-semibold text-slate-800">{config.sessionName}</p>
+          </div>
         </div>
       </aside>
 
-      <main className={cn("h-full min-w-0 flex-1 overflow-y-auto p-4 sm:p-6 md:p-8", config.contentBg)}>
+      <main className="h-full min-w-0 flex-1 overflow-y-auto bg-[#faf9f6] p-4 sm:p-6 md:p-8">
         <button
           type="button"
           onClick={() => setSidebarOpen(true)}
@@ -320,82 +326,105 @@ function PageHeader({ icon: Icon, title, subtitle }: { icon: LucideIcon; title: 
   );
 }
 
-type HomeAlert = { title: string; detail: string; source: string; priority: "Alta" | "Media" };
+type HomeAlert = {
+  title: string;
+  detail: string;
+  source: string;
+  responsable: string;
+  vence: string;
+  priority: "Alta" | "Media" | "Baja";
+};
 
 const INMOBILIARIA_ALERTS: HomeAlert[] = [
   {
-    title: "Email duplicado Mariana y Lucía",
-    detail: "Email: mariana.gomez@example.com. Prioridad: Ana Torres.",
-    source: "CRM / Corredor original",
-    priority: "Alta",
-  },
-  {
-    title: "Teléfono duplicado Diego y Juan",
-    detail: "Teléfono: +54 11 5555-1002. Prioridad: Bruno Herrera.",
-    source: "CRM / Corredor original",
-    priority: "Alta",
-  },
-  {
-    title: "Email duplicado Diego y Juan",
-    detail: "Email: diego.fernandez@example.com. Prioridad: Bruno Herrera.",
-    source: "CRM / Corredor original",
-    priority: "Alta",
-  },
-  {
-    title: "Contrato por revisar · Amenábar 2100 3C",
-    detail: "Vencimiento contractual próximo; validar renovación, escribanía y documentación gubernamental.",
+    title: "Contrato crítico por renovar",
+    detail: "Vencimiento próximo con documentación pendiente; requiere intervención inmediata de contratos.",
     source: "Contratos / Notaría",
+    responsable: "Camila Rossi",
+    vence: "18 ago 2026",
+    priority: "Alta",
+  },
+  {
+    title: "Renta pendiente de seguimiento",
+    detail: "Pago mensual próximo a vencer; administración debe confirmar estado con el cliente.",
+    source: "Administración",
+    responsable: "Iván Suárez",
+    vence: "22 ago 2026",
+    priority: "Media",
+  },
+  {
+    title: "Actividad comercial por revisar",
+    detail: "Recordatorio operativo para actualizar el estado de una visita programada.",
+    source: "Ventas / Corredores",
+    responsable: "Ana Torres",
+    vence: "25 ago 2026",
+    priority: "Baja",
+  },
+  {
+    title: "Email duplicado Mariana y Lucía",
+    detail: "Mismo email cargado por dos corredores distintos; definir prioridad de contacto.",
+    source: "CRM / Corredor original",
+    responsable: "Bruno Herrera",
+    vence: "19 ago 2026",
     priority: "Alta",
   },
   {
     title: "Contrato por revisar · Av. Rivadavia 5400 Local 3",
     detail: "Vencimiento contractual próximo; validar renovación, escribanía y documentación gubernamental.",
     source: "Contratos / Notaría",
+    responsable: "Camila Rossi",
+    vence: "27 ago 2026",
     priority: "Alta",
-  },
-  {
-    title: "Renta pendiente · Reserva departamento Santa Fe",
-    detail: "Pendiente por $5.000. Bloqueado para administración/cobranzas.",
-    source: "Administración",
-    priority: "Media",
   },
 ];
 
 const LEGAL_ALERTS: HomeAlert[] = [
   {
-    title: "Vencimiento de plazo · Expresar agravios",
-    detail: "Apelación con plazo próximo a vencer; coordinar con perito.",
-    source: "Causas / Cámara",
+    title: "Cédula de notificación con plazo crítico",
+    detail: "CAF 12345/2024 requiere contestación antes del cierre operativo. Responsable de litigios ya fue asignada.",
+    source: "Cuentas / Notaría",
+    responsable: "Lucía Fernández",
+    vence: "16 ago 2026",
     priority: "Alta",
   },
   {
-    title: "Audiencia próxima · Conciliación laboral",
-    detail: "Audiencia SECLO programada; confirmar asistencia del cliente.",
-    source: "Agenda / Audiencias",
+    title: "Vencimiento de Token USB de Firma Digital",
+    detail: "Token CASI asociado a Federico Ramos vence en 12 días y bloquea presentaciones MEV PBA si no se renueva.",
+    source: "Sistemas / Tokens",
+    responsable: "Federico Ramos",
+    vence: "29 ago 2026",
     priority: "Media",
+  },
+  {
+    title: "Presentación VEP AFIP/ARCA pendiente",
+    detail: "El VEP debe generarse y abonarse antes del vencimiento para evitar intereses y recargos.",
+    source: "Impuestos / AFIP",
+    responsable: "Bruno Aguirre",
+    vence: "20 ago 2026",
+    priority: "Alta",
   },
   {
     title: "Documentación pendiente · Contestación de demanda",
     detail: "Falta adjuntar prueba documental antes de la presentación.",
     source: "Documentos / Notaría",
-    priority: "Alta",
-  },
-  {
-    title: "Cliente duplicado · Martínez Gómez",
-    detail: "Mismo DNI cargado en dos expedientes distintos.",
-    source: "Clientes / Carga",
+    responsable: "Bruno Aguirre",
+    vence: "21 ago 2026",
     priority: "Alta",
   },
   {
     title: "Honorarios pendientes · Textiles del Plata S.A.",
     detail: "Factura pendiente de cobro hace más de 30 días.",
     source: "Administración",
+    responsable: "Lucía Fernández",
+    vence: "30 ago 2026",
     priority: "Media",
   },
   {
     title: "Vencimiento societario · Renovación de poder",
     detail: "El poder del apoderado vence este mes; gestionar renovación.",
     source: "Documentos / Notaría",
+    responsable: "Federico Ramos",
+    vence: "31 ago 2026",
     priority: "Alta",
   },
 ];
@@ -411,13 +440,17 @@ function AlertasHomeScreen({ vertical }: { vertical: Vertical }) {
   const isLegal = vertical === "legal";
   const alerts = isLegal ? LEGAL_ALERTS : INMOBILIARIA_ALERTS;
   const BadgeIcon = isLegal ? Scale : Home;
-  const headerBg = isLegal ? "bg-slate-900" : "bg-[#083344]";
-  const avatarBg = isLegal ? "bg-slate-800" : "bg-cyan-700";
-  const chipBg = isLegal ? "bg-amber-100 text-amber-800" : "bg-cyan-100 text-cyan-700";
-  const resolveClass = isLegal
-    ? "border-slate-300 text-slate-700 hover:bg-slate-50"
-    : "border-cyan-200 text-cyan-700 hover:bg-cyan-50";
-  const headingClass = cn("font-bold text-neutral-900", isLegal && "font-serif");
+  const config = VERTICALS[vertical];
+  const headerBg = config.darkClass;
+  const avatarBg = isLegal ? "bg-[#083344]" : "bg-rose-900";
+  const chipBg = isLegal ? "bg-cyan-100 text-cyan-800" : "bg-rose-100 text-rose-800";
+  const resolveClass = "bg-slate-900 text-white hover:bg-slate-800";
+  const headingClass = "font-bold text-neutral-900";
+  const priorityTone: Record<HomeAlert["priority"], "red" | "amber" | "emerald"> = {
+    Alta: "red",
+    Media: "amber",
+    Baja: "emerald",
+  };
 
   const stats = isLegal
     ? [
@@ -455,13 +488,46 @@ function AlertasHomeScreen({ vertical }: { vertical: Vertical }) {
 
   return (
     <div>
-      <div className="mb-6 flex items-center gap-3">
-        <span className={cn("flex h-10 w-10 items-center justify-center rounded-xl text-white", headerBg)}>
-          <AlertTriangle size={18} />
-        </span>
+      <div className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
         <div>
-          <h1 className={cn("text-xl", headingClass)}>Alertas generales</h1>
-          <p className="text-sm text-neutral-500">Vencimientos, rentas y duplicados separados por sector.</p>
+          <span className={cn("mb-3 inline-block rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-widest", chipBg)}>
+            Gestión todo en uno · Alertas
+          </span>
+          <h1 className="text-2xl font-black tracking-tight text-neutral-900 sm:text-3xl">
+            Control {isLegal ? "jurídico" : "inmobiliario"}{" "}
+            <span className={cn("bg-gradient-to-r bg-clip-text text-transparent", isLegal ? "from-cyan-600 to-cyan-900" : "from-rose-600 to-rose-900")}>
+              moderno
+            </span>{" "}
+            para alertas críticas
+          </h1>
+          <p className="mt-2 max-w-md text-sm text-neutral-500">
+            {isLegal
+              ? "Vencimientos de cédulas, vencimientos AFIP/ARCA, poderes y vencimiento de tokens USB en una lista limpia con foco operativo."
+              : "Vencimientos, rentas y duplicados en una lista limpia con foco operativo."}
+          </p>
+        </div>
+
+        <div
+          className={cn(
+            "flex w-full shrink-0 items-center gap-4 rounded-2xl p-5 sm:w-72",
+            isLegal ? cn(headerBg, "text-white") : "border border-slate-200 bg-white text-neutral-900",
+          )}
+        >
+          <div className="flex-1">
+            <p className={cn("text-xs font-semibold", isLegal ? "text-white/70" : "text-neutral-500")}>Alertas activas</p>
+            <p className="text-4xl font-black tracking-tight">{alerts.length}</p>
+            <p className={cn("mt-1 text-[11px]", isLegal ? "text-white/50" : "text-neutral-400")}>
+              Priorización operativa con estilo Collectionat.
+            </p>
+          </div>
+          <span
+            className={cn(
+              "flex h-11 w-11 shrink-0 items-center justify-center rounded-full",
+              isLegal ? "bg-white/15 text-white" : "bg-rose-50 text-rose-600",
+            )}
+          >
+            <AlertTriangle size={20} />
+          </span>
         </div>
       </div>
 
@@ -475,31 +541,49 @@ function AlertasHomeScreen({ vertical }: { vertical: Vertical }) {
             <FieldLabel>Prioridad</FieldLabel>
             <SelectField>Todas</SelectField>
           </div>
-          <span className={cn("ml-auto self-end rounded-full px-3 py-1.5 text-xs font-semibold", chipBg)}>
-            {alerts.length} activas
-          </span>
+          <div className="ml-auto flex items-center gap-2 self-end rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-2 text-xs text-neutral-400">
+            Barra de control del equipo
+          </div>
         </div>
-        <div className="space-y-2">
+        <div className="space-y-2.5">
           {alerts.map((a) => (
             <div
               key={a.title}
-              className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-neutral-50 p-4"
+              className={cn(
+                "flex flex-wrap items-start gap-3 rounded-xl border-l-4 bg-white p-4 shadow-sm",
+                a.priority === "Alta" ? "border-l-rose-600" : a.priority === "Media" ? "border-l-amber-500" : "border-l-emerald-500",
+              )}
             >
-              <div className="min-w-[200px] flex-1">
-                <p className="text-sm font-semibold text-neutral-800">{a.title}</p>
-                <p className="text-xs text-neutral-500">{a.detail}</p>
-              </div>
-              <span className="hidden shrink-0 text-xs text-neutral-400 sm:block">{a.source}</span>
-              <Badge tone={a.priority === "Alta" ? "red" : "amber"}>{a.priority}</Badge>
-              <button
-                type="button"
+              <span
                 className={cn(
-                  "flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors",
-                  resolveClass,
+                  "flex h-9 w-9 shrink-0 items-center justify-center rounded-full",
+                  a.priority === "Alta" ? "bg-rose-50 text-rose-600" : a.priority === "Media" ? "bg-amber-50 text-amber-600" : "bg-emerald-50 text-emerald-600",
                 )}
               >
-                <CheckCircle2 size={13} /> Resolver
-              </button>
+                <AlertTriangle size={16} />
+              </span>
+              <div className="min-w-[200px] flex-1">
+                <div className="flex flex-wrap items-center gap-2">
+                  <p className="text-sm font-semibold text-neutral-800">{a.title}</p>
+                  <span className="rounded-full bg-neutral-100 px-2 py-0.5 text-[10px] font-semibold text-neutral-500">{a.source}</span>
+                </div>
+                <p className="mt-1 text-xs text-neutral-500">{a.detail}</p>
+                <p className="mt-1.5 text-[11px] text-neutral-400">
+                  Responsable: {a.responsable} · Vence: {a.vence}
+                </p>
+              </div>
+              <div className="flex shrink-0 items-center gap-2">
+                <Badge tone={priorityTone[a.priority]}>{a.priority.toUpperCase()}</Badge>
+                <button
+                  type="button"
+                  className={cn(
+                    "flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold transition-colors",
+                    resolveClass,
+                  )}
+                >
+                  <CheckCircle2 size={13} /> Resolver
+                </button>
+              </div>
             </div>
           ))}
         </div>
