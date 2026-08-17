@@ -1,0 +1,41 @@
+name: CRM — verificar Microsoft 365
+
+# Los runners de GitHub tienen salida a internet sin restricciones, así que resuelven
+# los registros MX de los leads sin depender de la red de nadie. El resultado queda en
+# el log del job (y como artefacto) para volcarlo a docs/crm/leads.csv.
+
+on:
+  push:
+    paths:
+      - 'docs/crm/leads.csv'
+      - 'scripts/crm-mx-check.py'
+      - '.github/workflows/crm-mx-check.yml'
+  workflow_dispatch:
+
+jobs:
+  mx:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Resolver MX de cada dominio
+        run: python3 scripts/crm-mx-check.py --all --json | tee mx-resultado.txt
+
+      - name: Resumen
+        run: |
+          echo '### Leads por grado' >> "$GITHUB_STEP_SUMMARY"
+          grep '^JSON ' mx-resultado.txt | sed 's/^JSON //' \
+            | python3 -c 'import json,sys,collections; \
+              filas=[json.loads(l) for l in sys.stdin]; \
+              c=collections.Counter(f["grado"] for f in filas); \
+              print("\n".join(f"- Grado {g}: {n}" for g,n in sorted(c.items())))' \
+            >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: crm-mx-resultado
+          path: mx-resultado.txt

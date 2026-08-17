@@ -98,6 +98,7 @@ def main() -> int:
     parser.add_argument("--all", action="store_true", help="revalida filas ya verificadas")
     parser.add_argument("--dry-run", action="store_true", help="no escribe el CSV")
     parser.add_argument("--domain", help="consulta un dominio suelto y termina")
+    parser.add_argument("--json", action="store_true", help="imprime el resultado como JSON")
     args = parser.parse_args()
 
     if args.domain:
@@ -142,7 +143,13 @@ def main() -> int:
                 "buscar contacto en LinkedIn" if ms365 == "si" else "verificar tamaño antes de invertir tiempo"
             )
         checked += 1
-        print(f"{domain:40s} {provider:20s} ms365={ms365:6s} grado={grade}")
+        if args.json:
+            print("JSON " + json.dumps(
+                {"dominio": domain, "proveedor_mail": provider, "ms365": ms365, "grado": grade},
+                ensure_ascii=False,
+            ))
+        else:
+            print(f"{domain:40s} {provider:20s} ms365={ms365:6s} grado={grade}")
 
     grades = {}
     for row in rows:
