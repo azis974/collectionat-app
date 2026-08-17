@@ -4,10 +4,32 @@ CRM mínimo en CSV, pensado para importarse a Google Sheets y trabajarse ahí.
 Los criterios de calificación salen de [`docs/icp.md`](../icp.md).
 
 - **`leads.csv`** — la base de leads. Una fila por empresa.
-- **`../../scripts/crm-mx-check.py`** — completa el proveedor de correo de cada dominio
-  (el filtro nº 2 del ICP: ¿usan Microsoft 365?) y asigna el grado.
+- **`Collectionat-CRM.xlsx`** — la misma base ya formateada, para subir a Drive.
+- **`../../scripts/apps-script/Codigo.gs`** — ⭐ el camino fácil: la planilla se arma y se
+  califica sola desde un menú, sin instalar nada.
+- **`../../scripts/crm-mx-check.py`** — la versión de línea de comandos, por si preferís
+  trabajar el CSV desde la terminal.
+- **`../../scripts/crm-build-xlsx.py`** — regenera el `.xlsx` cuando cambia el CSV.
 
-## Importarlo a Google Sheets
+## El camino fácil: la planilla se llena sola
+
+1. Abrí [sheets.new](https://sheets.new) (planilla nueva en blanco).
+2. **Extensiones → Apps Script**. Borrá lo que haya y pegá todo `scripts/apps-script/Codigo.gs`.
+3. Guardá, volvé a la planilla y recargá: aparece el menú **Collectionat CRM**.
+
+Desde ese menú:
+
+| Opción | Qué hace |
+|---|---|
+| **Armar CRM** | Crea las columnas, los desplegables, el filtro y carga los leads iniciales. |
+| **Verificar Microsoft 365** | Consulta los MX de cada dominio y completa `proveedor_mail`, `ms365` y `grado`. Los grado A quedan pintados de verde. |
+| **Agregar dominio…** | Sumás "Empresa, dominio.com.ar" y lo califica en el momento. |
+
+La consulta DNS corre en los servidores de Google, así que no depende de tu red ni de que
+tengas Python instalado. Si un dominio no responde, la fila **queda sin tocar** en vez de
+marcarse mal.
+
+## Alternativa: importar el CSV a mano
 
 1. Google Sheets → **Archivo › Importar › Subir** → `leads.csv`.
 2. Tipo de separador: **coma**. Codificación UTF-8 (viene así).
