@@ -7,6 +7,7 @@ name: CRM — buscar contactos
 on:
   push:
     paths:
+      - 'docs/crm/leads.csv'
       - 'scripts/crm-scrape-contacts.py'
       - '.github/workflows/crm-contactos.yml'
   workflow_dispatch:
