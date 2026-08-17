@@ -17,6 +17,7 @@ from __future__ import annotations
 import argparse
 import concurrent.futures
 import csv
+import http.client
 import json
 import re
 import sys
@@ -52,13 +53,17 @@ PALABRAS_CONTACTO = ("contacto", "contactanos", "contact", "quienes-somos", "nos
 
 
 def bajar(url: str) -> str | None:
+    # Hay sitios con links que llevan espacios o acentos sin escapar (typico de los
+    # "solicitar cotización?producto=..."). urllib los rechaza, así que se escapan.
+    url = urllib.parse.quote(url, safe=":/?#[]@!$&'()*+,;=%~")
     req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "text/html,*/*"})
     try:
         with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:
             if resp.status != 200:
                 return None
             crudo = resp.read(600_000)
-    except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, OSError, ValueError):
+    except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, OSError,
+            ValueError, http.client.HTTPException):
         return None
     for enc in ("utf-8", "latin-1"):
         try:
@@ -125,6 +130,16 @@ def extraer(html: str, dominio: str) -> tuple[list[str], list[str]]:
 
 
 def procesar(fila: dict) -> dict:
+    # Un sitio roto no puede tumbar la corrida entera: cualquier error deja la fila vacía.
+    try:
+        return _procesar(fila)
+    except Exception as e:  # noqa: BLE001 - se reporta y se sigue
+        print(f"ERROR {fila.get('dominio', '?')}: {type(e).__name__}: {e}", file=sys.stderr)
+        return {"id": fila["id"], "empresa": fila["empresa"], "dominio": fila.get("dominio", ""),
+                "emails": [], "telefonos": [], "paginas": 0}
+
+
+def _procesar(fila: dict) -> dict:
     web, dominio = fila.get("sitio_web", "").strip(), fila.get("dominio", "").strip()
     resultado = {"id": fila["id"], "empresa": fila["empresa"], "dominio": dominio,
                  "emails": [], "telefonos": [], "paginas": 0}

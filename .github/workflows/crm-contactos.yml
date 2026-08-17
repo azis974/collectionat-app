@@ -24,7 +24,10 @@ jobs:
           python-version: '3.12'
 
       - name: Leer los sitios de los leads
-        run: python3 scripts/crm-scrape-contacts.py --json | tee contactos.txt
+        # pipefail para que un error del script no quede tapado por el exit 0 de tee
+        run: |
+          set -o pipefail
+          python3 scripts/crm-scrape-contacts.py --json | tee contactos.txt
 
       - uses: actions/upload-artifact@v4
         with:
