@@ -1,0 +1,31 @@
+name: CRM — buscar contactos
+
+# Lee el sitio web público de cada lead y extrae los datos de contacto que la propia
+# empresa publica (mailto:, tel:, wa.me). Corre en los runners de GitHub porque necesita
+# salida a internet sin restricciones. El resultado queda en el log y como artefacto.
+
+on:
+  push:
+    paths:
+      - 'scripts/crm-scrape-contacts.py'
+      - '.github/workflows/crm-contactos.yml'
+  workflow_dispatch:
+
+jobs:
+  contactos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Leer los sitios de los leads
+        run: python3 scripts/crm-scrape-contacts.py --json | tee contactos.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: crm-contactos
+          path: contactos.txt
