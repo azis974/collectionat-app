@@ -33,6 +33,13 @@ import {
   Layers,
   CreditCard,
   Wand,
+  Store,
+  Receipt,
+  Package,
+  Building,
+  Stamp,
+  Calculator,
+  Truck,
 } from "lucide-react";
 import OrbitingCirclesGlobe from "@/components/ui/orbiting-circles-02";
 import AskCollectionatChat from "@/components/ui/ruixen-moon-chat";
@@ -417,35 +424,21 @@ const PRICING_PLANS: {
   {
     id: "a",
     name: "Plan A",
+    tag: "Solución integral",
     tabs: "20",
     users: "2",
-    price: "$4,500",
+    price: "$2,500",
     priceUnit: "USD",
-    description: "Conectividad total con infraestructura Microsoft y gestión centralizada.",
+    description: "Solución digital integral para tu empresa — con dominio de correo gratis el primer año e IA incluida.",
     features: [
-      "20 solapas de gestión activas",
-      "2 usuarios incluidos",
-      "Integración con Outlook, Teams y SharePoint",
-      "Base de datos centralizada",
+      "Dominio de correo corporativo gratis el primer año 🎁",
+      "Módulo de IA para preguntas y respuestas frecuentes",
+      "Hasta 20 solapas configurables",
+      "2 usuarios Microsoft + 2 correos corporativos (Web/App)",
+      "100 GB de almacenamiento",
+      "30 días de implementación + soporte técnico 24/7",
     ],
     cta: "Solicitar Plan A",
-    highlight: false,
-  },
-  {
-    id: "b",
-    name: "Plan B",
-    tabs: "50",
-    users: "3",
-    price: "$9,000",
-    priceUnit: "USD",
-    description: "Alto rendimiento, sincronización avanzada y todo conectado bajo el ecosistema Microsoft.",
-    features: [
-      "50 solapas de gestión activas",
-      "3 usuarios incluidos",
-      "Sincronización avanzada en tiempo real",
-      "Integración completa con Microsoft 365",
-    ],
-    cta: "Elegir Plan B",
     highlight: true,
   },
   {
@@ -493,10 +486,71 @@ const INDUSTRIES = [
     ],
   },
   {
+    label: "Administradoras de consorcios",
+    icon: Building,
+    description:
+      "Expensas, reclamos y mantenimiento de edificios, con comunicación directa y ordenada hacia los propietarios.",
+    modules: [
+      { icon: Receipt, name: "Expensas" },
+      { icon: AlertTriangle, name: "Reclamos" },
+      { icon: Calendar, name: "Mantenimiento" },
+      { icon: Users, name: "Propietarios" },
+      { icon: Mail, name: "Comunicados" },
+    ],
+  },
+  {
+    label: "Escribanías / notarías",
+    icon: Stamp,
+    description:
+      "Escrituras, trámites notariales y clientes, con seguimiento de vencimientos y documentación centralizada.",
+    modules: [
+      { icon: FileText, name: "Escrituras" },
+      { icon: FolderOpen, name: "Documentación" },
+      { icon: Calendar, name: "Vencimientos" },
+      { icon: Users, name: "Clientes" },
+    ],
+  },
+  {
+    label: "Estudios contables",
+    icon: Calculator,
+    description:
+      "Clientes, vencimientos impositivos y documentación contable, todo centralizado y con alertas automáticas.",
+    modules: [
+      { icon: Users, name: "Clientes" },
+      { icon: Calendar, name: "Vencimientos impositivos" },
+      { icon: FolderOpen, name: "Documentación" },
+      { icon: AlertTriangle, name: "Alertas" },
+    ],
+  },
+  {
+    label: "Distribuidoras / mayoristas",
+    icon: Truck,
+    description:
+      "Stock, pedidos y clientes mayoristas, con seguimiento de entregas y facturación integrada.",
+    modules: [
+      { icon: Package, name: "Stock" },
+      { icon: Receipt, name: "Pedidos y facturación" },
+      { icon: Users, name: "Clientes mayoristas" },
+      { icon: Truck, name: "Entregas" },
+    ],
+  },
+  {
+    label: "Comercios y microempresas",
+    icon: Store,
+    description:
+      "Papelerías, kioscos, talleres y cualquier negocio chico que quiera dejar el cuaderno y las planillas sueltas — inventario, ventas y clientes en un solo lugar.",
+    modules: [
+      { icon: Package, name: "Inventario" },
+      { icon: Receipt, name: "Ventas y facturación" },
+      { icon: Users, name: "Clientes" },
+      { icon: Sparkles, name: "Chat AI" },
+    ],
+  },
+  {
     label: "Tu rubro también",
     icon: Building2,
     description:
-      "Inmobiliarias y estudios jurídicos son solo dos ejemplos: cada implementación de Collectionat se arma a medida, con los módulos y permisos que tu empresa realmente necesita.",
+      "Inmobiliarias, estudios jurídicos y comercios son solo algunos ejemplos: cada implementación de Collectionat se arma a medida, con los módulos y permisos que tu empresa realmente necesita — sin importar el tamaño.",
     modules: [
       { icon: LayoutDashboard, name: "Dashboard a medida" },
       { icon: Workflow, name: "Automatización de flujos" },
@@ -1010,7 +1064,7 @@ export default function CollectionatLanding() {
               </p>
             </motion.div>
 
-            <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-3">
+            <div className="mx-auto grid max-w-4xl gap-6 sm:grid-cols-2">
               {PRICING_PLANS.map((plan, index) => (
                 <motion.div
                   key={plan.id}
@@ -1163,6 +1217,11 @@ export default function CollectionatLanding() {
                 las necesidades de cada cliente para facilitar la inversión.
               </p>
             </motion.div>
+
+            <p className="mx-auto mt-4 max-w-2xl text-center text-xs text-slate-400">
+              El dominio de correo corporativo es gratis los primeros 12 meses (renovación anual estándar a partir
+              del 2.º año). Las licencias de Microsoft ($275 USD anuales por usuario) se renuevan anualmente.
+            </p>
           </div>
         </section>
 

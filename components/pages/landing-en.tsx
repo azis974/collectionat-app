@@ -33,6 +33,13 @@ import {
   Layers,
   CreditCard,
   Wand,
+  Store,
+  Receipt,
+  Package,
+  Building,
+  Stamp,
+  Calculator,
+  Truck,
 } from "lucide-react";
 import OrbitingCirclesGlobe from "@/components/ui/orbiting-circles-02";
 import AskCollectionatChat from "@/components/ui/ruixen-moon-chat-en";
@@ -417,35 +424,21 @@ const PRICING_PLANS: {
   {
     id: "a",
     name: "Plan A",
+    tag: "All-in-one solution",
     tabs: "20",
     users: "2",
-    price: "$4,500",
+    price: "$2,500",
     priceUnit: "USD",
-    description: "Total connectivity with Microsoft infrastructure and centralized management.",
+    description: "An all-in-one digital solution for your business — with a free email domain the first year and AI included.",
     features: [
-      "20 active management tabs",
-      "2 users included",
-      "Integration with Outlook, Teams, and SharePoint",
-      "Centralized database",
+      "Free corporate email domain for the first year 🎁",
+      "AI module for frequently asked questions",
+      "Up to 20 configurable tabs",
+      "2 Microsoft users + 2 corporate emails (Web/App)",
+      "100 GB of storage",
+      "30 days of implementation + 24/7 technical support",
     ],
     cta: "Request Plan A",
-    highlight: false,
-  },
-  {
-    id: "b",
-    name: "Plan B",
-    tabs: "50",
-    users: "3",
-    price: "$9,000",
-    priceUnit: "USD",
-    description: "High performance, advanced sync, and everything connected under the Microsoft ecosystem.",
-    features: [
-      "50 active management tabs",
-      "3 users included",
-      "Advanced real-time sync",
-      "Full Microsoft 365 integration",
-    ],
-    cta: "Choose Plan B",
     highlight: true,
   },
   {
@@ -493,10 +486,71 @@ const INDUSTRIES = [
     ],
   },
   {
+    label: "Condo & Property Management",
+    icon: Building,
+    description:
+      "Dues, complaints, and building maintenance, with clear and direct communication to unit owners.",
+    modules: [
+      { icon: Receipt, name: "Dues" },
+      { icon: AlertTriangle, name: "Complaints" },
+      { icon: Calendar, name: "Maintenance" },
+      { icon: Users, name: "Owners" },
+      { icon: Mail, name: "Announcements" },
+    ],
+  },
+  {
+    label: "Notary Offices",
+    icon: Stamp,
+    description:
+      "Deeds, notarial procedures, and clients, with deadline tracking and centralized documentation.",
+    modules: [
+      { icon: FileText, name: "Deeds" },
+      { icon: FolderOpen, name: "Documentation" },
+      { icon: Calendar, name: "Deadlines" },
+      { icon: Users, name: "Clients" },
+    ],
+  },
+  {
+    label: "Accounting Firms",
+    icon: Calculator,
+    description:
+      "Clients, tax deadlines, and accounting documentation, all centralized with automatic alerts.",
+    modules: [
+      { icon: Users, name: "Clients" },
+      { icon: Calendar, name: "Tax deadlines" },
+      { icon: FolderOpen, name: "Documentation" },
+      { icon: AlertTriangle, name: "Alerts" },
+    ],
+  },
+  {
+    label: "Distributors & Wholesalers",
+    icon: Truck,
+    description:
+      "Stock, orders, and wholesale clients, with delivery tracking and integrated billing.",
+    modules: [
+      { icon: Package, name: "Stock" },
+      { icon: Receipt, name: "Orders & billing" },
+      { icon: Users, name: "Wholesale clients" },
+      { icon: Truck, name: "Deliveries" },
+    ],
+  },
+  {
+    label: "Shops & Small Businesses",
+    icon: Store,
+    description:
+      "Stationery stores, kiosks, workshops, and any small business ready to leave the notebook and loose spreadsheets behind — inventory, sales, and customers in one place.",
+    modules: [
+      { icon: Package, name: "Inventory" },
+      { icon: Receipt, name: "Sales & billing" },
+      { icon: Users, name: "Customers" },
+      { icon: Sparkles, name: "AI Chat" },
+    ],
+  },
+  {
     label: "Your Industry Too",
     icon: Building2,
     description:
-      "Real estate and law firms are just two examples: every Collectionat implementation is built to order, with the modules and permissions your company actually needs.",
+      "Real estate, law firms, and shops are just some examples: every Collectionat implementation is built to order, with the modules and permissions your company actually needs — no matter the size.",
     modules: [
       { icon: LayoutDashboard, name: "Custom Dashboard" },
       { icon: Workflow, name: "Workflow Automation" },
@@ -1019,7 +1073,7 @@ export default function CollectionatLandingEN() {
               </p>
             </motion.div>
 
-            <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-3">
+            <div className="mx-auto grid max-w-4xl gap-6 sm:grid-cols-2">
               {PRICING_PLANS.map((plan, index) => (
                 <motion.div
                   key={plan.id}
@@ -1172,6 +1226,11 @@ export default function CollectionatLandingEN() {
                 each client&apos;s needs to make the investment easier.
               </p>
             </motion.div>
+
+            <p className="mx-auto mt-4 max-w-2xl text-center text-xs text-slate-400">
+              The corporate email domain is free for the first 12 months (standard annual renewal from year 2
+              onward). Microsoft licenses ($275 USD per user, per year) renew annually.
+            </p>
           </div>
         </section>
 

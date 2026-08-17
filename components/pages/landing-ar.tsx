@@ -33,6 +33,13 @@ import {
   Layers,
   CreditCard,
   Wand,
+  Store,
+  Receipt,
+  Package,
+  Building,
+  Stamp,
+  Calculator,
+  Truck,
 } from "lucide-react";
 import OrbitingCirclesGlobe from "@/components/ui/orbiting-circles-02";
 import AskCollectionatChat from "@/components/ui/ruixen-moon-chat-ar";
@@ -416,35 +423,21 @@ const PRICING_PLANS: {
   {
     id: "a",
     name: "الباقة A",
+    tag: "حل متكامل",
     tabs: "20",
     users: "2",
-    price: "$4,500",
+    price: "$2,500",
     priceUnit: "USD",
-    description: "اتصال كامل ببنية Microsoft التحتية وإدارة مركزية.",
+    description: "حل رقمي متكامل لشركتك — مع نطاق بريد إلكتروني مجاني للسنة الأولى وذكاء اصطناعي مدمج.",
     features: [
-      "20 تبويب إدارة نشط",
-      "مستخدمان ضمن الباقة",
-      "تكامل مع Outlook وTeams وSharePoint",
-      "قاعدة بيانات مركزية",
+      "نطاق بريد إلكتروني مؤسسي مجاني للسنة الأولى 🎁",
+      "وحدة ذكاء اصطناعي للأسئلة والأجوبة المتكررة",
+      "حتى 20 تبويبًا قابلاً للتخصيص",
+      "مستخدمان من Microsoft + بريدان إلكترونيان للشركة (ويب/تطبيق)",
+      "100 جيجابايت من التخزين",
+      "30 يومًا من التنفيذ + دعم فني على مدار الساعة",
     ],
     cta: "اطلب الباقة A",
-    highlight: false,
-  },
-  {
-    id: "b",
-    name: "الباقة B",
-    tabs: "50",
-    users: "3",
-    price: "$9,000",
-    priceUnit: "USD",
-    description: "أداء عالٍ، مزامنة متقدمة، وكل شيء متصل ضمن منظومة Microsoft.",
-    features: [
-      "50 تبويب إدارة نشط",
-      "3 مستخدمين ضمن الباقة",
-      "مزامنة لحظية متقدمة",
-      "تكامل كامل مع Microsoft 365",
-    ],
-    cta: "اختر الباقة B",
     highlight: true,
   },
   {
@@ -492,10 +485,71 @@ const INDUSTRIES = [
     ],
   },
   {
+    label: "إدارة الأبنية والمجمعات",
+    icon: Building,
+    description:
+      "الرسوم والشكاوى وصيانة المباني، مع تواصل مباشر ومنظم مع الملاك.",
+    modules: [
+      { icon: Receipt, name: "الرسوم" },
+      { icon: AlertTriangle, name: "الشكاوى" },
+      { icon: Calendar, name: "الصيانة" },
+      { icon: Users, name: "الملاك" },
+      { icon: Mail, name: "الإعلانات" },
+    ],
+  },
+  {
+    label: "مكاتب التوثيق",
+    icon: Stamp,
+    description:
+      "الوثائق والإجراءات التوثيقية والعملاء، مع متابعة المواعيد وتوثيق مركزي.",
+    modules: [
+      { icon: FileText, name: "الوثائق" },
+      { icon: FolderOpen, name: "التوثيق" },
+      { icon: Calendar, name: "المواعيد النهائية" },
+      { icon: Users, name: "العملاء" },
+    ],
+  },
+  {
+    label: "المكاتب المحاسبية",
+    icon: Calculator,
+    description:
+      "العملاء والمواعيد الضريبية والمستندات المحاسبية، كل ذلك مركزي مع تنبيهات تلقائية.",
+    modules: [
+      { icon: Users, name: "العملاء" },
+      { icon: Calendar, name: "المواعيد الضريبية" },
+      { icon: FolderOpen, name: "المستندات" },
+      { icon: AlertTriangle, name: "التنبيهات" },
+    ],
+  },
+  {
+    label: "الموزعون وتجار الجملة",
+    icon: Truck,
+    description:
+      "المخزون والطلبات وعملاء الجملة، مع متابعة التسليم والفوترة المتكاملة.",
+    modules: [
+      { icon: Package, name: "المخزون" },
+      { icon: Receipt, name: "الطلبات والفوترة" },
+      { icon: Users, name: "عملاء الجملة" },
+      { icon: Truck, name: "التسليم" },
+    ],
+  },
+  {
+    label: "المتاجر والمشاريع الصغيرة",
+    icon: Store,
+    description:
+      "متاجر القرطاسية، الأكشاك، الورش، وأي مشروع صغير يريد ترك الدفتر والجداول المتفرقة خلفه — المخزون والمبيعات والعملاء في مكان واحد.",
+    modules: [
+      { icon: Package, name: "المخزون" },
+      { icon: Receipt, name: "المبيعات والفوترة" },
+      { icon: Users, name: "العملاء" },
+      { icon: Sparkles, name: "محادثة الذكاء الاصطناعي" },
+    ],
+  },
+  {
     label: "قطاعك أيضًا",
     icon: Building2,
     description:
-      "العقارات والمكاتب القانونية مجرد مثالين: كل تطبيق لـCollectionat يُصمَّم خصيصًا، بالوحدات والصلاحيات التي تحتاجها شركتك فعليًا.",
+      "العقارات والمكاتب القانونية والمتاجر مجرد أمثلة: كل تطبيق لـCollectionat يُصمَّم خصيصًا، بالوحدات والصلاحيات التي تحتاجها شركتك فعليًا — مهما كان حجمها.",
     modules: [
       { icon: LayoutDashboard, name: "لوحة تحكم مخصصة" },
       { icon: Workflow, name: "أتمتة سير العمل" },
@@ -1008,7 +1062,7 @@ export default function CollectionatLandingAR() {
               </p>
             </motion.div>
 
-            <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-3">
+            <div className="mx-auto grid max-w-4xl gap-6 sm:grid-cols-2">
               {PRICING_PLANS.map((plan, index) => (
                 <motion.div
                   key={plan.id}
@@ -1162,6 +1216,11 @@ export default function CollectionatLandingAR() {
                 عميل لتسهيل الاستثمار.
               </p>
             </motion.div>
+
+            <p className="mx-auto mt-4 max-w-2xl text-center text-xs text-slate-400">
+              نطاق البريد الإلكتروني المؤسسي مجاني خلال أول 12 شهرًا (تجديد سنوي قياسي ابتداءً من السنة الثانية).
+              تُجدَّد تراخيص Microsoft (275 دولارًا أمريكيًا سنويًا لكل مستخدم) سنويًا.
+            </p>
           </div>
         </section>
 

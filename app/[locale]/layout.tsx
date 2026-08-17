@@ -42,7 +42,7 @@ const CONTENT: Record<
   es: {
     title: "CollectionatApp — Dile adiós a Excel. Centraliza tu empresa.",
     description:
-      "CollectionatApp es la plataforma integral de gestión empresarial que elimina la dependencia de hojas de cálculo complejas y centraliza todo en una base de datos inteligente y ágil integrada con Microsoft (Outlook, Teams, SharePoint y OneDrive). Con módulos adaptados a tu industria — inmobiliarias, estudios jurídicos y más — más automatización de flujos y una interfaz de alto rendimiento.",
+      "CollectionatApp es la plataforma integral de gestión empresarial que elimina la dependencia de hojas de cálculo complejas y centraliza todo en una base de datos inteligente y ágil integrada con Microsoft (Outlook, Teams, SharePoint y OneDrive). Con módulos adaptados a tu industria — inmobiliarias, estudios jurídicos, comercios y microempresas de cualquier rubro — más automatización de flujos y una interfaz de alto rendimiento.",
     ogLocale: "es_AR",
     // The Spanish page's real, already-indexed URL is "/" (middleware
     // rewrites "/" -> "/es" internally) — canonical must point there, not
@@ -53,7 +53,7 @@ const CONTENT: Record<
   en: {
     title: "CollectionatApp — Say Goodbye to Excel. Centralize Your Business.",
     description:
-      "CollectionatApp is the all-in-one business management platform that eliminates dependence on complex spreadsheets and centralizes everything in a smart, agile database natively integrated with Microsoft (Outlook, Teams, SharePoint, and OneDrive). With modules tailored to your industry — real estate, law firms, and more — plus workflow automation and a high-performance interface.",
+      "CollectionatApp is the all-in-one business management platform that eliminates dependence on complex spreadsheets and centralizes everything in a smart, agile database natively integrated with Microsoft (Outlook, Teams, SharePoint, and OneDrive). With modules tailored to your industry — real estate, law firms, shops, and small businesses of any kind — plus workflow automation and a high-performance interface.",
     ogLocale: "en_US",
     canonical: "/en",
     planCQuote: "Custom quote",
@@ -61,7 +61,7 @@ const CONTENT: Record<
   ar: {
     title: "CollectionatApp — وداعًا لإكسل. مركّز إدارة شركتك بالكامل",
     description:
-      "CollectionatApp هي منصة إدارة الأعمال المتكاملة التي تلغي الاعتماد على جداول البيانات المعقدة وتُركّز كل شيء في قاعدة بيانات ذكية ومرنة، متصلة بشكل أصلي مع مايكروسوفت (Outlook وTeams وSharePoint وOneDrive). مع وحدات مصممة خصيصًا لقطاعك — العقارات والمكاتب القانونية وغيرها — بالإضافة إلى أتمتة سير العمل وواجهة عالية الأداء.",
+      "CollectionatApp هي منصة إدارة الأعمال المتكاملة التي تلغي الاعتماد على جداول البيانات المعقدة وتُركّز كل شيء في قاعدة بيانات ذكية ومرنة، متصلة بشكل أصلي مع مايكروسوفت (Outlook وTeams وSharePoint وOneDrive). مع وحدات مصممة خصيصًا لقطاعك — العقارات والمكاتب القانونية والمتاجر والمشاريع الصغيرة من أي نوع — بالإضافة إلى أتمتة سير العمل وواجهة عالية الأداء.",
     ogLocale: "ar_AR",
     canonical: "/ar",
     planCQuote: "عرض سعر مخصص",
@@ -176,8 +176,7 @@ export default function LocaleLayout({
               operatingSystem: "Web",
               description: c.description,
               offers: [
-                { "@type": "Offer", name: "Plan A", price: "4500", priceCurrency: "USD" },
-                { "@type": "Offer", name: "Plan B", price: "9000", priceCurrency: "USD" },
+                { "@type": "Offer", name: "Plan A", price: "2500", priceCurrency: "USD" },
                 { "@type": "Offer", name: "Plan C", description: c.planCQuote },
               ],
             }),
