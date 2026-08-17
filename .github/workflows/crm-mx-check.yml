@@ -22,8 +22,13 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Verificar la integridad del CRM
+        run: python3 scripts/crm-verificar.py
+
       - name: Resolver MX de cada dominio
-        run: python3 scripts/crm-mx-check.py --all --json | tee mx-resultado.txt
+        run: |
+          set -o pipefail
+          python3 scripts/crm-mx-check.py --all --json | tee mx-resultado.txt
 
       - name: Resumen
         run: |
