@@ -1,0 +1,21 @@
+name: Revisar configuración de correo
+
+# SPF, DKIM y DMARC del dominio propio. Corre en los runners porque necesita DNS abierto.
+
+on:
+  push:
+    paths:
+      - 'scripts/dns-correo.py'
+      - '.github/workflows/dns-correo.yml'
+  workflow_dispatch:
+
+jobs:
+  dns:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Revisar collectionat.com
+        run: python3 scripts/dns-correo.py collectionat.com
