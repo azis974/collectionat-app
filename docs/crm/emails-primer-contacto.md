@@ -103,6 +103,45 @@ Mismo mail, cambiando los dos párrafos del medio:
 
 ---
 
+## Inmobiliarias
+
+Ojo con este rubro: de las 89 inmobiliarias de la base, **ninguna usa Microsoft 365** — la mayoría
+está en Google Workspace o en servidor propio. Por eso esta versión **no menciona Microsoft 365**:
+decirlo acá no suma tranquilidad, resta pertenencia ("esto no es para nosotros"). Se habla de
+integrarse con el correo y los archivos que ya usan, sin nombrar el proveedor.
+
+**Asunto:** Presentación — Collectionat, organización integral para inmobiliarias
+
+Estimado/a [Nombre]:
+
+Mi nombre es Martina Barbis y represento a Collectionat. Le escribo para poder llegar a la persona
+a cargo de la administración de la inmobiliaria; si no es usted, le agradecería que me indique con
+quién puedo hablar.
+
+Collectionat es un sistema de organización integral para empresas que trabajan con documentación,
+plazos y personas. En una inmobiliaria eso significa cada propiedad y cada contrato con sus
+vencimientos, sus actualizaciones, sus garantías y sus comisiones en un mismo lugar, con avisos
+antes de cada fecha. Se integra con el correo y los archivos que ustedes ya usan, así que no hay
+que migrar nada ni empezar de cero.
+
+Lo que cambia no es tener una herramienta más. Es dejar de vivir pendiente del calendario: un
+contrato que se renueva, una actualización que había que aplicar el mes pasado, una garantía que
+venció sin que nadie lo viera. Con cien contratos en administración eso no se sostiene con memoria
+y planillas, por más ordenado que sea el equipo.
+
+Me gustaría invitarlo a conocerlo con tiempo, sin apuro. Y sobre todo me interesa escuchar cómo se
+organizan hoy: con qué sistemas trabajan, qué les funciona bien y qué termina resolviéndose siempre
+a mano. Eso me permite mostrarle lo que de verdad le sirve y no una presentación genérica.
+
+¿Cómo andan de tiempo esta semana o la próxima?
+
+Gracias por su tiempo,
+
+Martina Barbis
+Collectionat
+
+---
+
 ## Si el mail llega a una casilla general (info@, contacto@)
 
 Reemplazar el primer párrafo por:
