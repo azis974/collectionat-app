@@ -1,143 +1,165 @@
-# Primer contacto por email — plantillas
+# Primer contacto por email
 
-Reglas que valen para todas:
+El mail no dice quién es Martina ni qué vende Collectionat. Dice el desorden con tanto detalle
+que la persona del otro lado entiende, sin que se lo digan, que del lado de acá lo conocen.
 
-- **Texto plano.** Sin logo, sin badges de apps, sin QR, sin adjuntos. Todo eso al segundo mail.
-- **Una sola pregunta al final**, y que sea fácil decir que no.
-- **Menos de 120 palabras.** Se lee entero desde el celular.
-- **Una línea personalizada** al principio (algo real del estudio o la empresa): es la diferencia
-  entre un mail y un mailing.
-- **De a 15 o 20 por día** desde `martina@`, escritos de a uno. Nunca en masa.
-- Mencionar Microsoft 365 solo a los grado A, que son los que lo usan.
+Reglas: texto plano, sin logo, sin QR, sin adjuntos, sin links. Menos de 150 palabras.
+Firma corta: nombre y empresa, nada más. Una sola pregunta al final.
+
+> **La línea que más rinde es la que yo no puedo escribir.** Donde dice `[tu experiencia]`, poné
+> una frase verdadera tuya: dónde viste este desorden de cerca. Un trabajo anterior, un estudio
+> de la familia, la empresa donde te tocó ordenar todo. Una línea real vale más que las otras
+> diez juntas — y es lo único que no se puede copiar.
 
 ---
 
 ## Estudios jurídicos
 
-**Asunto:** Plazos procesales — consulta
+**Asunto:** la carpeta que nadie encuentra un viernes a las siete
 
 Hola [Nombre]:
 
-Soy Martina Barbis, de Collectionat.
+El desorden nunca empieza con un error grande. Empieza con un archivo guardado en el escritorio de
+una computadora, un mail que no se reenvió, una fecha anotada en un cuaderno que solo entiende quien
+la escribió. Nadie hizo nada mal.
 
-Te escribo porque trabajamos con estudios de [ciudad] donde pasa siempre lo mismo: los plazos,
-los expedientes y la documentación de cada causa terminan repartidos entre el correo, carpetas
-compartidas y la memoria de dos o tres personas. Funciona hasta el día que alguien se va de
-vacaciones.
+Y un viernes a las siete hay tres personas buscando lo mismo, con un plazo que vence el lunes.
 
-Armamos una plataforma que centraliza causas, agenda y documentos, y avisa antes de que un
-vencimiento se pase. Corre sobre Microsoft 365, así que usa el correo y los archivos que ustedes
-ya tienen: no hay que migrar nada.
+[tu experiencia: dónde lo viviste de cerca.]
 
-¿Te sirve que te muestre en 15 minutos cómo se vería con una causa real? Si no es para ustedes,
-decímelo y no insisto.
+Por eso existe Collectionat: causas, agenda y documentación en un solo lugar, sobre el Microsoft 365
+que ustedes ya usan, avisando antes de que la fecha llegue y no después.
 
-Martina
+¿Te muestro en 15 minutos cómo se vería con una causa de ustedes? Si no te cierra, me lo decís y no
+te molesto más.
+
+Martina Barbis
+Collectionat
 
 ---
 
 ## Escribanías
 
-**Asunto:** Trámites en curso — consulta
+**Asunto:** el trámite que quedó esperando un papel
 
 Hola [Nombre]:
 
-Soy Martina Barbis, de Collectionat.
+Hay una pregunta simple que casi nunca tiene respuesta simple: ¿en qué estado está cada trámite y
+qué papel de qué parte falta? La respuesta suele existir, pero repartida — en una planilla, en un
+mail viejo, en la cabeza de la persona que hoy no vino.
 
-Te escribo por algo puntual: en las escribanías el cuello de botella suele ser saber, en cualquier
-momento, en qué estado está cada trámite y qué documentación de las partes falta. Eso vive en
-planillas y en la cabeza del equipo.
+Mientras tanto el trámite espera, y el cliente llama.
 
-Hicimos una plataforma que lleva cada trámite con su documentación y sus plazos, y avisa cuando
-algo se está por vencer. Se integra con Microsoft 365, así que trabaja sobre el correo que ya usan.
+[tu experiencia: dónde lo viviste de cerca.]
 
-¿Tenés 15 minutos esta semana para que te lo muestre? Si no aplica, avisame y listo.
+Collectionat junta cada trámite con su documentación y sus plazos, sobre el Microsoft 365 que ya
+usan, y avisa cuando algo se está por vencer.
 
-Martina
+¿Te muestro en 15 minutos cómo se ve con un trámite real de ustedes? Si no es para la escribanía, me
+lo decís tranquilo.
+
+Martina Barbis
+Collectionat
 
 ---
 
 ## Administradoras de consorcios
 
-**Asunto:** Expensas y reclamos por edificio — consulta
+**Asunto:** treinta edificios, un solo día
 
 Hola [Nombre]:
 
-Soy Martina Barbis, de Collectionat.
+Administrar treinta consorcios no es hacer treinta veces lo mismo. Es que hoy, al mismo tiempo,
+haya un reclamo abierto en un edificio, una póliza por vencer en otro, un proveedor esperando la
+orden en un tercero y una asamblea el jueves. Y que todo eso esté en lugares distintos.
 
-Te escribo porque administrar varios consorcios significa multiplicar todo por edificio: expensas,
-reclamos, pólizas, vencimientos de proveedores. Cuando son cinco se maneja; cuando son treinta,
-alguien se pasa el día buscando papeles.
+Cuando algo se pasa, casi nunca es por descuido: es porque nadie podía tener las treinta cosas
+juntas en la cabeza.
 
-Armamos una plataforma que centraliza cada edificio con sus reclamos, su documentación y sus
-vencimientos, y avisa antes de que se pase la fecha. Funciona sobre Microsoft 365.
+[tu experiencia: dónde lo viviste de cerca.]
 
-¿Te sirve que te muestre en 15 minutos cómo se ve con dos o tres edificios cargados?
+Collectionat pone cada edificio con sus reclamos, su documentación y sus vencimientos en un solo
+lugar, sobre el Microsoft 365 que ya usan.
 
-Martina
+¿Te muestro en 15 minutos con dos o tres edificios de ustedes cargados?
+
+Martina Barbis
+Collectionat
 
 ---
 
 ## Estudios contables
 
-**Asunto:** Vencimientos por cliente — consulta
+**Asunto:** el vencimiento que no era de este cliente
 
 Hola [Nombre]:
 
-Soy Martina Barbis, de Collectionat.
+Un estudio contable vive con más fechas encima que cualquier otro negocio: cada cliente con su
+calendario, sus legajos, su documentación. Y todo eso sostenido por planillas y por gente muy
+ordenada trabajando de más para que no se caiga nada.
 
-Te escribo porque un estudio contable tiene, probablemente, la mayor densidad de vencimientos por
-empleado del mercado: cada cliente con su calendario, sus legajos y su documentación. La mayoría lo
-resuelve con planillas y memoria.
+Funciona. Hasta que alguien se toma vacaciones, o entran diez clientes nuevos de golpe.
 
-Hicimos una plataforma que centraliza clientes, legajos y vencimientos, y avisa antes de cada fecha.
-Corre sobre Microsoft 365: usa el correo y los archivos que ya tienen.
+[tu experiencia: dónde lo viviste de cerca.]
 
-¿Te sirve que te muestre en 15 minutos cómo se vería con la cartera de ustedes? Si no es el momento,
-decímelo tranquilo.
+Collectionat centraliza clientes, legajos y vencimientos, y avisa antes de cada fecha, sobre el
+Microsoft 365 que ya tienen.
 
-Martina
+¿Te muestro en 15 minutos cómo se vería con parte de la cartera de ustedes? Si no es el momento, me
+lo decís y listo.
+
+Martina Barbis
+Collectionat
 
 ---
 
 ## Distribuidoras / mayoristas
 
-**Asunto:** Cuentas por cobrar — consulta
+**Asunto:** la plata que está en la camioneta
 
 Hola [Nombre]:
 
-Soy Martina Barbis, de Collectionat.
+Cuando se vende con cuenta corriente y reparto, el estado real de cada cliente está partido en
+pedazos: un remito en la camioneta, un saldo en el sistema de facturación, un acuerdo que quedó
+hablado por teléfono. El que de verdad sabe cómo viene cada cuenta es el repartidor.
 
-Te escribo por el tema cobranza: cuando se vende con cuenta corriente y reparto, el estado de cada
-cliente termina disperso entre remitos, el sistema de facturación y lo que sabe cada repartidor.
+Y cuando hay que reclamar, la conversación empieza con "dejame que lo busco".
 
-Armamos una plataforma que centraliza clientes, contratos y cuentas por cobrar, con alertas de
-vencimiento. Se integra con Microsoft 365.
+[tu experiencia: dónde lo viviste de cerca.]
 
-¿Te sirve que te muestre en 15 minutos cómo se vería con la cartera de ustedes?
+Collectionat junta clientes, contratos y cuentas por cobrar en un solo lugar, con alertas de
+vencimiento, sobre el Microsoft 365 que ya usan.
+
+¿Te muestro en 15 minutos con la cartera de ustedes en pantalla?
+
+Martina Barbis
+Collectionat
+
+---
+
+## Seguimiento (4 o 5 días hábiles después, respondiendo al mismo mail)
+
+Hola [Nombre]:
+
+Te escribo una sola vez más y no te molesto más.
+
+Si en algún momento te sirve ver todo eso junto en un solo lugar, avisame y coordinamos 15 minutos.
+Si no, no hay drama: gracias por el tiempo igual.
 
 Martina
 
 ---
 
-## Seguimiento (a los 4 o 5 días hábiles, respondiendo al mismo mail)
+## Por qué está escrito así
 
-Hola [Nombre]:
-
-Te escribo por última vez por este tema, para no ser pesada.
-
-Si te interesa ver cómo se organiza [causas / trámites / los edificios / los vencimientos] en un
-solo lugar, decime un día y hora y te muestro en 15 minutos. Si no es para ustedes, no te molesto más.
-
-Gracias igual por el tiempo.
-
-Martina
-
----
-
-## Qué NO poner en el primer mail
-
-- Precio. Si preguntan, mejor: ya hay conversación.
-- La palabra "solución", "innovador", "revolucionar", "potenciar".
-- Links a la app o al video. Uno solo, y al sitio, si acaso.
-- "Espero tu respuesta" / "Quedo a la espera": debilita el cierre.
+- **La primera línea es sobre el desorden, no sobre nosotros.** Si la persona asiente con la
+  cabeza en la primera oración, sigue leyendo. Si arranca con "somos una plataforma", no.
+- **"Nadie hizo nada mal."** Un socio administrador no compra algo que insinúa que su estudio es
+  un desastre. Compra algo que le dice que el problema es estructural.
+- **El detalle es la prueba.** No hace falta escribir "entiendo tu dolor": el cuaderno que solo
+  entiende quien lo escribió, la persona que hoy no vino, la plata en la camioneta. Eso lo nombra
+  únicamente alguien que estuvo ahí.
+- **Sin cargo en la firma.** Un cargo ordena la conversación en jerarquías; el mail funciona mejor
+  entre pares.
+- **Sin links ni adjuntos** en el primer mail: es el patrón que los filtros de Microsoft 365 marcan
+  como promoción, y los grado A son justamente los que usan Microsoft 365.
