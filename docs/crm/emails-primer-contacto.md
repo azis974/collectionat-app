@@ -30,8 +30,8 @@ Y un viernes a las siete hay tres personas buscando lo mismo, con un plazo que v
 Por eso existe Collectionat: causas, agenda y documentación en un solo lugar, sobre el Microsoft 365
 que ustedes ya usan, avisando antes de que la fecha llegue y no después.
 
-¿Te muestro en 15 minutos cómo se vería con una causa de ustedes? Si no te cierra, me lo decís y no
-te molesto más.
+Te quiero invitar a conocerla. Son 15 minutos: entro con vos, cargamos una causa de ustedes y ves
+cómo queda. Si preferís mirarla por tu cuenta primero, decime y te paso el acceso.
 
 Martina Barbis
 Collectionat
@@ -55,8 +55,8 @@ Mientras tanto el trámite espera, y el cliente llama.
 Collectionat junta cada trámite con su documentación y sus plazos, sobre el Microsoft 365 que ya
 usan, y avisa cuando algo se está por vencer.
 
-¿Te muestro en 15 minutos cómo se ve con un trámite real de ustedes? Si no es para la escribanía, me
-lo decís tranquilo.
+Te quiero invitar a conocerla. Son 15 minutos: cargamos un trámite real de ustedes y ves cómo queda.
+Si preferís mirarla vos primero, decime y te paso el acceso.
 
 Martina Barbis
 Collectionat
@@ -81,7 +81,8 @@ juntas en la cabeza.
 Collectionat pone cada edificio con sus reclamos, su documentación y sus vencimientos en un solo
 lugar, sobre el Microsoft 365 que ya usan.
 
-¿Te muestro en 15 minutos con dos o tres edificios de ustedes cargados?
+Te quiero invitar a conocerla. Son 15 minutos: cargamos dos o tres edificios de ustedes y ves cómo
+queda. Si preferís recorrerla por tu cuenta antes, decime y te paso el acceso.
 
 Martina Barbis
 Collectionat
@@ -105,8 +106,8 @@ Funciona. Hasta que alguien se toma vacaciones, o entran diez clientes nuevos de
 Collectionat centraliza clientes, legajos y vencimientos, y avisa antes de cada fecha, sobre el
 Microsoft 365 que ya tienen.
 
-¿Te muestro en 15 minutos cómo se vería con parte de la cartera de ustedes? Si no es el momento, me
-lo decís y listo.
+Te quiero invitar a conocerla. Son 15 minutos: cargamos parte de la cartera de ustedes y ves cómo
+queda. Si preferís mirarla vos primero, decime y te paso el acceso.
 
 Martina Barbis
 Collectionat
@@ -130,7 +131,8 @@ Y cuando hay que reclamar, la conversación empieza con "dejame que lo busco".
 Collectionat junta clientes, contratos y cuentas por cobrar en un solo lugar, con alertas de
 vencimiento, sobre el Microsoft 365 que ya usan.
 
-¿Te muestro en 15 minutos con la cartera de ustedes en pantalla?
+Te quiero invitar a conocerla. Son 15 minutos: cargamos la cartera de ustedes y ves cómo queda. Si
+preferís mirarla por tu cuenta antes, decime y te paso el acceso.
 
 Martina Barbis
 Collectionat
@@ -143,8 +145,8 @@ Hola [Nombre]:
 
 Te escribo una sola vez más y no te molesto más.
 
-Si en algún momento te sirve ver todo eso junto en un solo lugar, avisame y coordinamos 15 minutos.
-Si no, no hay drama: gracias por el tiempo igual.
+La invitación sigue en pie: 15 minutos y ves la app funcionando con datos de ustedes. Si no es el
+momento, no hay drama — gracias por el tiempo igual.
 
 Martina
 
@@ -161,5 +163,10 @@ Martina
   únicamente alguien que estuvo ahí.
 - **Sin cargo en la firma.** Un cargo ordena la conversación en jerarquías; el mail funciona mejor
   entre pares.
-- **Sin links ni adjuntos** en el primer mail: es el patrón que los filtros de Microsoft 365 marcan
-  como promoción, y los grado A son justamente los que usan Microsoft 365.
+- **La invitación es el cierre, no el pitch.** "Te quiero invitar a conocerla" es una puerta abierta;
+  "¿te interesa una demo?" es una pregunta comercial que se contesta con un no.
+- **Dos caminos, no uno.** Hay gente que dice que sí a una reunión y gente que primero quiere mirar
+  sola. Ofrecerle las dos opciones duplica las chances de que alguna le sirva.
+- **Sin links, badges ni adjuntos** en el primer mail: es el patrón que los filtros de Microsoft 365
+  marcan como promoción, y los grado A son justamente los que usan Microsoft 365. Por eso el acceso
+  se ofrece, no se pega: quien lo pide, ya está enganchado — y ese mail sí puede llevar el link.
