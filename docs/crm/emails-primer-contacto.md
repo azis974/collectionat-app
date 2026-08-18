@@ -1,37 +1,44 @@
 # Primer contacto por email
 
-El mail no dice quién es Martina ni qué vende Collectionat. Dice el desorden con tanto detalle
-que la persona del otro lado entiende, sin que se lo digan, que del lado de acá lo conocen.
+Estructura: presentación → a quién busco → qué es Collectionat → qué cambia → invitación abierta
+→ pregunta sobre cómo se organizan hoy.
 
-Reglas: texto plano, sin logo, sin QR, sin adjuntos, sin links. Menos de 150 palabras.
-Firma corta: nombre y empresa, nada más. Una sola pregunta al final.
+La pregunta final hace dos cosas al mismo tiempo: abre conversación (es más fácil contestar
+"usamos Excel y Drive" que aceptar una reunión) y te dice con qué competís antes de la primera
+llamada.
 
-> **La línea que más rinde es la que yo no puedo escribir.** Donde dice `[tu experiencia]`, poné
-> una frase verdadera tuya: dónde viste este desorden de cerca. Un trabajo anterior, un estudio
-> de la familia, la empresa donde te tocó ordenar todo. Una línea real vale más que las otras
-> diez juntas — y es lo único que no se puede copiar.
+Reglas: texto plano, sin logo, sin QR, sin adjuntos, sin links. Tratamiento de usted en el primer
+contacto — con socios, escribanos y dueños de más de 50, el tuteo de entrada resta. Cuando
+contestan, se pasa a vos naturalmente.
 
 ---
 
 ## Estudios jurídicos
 
-**Asunto:** la carpeta que nadie encuentra un viernes a las siete
+**Asunto:** Presentación — Collectionat, organización integral para estudios jurídicos
 
-Hola [Nombre]:
+Estimado/a [Nombre]:
 
-El desorden nunca empieza con un error grande. Empieza con un archivo guardado en el escritorio de
-una computadora, un mail que no se reenvió, una fecha anotada en un cuaderno que solo entiende quien
-la escribió. Nadie hizo nada mal.
+Mi nombre es Martina Barbis y represento a Collectionat. Le escribo para poder llegar a la persona
+a cargo de la administración del estudio; si no es usted, le agradecería que me indique con quién
+puedo hablar.
 
-Y un viernes a las siete hay tres personas buscando lo mismo, con un plazo que vence el lunes.
+Collectionat es un sistema de organización integral para empresas que trabajan con documentación,
+plazos y personas. En un estudio jurídico eso significa causas, agenda, expedientes y honorarios en
+un mismo lugar, con avisos antes de cada vencimiento. Funciona sobre Microsoft 365, así que se
+apoya en el correo y los archivos que ustedes ya usan: no hay que migrar nada ni empezar de cero.
 
-[tu experiencia: dónde lo viviste de cerca.]
+Lo que cambia no es tener una herramienta más. Es dejar de depender de que alguien se acuerde.
+Cuando la información deja de estar repartida entre carpetas, mails y planillas, el estudio trabaja
+con la cabeza puesta en el caso y no en encontrar el papel.
 
-Por eso existe Collectionat: causas, agenda y documentación en un solo lugar, sobre el Microsoft 365
-que ustedes ya usan, avisando antes de que la fecha llegue y no después.
+Me gustaría invitarlo a conocerlo con tiempo, sin apuro. Y sobre todo me interesa escuchar cómo se
+organizan hoy: con qué sistemas trabajan, qué les funciona bien y qué termina resolviéndose siempre
+a mano. Eso me permite mostrarle lo que de verdad le sirve y no una presentación genérica.
 
-Te quiero invitar a conocerla. Son 15 minutos: entro con vos, cargamos una causa de ustedes y ves
-cómo queda. Si preferís mirarla por tu cuenta primero, decime y te paso el acceso.
+¿Cómo andan de tiempo esta semana o la próxima?
+
+Gracias por su tiempo,
 
 Martina Barbis
 Collectionat
@@ -40,133 +47,100 @@ Collectionat
 
 ## Escribanías
 
-**Asunto:** el trámite que quedó esperando un papel
+Mismo mail, cambiando los dos párrafos del medio:
 
-Hola [Nombre]:
+**Asunto:** Presentación — Collectionat, organización integral para escribanías
 
-Hay una pregunta simple que casi nunca tiene respuesta simple: ¿en qué estado está cada trámite y
-qué papel de qué parte falta? La respuesta suele existir, pero repartida — en una planilla, en un
-mail viejo, en la cabeza de la persona que hoy no vino.
-
-Mientras tanto el trámite espera, y el cliente llama.
-
-[tu experiencia: dónde lo viviste de cerca.]
-
-Collectionat junta cada trámite con su documentación y sus plazos, sobre el Microsoft 365 que ya
-usan, y avisa cuando algo se está por vencer.
-
-Te quiero invitar a conocerla. Son 15 minutos: cargamos un trámite real de ustedes y ves cómo queda.
-Si preferís mirarla vos primero, decime y te paso el acceso.
-
-Martina Barbis
-Collectionat
+> Collectionat es un sistema de organización integral para empresas que trabajan con documentación,
+> plazos y personas. En una escribanía eso significa cada trámite con su estado, la documentación de
+> cada parte, los folios y las fechas en un mismo lugar, con avisos antes de que algo se venza.
+> Funciona sobre Microsoft 365, así que se apoya en el correo y los archivos que ya usan.
+>
+> Lo que cambia no es tener un sistema más. Es poder responder en el momento en qué estado está cada
+> trámite y qué papel falta, sin depender de la planilla de una sola persona.
 
 ---
 
 ## Administradoras de consorcios
 
-**Asunto:** treinta edificios, un solo día
+**Asunto:** Presentación — Collectionat, organización integral para administradoras
 
-Hola [Nombre]:
-
-Administrar treinta consorcios no es hacer treinta veces lo mismo. Es que hoy, al mismo tiempo,
-haya un reclamo abierto en un edificio, una póliza por vencer en otro, un proveedor esperando la
-orden en un tercero y una asamblea el jueves. Y que todo eso esté en lugares distintos.
-
-Cuando algo se pasa, casi nunca es por descuido: es porque nadie podía tener las treinta cosas
-juntas en la cabeza.
-
-[tu experiencia: dónde lo viviste de cerca.]
-
-Collectionat pone cada edificio con sus reclamos, su documentación y sus vencimientos en un solo
-lugar, sobre el Microsoft 365 que ya usan.
-
-Te quiero invitar a conocerla. Son 15 minutos: cargamos dos o tres edificios de ustedes y ves cómo
-queda. Si preferís recorrerla por tu cuenta antes, decime y te paso el acceso.
-
-Martina Barbis
-Collectionat
+> Collectionat es un sistema de organización integral para empresas que trabajan con documentación,
+> plazos y personas. En una administradora eso significa cada edificio con sus expensas, sus
+> reclamos, sus pólizas y sus proveedores en un mismo lugar, con avisos antes de cada vencimiento.
+> Funciona sobre Microsoft 365, así que se apoya en el correo y los archivos que ya usan.
+>
+> Lo que cambia no es tener un sistema más. Es que treinta consorcios dejen de ser treinta carpetas
+> sueltas y pasen a verse juntos, sin que nadie tenga que acordarse de todo.
 
 ---
 
 ## Estudios contables
 
-**Asunto:** el vencimiento que no era de este cliente
+**Asunto:** Presentación — Collectionat, organización integral para estudios contables
 
-Hola [Nombre]:
-
-Un estudio contable vive con más fechas encima que cualquier otro negocio: cada cliente con su
-calendario, sus legajos, su documentación. Y todo eso sostenido por planillas y por gente muy
-ordenada trabajando de más para que no se caiga nada.
-
-Funciona. Hasta que alguien se toma vacaciones, o entran diez clientes nuevos de golpe.
-
-[tu experiencia: dónde lo viviste de cerca.]
-
-Collectionat centraliza clientes, legajos y vencimientos, y avisa antes de cada fecha, sobre el
-Microsoft 365 que ya tienen.
-
-Te quiero invitar a conocerla. Son 15 minutos: cargamos parte de la cartera de ustedes y ves cómo
-queda. Si preferís mirarla vos primero, decime y te paso el acceso.
-
-Martina Barbis
-Collectionat
+> Collectionat es un sistema de organización integral para empresas que trabajan con documentación,
+> plazos y personas. En un estudio contable eso significa cada cliente con su calendario de
+> vencimientos, sus legajos y su documentación en un mismo lugar, con avisos antes de cada fecha.
+> Funciona sobre Microsoft 365, así que se apoya en el correo y los archivos que ya usan.
+>
+> Lo que cambia no es tener un sistema más. Es que el estudio deje de sostenerse sobre planillas y
+> sobre gente muy ordenada trabajando de más para que no se caiga nada.
 
 ---
 
 ## Distribuidoras / mayoristas
 
-**Asunto:** la plata que está en la camioneta
+**Asunto:** Presentación — Collectionat, organización integral para distribuidoras
 
-Hola [Nombre]:
+> Collectionat es un sistema de organización integral para empresas que trabajan con documentación,
+> plazos y personas. En una distribuidora eso significa cada cliente con su cuenta corriente, sus
+> contratos y su documentación en un mismo lugar, con alertas de vencimiento y de cobranza. Funciona
+> sobre Microsoft 365, así que se apoya en el correo y los archivos que ya usan.
+>
+> Lo que cambia no es tener un sistema más. Es dejar de reconstruir el estado de cada cuenta entre
+> el remito, el sistema de facturación y lo que recuerda el repartidor.
 
-Cuando se vende con cuenta corriente y reparto, el estado real de cada cliente está partido en
-pedazos: un remito en la camioneta, un saldo en el sistema de facturación, un acuerdo que quedó
-hablado por teléfono. El que de verdad sabe cómo viene cada cuenta es el repartidor.
+---
 
-Y cuando hay que reclamar, la conversación empieza con "dejame que lo busco".
+## Si el mail llega a una casilla general (info@, contacto@)
 
-[tu experiencia: dónde lo viviste de cerca.]
+Reemplazar el primer párrafo por:
 
-Collectionat junta clientes, contratos y cuentas por cobrar en un solo lugar, con alertas de
-vencimiento, sobre el Microsoft 365 que ya usan.
+> Mi nombre es Martina Barbis y represento a Collectionat. Le escribo para poder llegar a la persona
+> a cargo de la administración. Si no es quien lee este mail, le agradecería mucho que me ayude a
+> hacérselo llegar: es una presentación breve y creo que le va a interesar.
 
-Te quiero invitar a conocerla. Son 15 minutos: cargamos la cartera de ustedes y ves cómo queda. Si
-preferís mirarla por tu cuenta antes, decime y te paso el acceso.
+---
+
+## Seguimiento (4 o 5 días hábiles después, respondiendo al mismo mail)
+
+Estimado/a [Nombre]:
+
+Vuelvo a escribirle una sola vez, por si el mail anterior quedó en el camino.
+
+Sigo con muchas ganas de conocer cómo se organizan hoy y de mostrarle cómo lo resolvemos nosotros.
+Si prefiere, puedo llamarlo: dígame día y horario y lo coordino a su conveniencia.
+
+Gracias igualmente por el tiempo.
 
 Martina Barbis
 Collectionat
 
 ---
 
-## Seguimiento (4 o 5 días hábiles después, respondiendo al mismo mail)
-
-Hola [Nombre]:
-
-Te escribo una sola vez más y no te molesto más.
-
-La invitación sigue en pie: 15 minutos y ves la app funcionando con datos de ustedes. Si no es el
-momento, no hay drama — gracias por el tiempo igual.
-
-Martina
-
----
-
 ## Por qué está escrito así
 
-- **La primera línea es sobre el desorden, no sobre nosotros.** Si la persona asiente con la
-  cabeza en la primera oración, sigue leyendo. Si arranca con "somos una plataforma", no.
-- **"Nadie hizo nada mal."** Un socio administrador no compra algo que insinúa que su estudio es
-  un desastre. Compra algo que le dice que el problema es estructural.
-- **El detalle es la prueba.** No hace falta escribir "entiendo tu dolor": el cuaderno que solo
-  entiende quien lo escribió, la persona que hoy no vino, la plata en la camioneta. Eso lo nombra
-  únicamente alguien que estuvo ahí.
-- **Sin cargo en la firma.** Un cargo ordena la conversación en jerarquías; el mail funciona mejor
-  entre pares.
-- **La invitación es el cierre, no el pitch.** "Te quiero invitar a conocerla" es una puerta abierta;
-  "¿te interesa una demo?" es una pregunta comercial que se contesta con un no.
-- **Dos caminos, no uno.** Hay gente que dice que sí a una reunión y gente que primero quiere mirar
-  sola. Ofrecerle las dos opciones duplica las chances de que alguna le sirva.
-- **Sin links, badges ni adjuntos** en el primer mail: es el patrón que los filtros de Microsoft 365
-  marcan como promoción, y los grado A son justamente los que usan Microsoft 365. Por eso el acceso
-  se ofrece, no se pega: quien lo pide, ya está enganchado — y ese mail sí puede llevar el link.
+- **La pregunta final es el corazón del mail.** "¿Con qué sistemas trabajan hoy?" es fácil de
+  contestar, no compromete a nada y te da la información que más vale: si dicen Excel y Drive, tenés
+  una venta; si dicen que ya compraron un software del rubro, sabés que el camino es otro.
+- **No se piden 15 minutos.** Se invita a conocer un sistema completo, con tiempo. A un socio
+  administrador el "15 minutos" le suena a llamada de venta; "cuando tenga tiempo" le suena a
+  conversación entre colegas.
+- **Se pide expresamente hablar con el encargado.** Muchos de estos mails los abre alguien que no
+  decide; pedirlo de frente convierte a esa persona en aliada en vez de en un muro.
+- **Microsoft 365 aparece siempre**, pero como tranquilidad ("no hay que migrar nada"), no como
+  argumento técnico.
+- **Sin links ni adjuntos** en el primer mail: es el patrón que los filtros de Microsoft 365 marcan
+  como promoción, y los grado A son justamente los que usan Microsoft 365. El acceso a la app va en
+  la respuesta, a quien lo pide.
