@@ -25,7 +25,7 @@ CSV_PATH = Path(__file__).resolve().parent.parent / "docs" / "crm" / "leads.csv"
 
 COLUMNAS = [
     "id", "vertical", "empresa", "ciudad", "sitio_web", "dominio", "proveedor_mail",
-    "ms365", "tamano_estimado", "cargo_objetivo", "contacto_nombre", "contacto_email",
+    "ms365", "tamano_estimado", "cargo_objetivo", "linkedin_busqueda", "linkedin_perfil", "contacto_nombre", "contacto_email",
     "telefono", "grado", "estado", "proxima_accion", "ultimo_contacto", "fuente", "notas",
 ]
 VERTICALES = {"Inmobiliarias", "Estudios jurídicos", "Administradoras de consorcios",

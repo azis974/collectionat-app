@@ -35,7 +35,7 @@ VERTICALES = [
 ANCHOS = {
     "empresa": 34, "vertical": 28, "ciudad": 12, "sitio_web": 44, "dominio": 30,
     "proveedor_mail": 18, "cargo_objetivo": 30, "contacto_nombre": 22, "contacto_email": 28,
-    "telefono": 18, "estado": 15, "proxima_accion": 32, "ultimo_contacto": 14,
+    "telefono": 18, "estado": 15, "linkedin_busqueda": 30, "linkedin_perfil": 30, "proxima_accion": 32, "ultimo_contacto": 14,
     "fuente": 14, "notas": 70,
 }
 
@@ -106,11 +106,18 @@ def sheet_leads(wb: Workbook) -> None:
     ws.conditional_formatting.add(rango, CellIsRule(
         operator="equal", formula=['"C"'], fill=PatternFill("solid", bgColor="FED7D7")))
 
-    web_col = header.index("sitio_web") + 1
-    for r in range(2, last_row + 1):
-        cell = ws.cell(row=r, column=web_col)
-        if cell.value:
-            cell.hyperlink = cell.value
+    for nombre, etiqueta in (("sitio_web", None), ("linkedin_busqueda", "buscar en LinkedIn")):
+        if nombre not in header:
+            continue
+        col = header.index(nombre) + 1
+        for r in range(2, last_row + 1):
+            cell = ws.cell(row=r, column=col)
+            if not cell.value:
+                continue
+            url = cell.value
+            cell.hyperlink = url
+            if etiqueta:
+                cell.value = etiqueta
             cell.font = Font(color="0563C1", underline="single")
 
 
