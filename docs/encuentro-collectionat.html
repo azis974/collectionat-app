@@ -83,6 +83,34 @@
   .slot.peak{background:var(--accent-soft)}
   footer{padding:40px 0 0;color:var(--muted);font-size:.86rem}
   @media (max-width:620px){.slot{grid-template-columns:1fr;gap:6px}body{font-size:16px}}
+  @media print{
+    :root{
+      --ground:#FFFFFF; --surface:#FFFFFF; --surface-2:#F1F5F5;
+      --ink:#0B1A1E; --ink-2:#33484D; --muted:#63797E; --line:#C9D6D8;
+      --accent:#0E7490; --accent-soft:#E6F2F5; --accent-ink:#0A5364;
+      --alert:#9F1239; --alert-soft:#FCEDF1; --gold:#8A5A0B; --gold-soft:#FBF3E3;
+      --good:#116149; --good-soft:#E7F4EF;
+    }
+    @page{margin:15mm 13mm}
+    body{background:#fff;font-size:10.5pt;line-height:1.5}
+    .wrap{max-width:none;padding:0}
+    header.top{padding:0 0 18px}
+    h1{font-size:26pt}
+    h2{font-size:14pt}
+    h3{font-size:11pt;margin-top:16px}
+    p,td,th,li{max-width:none}
+    section{padding:20px 0 4px;break-inside:auto}
+    .sec-head{break-after:avoid}
+    h2,h3{break-after:avoid}
+    .callout,.slot,.week,.kpi,tr,ul.clean li{break-inside:avoid}
+    .scroll{overflow:visible;break-inside:auto}
+    table{min-width:0;font-size:9pt}
+    th,td{padding:6px 8px}
+    thead{display:table-header-group}
+    .strip{break-inside:avoid}
+    a{text-decoration:none}
+    footer{break-inside:avoid}
+  }
 </style>
 
 <div class="wrap">
