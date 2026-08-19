@@ -121,6 +121,74 @@ def sheet_leads(wb: Workbook) -> None:
             cell.font = Font(color="0563C1", underline="single")
 
 
+# Cuánto pesa cada cosa al ordenar la cola de contacto.
+PESO_VERTICAL = {
+    "Estudios jurídicos": 30, "Estudios contables": 30, "Escribanías": 30,
+    "Administradoras de consorcios": 20, "Distribuidoras / mayoristas": 10,
+    "Inmobiliarias": 0,
+}
+
+
+def prioridad(fila: dict) -> int:
+    """Mayor puntaje = contactar antes."""
+    if fila["grado"] == "C" or fila["estado"] in ("descartado", "perdido"):
+        return -1
+    if not (fila["contacto_email"].strip() or fila["telefono"].strip()):
+        return -1  # sin forma de contacto no entra en la cola
+    p = 100 if fila["grado"] == "A" else 40
+    p += PESO_VERTICAL.get(fila["vertical"], 0)
+    if fila["contacto_email"].strip():
+        p += 10
+    if fila["telefono"].strip():
+        p += 5
+    if fila["ciudad"].startswith("La Plata"):
+        p += 5  # mercado denso y con boca a boca entre colegas
+    return p
+
+
+def sheet_cola(wb: Workbook) -> None:
+    with CSV_PATH.open(encoding="utf-8", newline="") as fh:
+        filas = list(csv.DictReader(fh))
+
+    cola = sorted(
+        ((prioridad(f), f) for f in filas),
+        key=lambda par: (-par[0], par[1]["vertical"], par[1]["empresa"]),
+    )
+    cola = [(p, f) for p, f in cola if p > 0]
+
+    ws = wb.create_sheet("Para contactar", 0)
+    encabezado = ["#", "lote", "grado", "empresa", "vertical", "zona", "a quién buscar",
+                  "email", "teléfono", "LinkedIn", "por dónde empezar", "contactado"]
+    ws.append(encabezado)
+    for idx, ancho in enumerate((5, 9, 7, 34, 28, 14, 30, 30, 18, 20, 46, 12), start=1):
+        ws.column_dimensions[get_column_letter(idx)].width = ancho
+        c = ws.cell(row=1, column=idx)
+        c.font = Font(bold=True, color="FFFFFF")
+        c.fill = PatternFill("solid", fgColor=BRAND)
+    ws.row_dimensions[1].height = 24
+
+    for n, (_, f) in enumerate(cola, start=1):
+        lote = f"día {((n - 1) // 15) + 1}"          # 15 por día, como corresponde
+        ws.append([n, lote, f["grado"], f["empresa"], f["vertical"], f["ciudad"].split(" / ")[0],
+                   f["cargo_objetivo"], f["contacto_email"], f["telefono"], "buscar",
+                   f["proxima_accion"], ""])
+        fila = ws.max_row
+        if f["linkedin_busqueda"]:
+            c = ws.cell(row=fila, column=10)
+            c.hyperlink = f["linkedin_busqueda"]
+            c.font = Font(color="0563C1", underline="single")
+        if f["grado"] == "A":
+            for col in range(1, len(encabezado) + 1):
+                ws.cell(row=fila, column=col).fill = PatternFill("solid", fgColor="D6F5E0")
+
+    ws.freeze_panes = "D2"
+    ws.auto_filter.ref = f"A1:{get_column_letter(len(encabezado))}{ws.max_row}"
+    dv = DataValidation(type="list", formula1='"sí,no contesta,no interesado"', allow_blank=True)
+    ws.add_data_validation(dv)
+    dv.add(f"L2:L{ws.max_row + 50}")
+    print(f"Cola de contacto: {len(cola)} leads priorizados")
+
+
 def sheet_criterios(wb: Workbook) -> None:
     ws = wb.create_sheet("Criterios ICP")
     ws.column_dimensions["A"].width = 28
@@ -152,6 +220,7 @@ def main() -> int:
     wb = Workbook()
     wb.remove(wb.active)
     sheet_leads(wb)
+    sheet_cola(wb)
     sheet_criterios(wb)
     sheet_fuentes(wb)
     wb.save(XLSX_PATH)
