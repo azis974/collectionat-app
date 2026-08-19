@@ -189,6 +189,97 @@ def sheet_cola(wb: Workbook) -> None:
     print(f"Cola de contacto: {len(cola)} leads priorizados")
 
 
+# Invitación para conectar, por rubro. Máximo 300 caracteres: LinkedIn corta.
+INVITACIONES = {
+    "Estudios jurídicos":
+        "Hola [Nombre], veo que llevás la administración del estudio. Trabajo con estudios que "
+        "ordenan causas, plazos y documentación en un solo lugar. Me gustaría conectar y conocer "
+        "cómo se organizan ustedes. Saludos, Martina.",
+    "Escribanías":
+        "Hola [Nombre], me interesa mucho cómo trabajan las escribanías el seguimiento de trámites "
+        "y documentación. Trabajo en Collectionat, donde ordenamos ese tipo de información. "
+        "¿Conectamos? Saludos, Martina.",
+    "Administradoras de consorcios":
+        "Hola [Nombre], administrar varios consorcios a la vez es un desafío de organización "
+        "enorme. Trabajo en Collectionat, ordenando expensas, reclamos y vencimientos por edificio. "
+        "Me gustaría conectar. Saludos, Martina.",
+    "Estudios contables":
+        "Hola [Nombre], los estudios contables manejan más vencimientos por cliente que casi "
+        "cualquier otro negocio. Trabajo en Collectionat, ordenando ese calendario. Me gustaría "
+        "conectar y conocer cómo lo llevan ustedes. Saludos, Martina.",
+    "Distribuidoras / mayoristas":
+        "Hola [Nombre], me interesa cómo las distribuidoras siguen las cuentas por cobrar cuando "
+        "hay reparto de por medio. Trabajo en Collectionat, ordenando ese tipo de información. "
+        "¿Conectamos? Saludos, Martina.",
+    "Inmobiliarias":
+        "Hola [Nombre], me interesa cómo las inmobiliarias siguen los vencimientos y "
+        "actualizaciones de los contratos en administración. Trabajo en Collectionat, ordenando "
+        "esa información. ¿Conectamos? Saludos, Martina.",
+}
+
+
+def prioridad_linkedin(fila: dict) -> int:
+    """En LinkedIn manda otra lógica: primero los que no se pueden alcanzar por mail."""
+    if fila["grado"] == "C" or fila["estado"] in ("descartado", "perdido"):
+        return -1
+    p = 100 if fila["grado"] == "A" else 40
+    if not fila["contacto_email"].strip():
+        p += 35  # sin mail, LinkedIn es la única puerta
+    p += PESO_VERTICAL.get(fila["vertical"], 0)
+    if fila["ciudad"].startswith(("CABA", "GBA", "La Plata")):
+        p += 5   # zonas donde hay perfiles cargados de verdad
+    return p
+
+
+def sheet_linkedin(wb: Workbook) -> None:
+    with CSV_PATH.open(encoding="utf-8", newline="") as fh:
+        filas = list(csv.DictReader(fh))
+
+    cola = sorted(((prioridad_linkedin(f), f) for f in filas),
+                  key=lambda par: (-par[0], par[1]["vertical"], par[1]["empresa"]))
+    cola = [(p, f) for p, f in cola if p > 0]
+
+    ws = wb.create_sheet("LinkedIn", 1)
+    encabezado = ["#", "lote", "grado", "empresa", "vertical", "zona", "a quién buscar",
+                  "buscar perfil", "¿tiene mail?", "invitación para copiar",
+                  "perfil encontrado", "estado"]
+    ws.append(encabezado)
+    for idx, ancho in enumerate((5, 9, 7, 34, 28, 14, 30, 16, 12, 78, 34, 16), start=1):
+        ws.column_dimensions[get_column_letter(idx)].width = ancho
+        c = ws.cell(row=1, column=idx)
+        c.font = Font(bold=True, color="FFFFFF")
+        c.fill = PatternFill("solid", fgColor=BRAND)
+    ws.row_dimensions[1].height = 24
+
+    for n, (_, f) in enumerate(cola, start=1):
+        lote = f"día {((n - 1) // 20) + 1}"   # 20 invitaciones por día es el techo sano
+        ws.append([n, lote, f["grado"], f["empresa"], f["vertical"], f["ciudad"].split(" / ")[0],
+                   f["cargo_objetivo"], "buscar",
+                   "sí" if f["contacto_email"].strip() else "NO — solo LinkedIn",
+                   INVITACIONES.get(f["vertical"], ""), "", ""])
+        fila = ws.max_row
+        if f["linkedin_busqueda"]:
+            c = ws.cell(row=fila, column=8)
+            c.hyperlink = f["linkedin_busqueda"]
+            c.font = Font(color="0563C1", underline="single")
+        ws.cell(row=fila, column=10).alignment = Alignment(wrap_text=True, vertical="top")
+        if f["grado"] == "A":
+            for col in range(1, len(encabezado) + 1):
+                ws.cell(row=fila, column=col).fill = PatternFill("solid", fgColor="D6F5E0")
+        elif not f["contacto_email"].strip():
+            ws.cell(row=fila, column=9).fill = PatternFill("solid", fgColor="FDF0C8")
+
+    ws.freeze_panes = "D2"
+    ws.auto_filter.ref = f"A1:{get_column_letter(len(encabezado))}{ws.max_row}"
+    dv = DataValidation(type="list",
+                        formula1='"invitación enviada,aceptada,mensaje enviado,sin respuesta,no aplica"',
+                        allow_blank=True)
+    ws.add_data_validation(dv)
+    dv.add(f"L2:L{ws.max_row + 50}")
+    sin_mail = sum(1 for _, f in cola if not f["contacto_email"].strip())
+    print(f"Cola de LinkedIn: {len(cola)} leads ({sin_mail} sin mail, arriba de todo)")
+
+
 def sheet_criterios(wb: Workbook) -> None:
     ws = wb.create_sheet("Criterios ICP")
     ws.column_dimensions["A"].width = 28
@@ -221,6 +312,7 @@ def main() -> int:
     wb.remove(wb.active)
     sheet_leads(wb)
     sheet_cola(wb)
+    sheet_linkedin(wb)
     sheet_criterios(wb)
     sheet_fuentes(wb)
     wb.save(XLSX_PATH)
