@@ -1,0 +1,497 @@
+<title>Ruta de Ingresos Collectionat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+
+<style>
+  :root{
+    --ground:#F4F7F7; --surface:#FFFFFF; --surface-2:#EDF2F2;
+    --ink:#0B1A1E; --ink-2:#33484D; --muted:#63797E; --line:#D3DEDF;
+    --accent:#0E7490; --accent-soft:#E0F0F3; --accent-ink:#0A5364;
+    --alert:#9F1239; --alert-soft:#FBE7EC;
+    --gold:#8A5A0B; --gold-soft:#FAF0DC;
+    --good:#116149; --good-soft:#DFF1EA;
+    --display:'Archivo',system-ui,sans-serif;
+    --body:'Source Serif 4',Georgia,serif;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --ground:#091214; --surface:#0F1D21; --surface-2:#14272C;
+      --ink:#E7EFF0; --ink-2:#B4C6C9; --muted:#8AA1A5; --line:#26393E;
+      --accent:#48AFC8; --accent-soft:#102B33; --accent-ink:#8ED2E3;
+      --alert:#F0879F; --alert-soft:#2D1520;
+      --gold:#D6A54A; --gold-soft:#2C2110;
+      --good:#5FC5A5; --good-soft:#0E2A24;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#091214; --surface:#0F1D21; --surface-2:#14272C;
+    --ink:#E7EFF0; --ink-2:#B4C6C9; --muted:#8AA1A5; --line:#26393E;
+    --accent:#48AFC8; --accent-soft:#102B33; --accent-ink:#8ED2E3;
+    --alert:#F0879F; --alert-soft:#2D1520;
+    --gold:#D6A54A; --gold-soft:#2C2110;
+    --good:#5FC5A5; --good-soft:#0E2A24;
+  }
+
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);
+       font-family:var(--body);font-size:17px;line-height:1.65;
+       -webkit-font-smoothing:antialiased}
+  .wrap{max-width:920px;margin:0 auto;padding:0 24px 96px}
+  p{max-width:68ch}
+  a{color:var(--accent-ink)}
+
+  h1,h2,h3,.eyebrow,.kpi-n,th,.tag,.wk{font-family:var(--display)}
+  h1{font-size:clamp(2.1rem,5vw,3.1rem);line-height:1.06;letter-spacing:-.03em;
+     font-weight:700;margin:0 0 14px;text-wrap:balance}
+  h2{font-size:clamp(1.35rem,2.6vw,1.75rem);line-height:1.15;letter-spacing:-.02em;
+     font-weight:700;margin:0;text-wrap:balance}
+  h3{font-size:1.05rem;letter-spacing:-.01em;font-weight:600;margin:32px 0 8px}
+  .eyebrow{font-size:.72rem;text-transform:uppercase;letter-spacing:.16em;
+           font-weight:600;color:var(--accent-ink)}
+
+  header.top{padding:64px 0 40px;border-bottom:1px solid var(--line)}
+  .lede{font-size:1.15rem;color:var(--ink-2);max-width:62ch}
+
+  .strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+         gap:1px;background:var(--line);border:1px solid var(--line);margin:36px 0 0}
+  .kpi{background:var(--surface);padding:16px 18px}
+  .kpi-n{font-family:var(--mono);font-size:1.5rem;font-weight:600;
+         font-variant-numeric:tabular-nums;color:var(--accent-ink);display:block}
+  .kpi-l{font-size:.82rem;color:var(--muted);line-height:1.35;display:block;margin-top:4px}
+
+  section{padding:52px 0 8px;border-bottom:1px solid var(--line)}
+  section:last-of-type{border-bottom:none}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:18px;flex-wrap:wrap}
+  .num{font-family:var(--mono);font-size:.85rem;color:var(--muted);
+       font-variant-numeric:tabular-nums}
+
+  .callout{background:var(--alert-soft);border-left:3px solid var(--alert);
+           padding:20px 22px;margin:24px 0}
+  .callout.ok{background:var(--good-soft);border-left-color:var(--good)}
+  .callout.note{background:var(--gold-soft);border-left-color:var(--gold)}
+  .callout p{margin:0 0 10px;max-width:64ch}
+  .callout p:last-child{margin-bottom:0}
+  .callout strong{font-family:var(--display);font-weight:600}
+
+  .scroll{overflow-x:auto;margin:20px 0;border:1px solid var(--line);background:var(--surface)}
+  table{border-collapse:collapse;width:100%;min-width:560px;font-size:.92rem}
+  th{background:var(--surface-2);font-size:.74rem;text-transform:uppercase;
+     letter-spacing:.1em;font-weight:600;color:var(--ink-2);text-align:left;
+     padding:11px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+  td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top;
+     color:var(--ink-2)}
+  tbody tr:last-child td{border-bottom:none}
+  td.n,th.n{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;
+            white-space:nowrap;color:var(--ink)}
+  tr.total td{background:var(--accent-soft);color:var(--ink);font-weight:600}
+
+  .tag{display:inline-block;font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;
+       font-weight:600;padding:3px 8px;border:1px solid var(--line);color:var(--muted);
+       background:var(--surface);white-space:nowrap}
+  .tag.a{color:var(--accent-ink);border-color:var(--accent);background:var(--accent-soft)}
+  .tag.r{color:var(--alert);border-color:var(--alert);background:var(--alert-soft)}
+
+  ul.clean{list-style:none;padding:0;margin:14px 0}
+  ul.clean li{padding:9px 0 9px 26px;position:relative;border-bottom:1px solid var(--line);
+              max-width:70ch;color:var(--ink-2)}
+  ul.clean li:last-child{border-bottom:none}
+  ul.clean li::before{content:'';position:absolute;left:4px;top:19px;width:7px;height:7px;
+                      background:var(--accent)}
+  ul.clean li b{color:var(--ink);font-family:var(--display);font-weight:600}
+
+  .weeks{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);margin:22px 0}
+  .week{background:var(--surface);padding:18px 20px;display:grid;
+        grid-template-columns:88px 1fr;gap:18px}
+  .wk{font-family:var(--mono);font-size:.8rem;font-weight:600;color:var(--accent-ink);
+      text-transform:uppercase;letter-spacing:.08em;padding-top:2px}
+  .week ol{margin:0;padding-left:18px}
+  .week li{margin-bottom:7px;color:var(--ink-2)}
+  .week li:last-child{margin-bottom:0}
+  .week li b{color:var(--ink);font-family:var(--display);font-weight:600;font-size:.95rem}
+
+  footer{padding:40px 0 0;color:var(--muted);font-size:.86rem}
+  @media (max-width:620px){
+    .week{grid-template-columns:1fr;gap:8px}
+    body{font-size:16px}
+  }
+</style>
+
+<div class="wrap">
+
+<header class="top">
+  <div class="eyebrow">Plan maestro de ejecución comercial · 6 meses</div>
+  <h1>Ruta de ingresos Collectionat</h1>
+  <p class="lede">De cero estructura a un motor de ingresos recurrentes con economía unitaria
+  demostrable. Todo lo que sigue está calculado sobre la base real de 250 empresas verificadas,
+  no sobre supuestos de mercado.</p>
+
+  <div class="strip">
+    <div class="kpi"><span class="kpi-n">USD 136k</span><span class="kpi-l">ARR objetivo al mes 6</span></div>
+    <div class="kpi"><span class="kpi-n">40 + 3</span><span class="kpi-l">clientes Plan A + Plan C</span></div>
+    <div class="kpi"><span class="kpi-n">&lt; 3 meses</span><span class="kpi-l">payback de CAC</span></div>
+    <div class="kpi"><span class="kpi-n">0,8 %</span><span class="kpi-l">cuenta trabajada → cierre</span></div>
+  </div>
+</header>
+
+<section>
+  <div class="sec-head"><span class="num">00</span><h2>Corrección de rumbo antes de arrancar</h2></div>
+
+  <p>El plan pide entrar por inmobiliarias. Los datos de tu propia base dicen otra cosa, y como
+  CRO mi trabajo es ponerlo sobre la mesa antes de que gastes dos meses de capacidad comercial.</p>
+
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Vertical</th><th class="n">Empresas</th><th class="n">Grado A (usan M365)</th><th class="n">Con mail</th><th>Lectura</th></tr></thead>
+      <tbody>
+        <tr><td>Inmobiliarias</td><td class="n">89</td><td class="n">0</td><td class="n">67</td><td>Ninguna usa Microsoft 365. Tu diferencial no aplica.</td></tr>
+        <tr><td>Estudios (jurídicos, contables, escribanías)</td><td class="n">96</td><td class="n">6</td><td class="n">67</td><td>Seis de tus ocho grado A. Fit nativo.</td></tr>
+        <tr class="total"><td>Total verificado</td><td class="n">250</td><td class="n">8</td><td class="n">178</td><td>Verificación uno por uno vía registros MX.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <p><strong>El problema en una línea.</strong> El diferencial de Collectionat es la integración
+    nativa sobre Microsoft 365. En 89 inmobiliarias verificadas, cero lo usan: están en Google
+    Workspace o servidor propio. Entrar por ahí significa vender sin el arma principal, contra un
+    competidor de rubro que ya existe.</p>
+    <p>No es una razón para descartar la vertical: es una razón para <strong>instrumentarla y
+    ponerle fecha de veredicto</strong>.</p>
+  </div>
+
+  <h3>Resolución: doble carril 70 / 30 desde la semana 1</h3>
+  <ul class="clean">
+    <li><b>70 % de la capacidad en inmobiliarias.</b> Es la vertical elegida y tiene volumen real:
+    89 empresas verificadas y más de 13.000 en CABA para escalar la lista. El mensaje se reescribe
+    sin mencionar Microsoft 365 y se centra en el costo de una actualización de alquiler no
+    aplicada.</li>
+    <li><b>30 % en estudios.</b> Seis grado A viven ahí. Es el carril que valida la economía
+    unitaria rápido y produce los primeros casos de éxito documentados.</li>
+    <li><b>Veredicto al día 45.</b> Si inmobiliarias no alcanza 6 % de respuesta ni un cierre, la
+    capacidad rota a 30/70 sin discusión. La decisión ya está tomada hoy; en el día 45 solo se
+    ejecuta.</li>
+  </ul>
+</section>
+
+<section>
+  <div class="sec-head"><span class="num">01</span><h2>Economía unitaria y supuestos</h2></div>
+
+  <p>Todo número del plan se apoya en estos supuestos. Si alguno cambia, cambia el plan entero:
+  están explícitos para poder discutirlos.</p>
+
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Variable</th><th class="n">Valor</th><th>Fundamento</th></tr></thead>
+      <tbody>
+        <tr><td>ACV Plan A</td><td class="n">USD 2.500</td><td>Precio de lista anual. MRR por cliente: USD 208.</td></tr>
+        <tr><td>ACV Plan C (Enterprise)</td><td class="n">USD 12.000</td><td>Estimado a medida para redes multi-sucursal. <span class="tag">a validar</span></td></tr>
+        <tr><td>Margen bruto</td><td class="n">85 %</td><td>SaaS sobre infraestructura del cliente: sin costo de licencias propias.</td></tr>
+        <tr><td>Churn lógico anual</td><td class="n">25 %</td><td>PyME con producto operativo diario. Vida media: 3 años (conservador).</td></tr>
+        <tr><td>LTV Plan A</td><td class="n">USD 6.375</td><td>2.500 × 0,85 × 3 años.</td></tr>
+        <tr><td>CAC objetivo</td><td class="n">&lt; USD 800</td><td>Techo para sostener LTV/CAC &gt; 8×.</td></tr>
+        <tr><td>Costo comercial mes 1–2</td><td class="n">USD 2.500/mes</td><td>Tiempo de CEO valuado a mercado + herramientas.</td></tr>
+        <tr><td>Costo comercial mes 3–6</td><td class="n">USD 3.800/mes</td><td>Suma un SDR desde el mes 3.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout ok">
+    <p><strong>La economía cierra con holgura.</strong> Con CAC de USD 800 y LTV de USD 6.375, la
+    relación es 8×: el estándar de referencia es 3×. El payback de CAC llega en menos de tres
+    meses de facturación.</p>
+    <p>Eso significa que el cuello de botella no es la rentabilidad por cliente: es
+    <strong>volumen de conversaciones</strong>. Todo el plan está diseñado alrededor de esa
+    restricción.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="num">02</span><h2>El embudo, con la matemática al descubierto</h2></div>
+
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Etapa</th><th class="n">Conversión</th><th class="n">Para 1 cierre</th><th>Qué la mueve</th></tr></thead>
+      <tbody>
+        <tr><td>Cuenta trabajada → respuesta</td><td class="n">12 %</td><td class="n">126 cuentas</td><td>Multicanal (mail + LinkedIn + teléfono) sobre una misma cuenta.</td></tr>
+        <tr><td>Respuesta → diagnóstico agendado</td><td class="n">40 %</td><td class="n">15 respuestas</td><td>Diagnóstico sin cargo: se regala valor, no se pide tiempo.</td></tr>
+        <tr><td>Diagnóstico → propuesta</td><td class="n">55 %</td><td class="n">6 diagnósticos</td><td>Hallazgos cuantificados en pesos, no en funcionalidades.</td></tr>
+        <tr><td>Propuesta → cierre</td><td class="n">30 %</td><td class="n">3,3 propuestas</td><td>Precio único, sin escalones ni comité.</td></tr>
+        <tr class="total"><td>Neto punta a punta</td><td class="n">0,79 %</td><td class="n">126 cuentas</td><td>Una venta cada 126 cuentas trabajadas en serio.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <p><strong>Reforecast obligatorio de la Fase 1.</strong> El plan pide 10 a 20 clientes en dos
+    meses. Con una sola persona vendiendo, la capacidad máxima es de 20 cuentas trabajadas por día
+    — unas 800 en dos meses. A 0,79 % neto, eso da <strong>6 cierres</strong>, no 20.</p>
+    <p>Comprometer 20 es comprometer un número que la aritmética no sostiene. El compromiso real es
+    <strong>6 clientes al día 60</strong>, con 10 como objetivo ambicioso si se activa alguna de
+    las palancas de abajo.</p>
+  </div>
+
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Palanca para llegar a 10–20</th><th class="n">Impacto</th><th class="n">Costo</th><th>Decisión</th></tr></thead>
+      <tbody>
+        <tr><td>SDR desde la semana 3 en vez del mes 3</td><td class="n">+100 % capacidad</td><td class="n">USD 1.300/mes</td><td>Recomendada si hay caja.</td></tr>
+        <tr><td>Adelantar cámaras y colegios a la semana 2</td><td class="n">+3 a 5 cierres</td><td class="n">USD 0</td><td><span class="tag a">recomendada</span> Solo cuesta tiempo.</td></tr>
+        <tr><td>Oferta de lanzamiento: 40 % primeros 10 clientes</td><td class="n">+8 pp de cierre</td><td class="n">−USD 10.000 ARR</td><td>Solo a cambio de caso documentado y referencias.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="num">03</span><h2>Fase 1 · Meses 1–2 · Dominio vertical y tracción</h2></div>
+
+  <h3>La oferta de fricción cero</h3>
+  <p>Nadie agenda una demo de un software que no conoce. Todo el mundo acepta que le muestren un
+  problema que tiene y no ve. La secuencia entera existe para llegar a una sola cosa:</p>
+
+  <ul class="clean">
+    <li><b>Demo de 60 segundos.</b> Video sin edición, pantalla real, un solo caso: un contrato que
+    vence en 15 días apareciendo solo en la alerta. Sin música, sin logo animado. Se manda recién
+    cuando responden, nunca en el primer contacto.</li>
+    <li><b>Diagnóstico Operativo Sin Cargo.</b> 30 minutos en videollamada, ellos comparten
+    pantalla con su Excel de contratos. Se relevan tres cosas: contratos sin fecha de
+    actualización cargada, duplicados entre planillas, y vencimientos de los próximos 90 días que
+    nadie tiene a la vista.</li>
+    <li><b>Entregable de una página.</b> A las 24 horas, un PDF con tres números: cuántos contratos
+    en riesgo, cuánto representan en comisiones, cuántas horas mensuales de búsqueda manual. Ese
+    documento es el que vende, no la presentación.</li>
+  </ul>
+
+  <div class="callout note">
+    <p><strong>Por qué el diagnóstico convierte cinco veces mejor que una demo.</strong> Una demo
+    pide que imaginen su problema en tu pantalla. Un diagnóstico les muestra su problema en la
+    propia. Además te deja adentro de su operación: cuando llega la propuesta, ya sabés cuántos
+    contratos manejan y cuánto pierden. El precio deja de ser una discusión de costo y pasa a ser
+    una de retorno.</p>
+  </div>
+
+  <h3>Metas de la Fase 1</h3>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Indicador</th><th class="n">Mes 1</th><th class="n">Mes 2</th><th class="n">Acumulado</th></tr></thead>
+      <tbody>
+        <tr><td>Cuentas trabajadas</td><td class="n">400</td><td class="n">400</td><td class="n">800</td></tr>
+        <tr><td>Respuestas</td><td class="n">48</td><td class="n">48</td><td class="n">96</td></tr>
+        <tr><td>Diagnósticos realizados</td><td class="n">19</td><td class="n">19</td><td class="n">38</td></tr>
+        <tr><td>Propuestas enviadas</td><td class="n">10</td><td class="n">11</td><td class="n">21</td></tr>
+        <tr class="total"><td>Clientes cerrados</td><td class="n">3</td><td class="n">3</td><td class="n">6</td></tr>
+        <tr><td>ARR incorporado</td><td class="n">7.500</td><td class="n">7.500</td><td class="n">USD 15.000</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="num">04</span><h2>Fase 2 · Meses 3–4 · Apalancamiento en ecosistemas</h2></div>
+
+  <p>El outbound directo no escala linealmente con una sola persona. La Fase 2 cambia el motor: en
+  vez de hablarle a una inmobiliaria por vez, se le habla a quien ya tiene a doscientas
+  escuchando.</p>
+
+  <h3>Los tres canales, por orden de retorno</h3>
+  <ul class="clean">
+    <li><b>Colegios y cámaras.</b> CUCICBA en CABA, el Colegio de Martilleros de La Plata, la
+    Cámara Inmobiliaria Argentina. La oferta no es un descuento: es una charla sin cargo para sus
+    socios sobre gestión de vencimientos, y un beneficio exclusivo para matriculados. Un solo
+    acuerdo pone tu marca frente a cientos de empresas del ICP exacto.</li>
+    <li><b>Partners de TI del ecosistema Microsoft.</b> Los consultores que ya implementan Microsoft
+    365 en PyMEs venden horas, no producto. Collectionat les da algo que revender con margen. Se
+    arranca con tres partners y una comisión de 20 % del primer año.</li>
+    <li><b>Referidos de clientes.</b> Un mes de bonificación para quien refiere y 15 % de descuento
+    para el referido. Se pide en un momento exacto: cuando el cliente reporta el primer vencimiento
+    detectado a tiempo. Ese es el pico emocional del ciclo de vida.</li>
+  </ul>
+
+  <h3>Onboarding de 30 días: el activo que sostiene todo</h3>
+  <p>Un cliente que no carga sus datos en la primera semana no renueva nunca. El onboarding no es
+  soporte: es el seguro de la retención y la fábrica de los casos de éxito que necesita la Fase 3.</p>
+  <ul class="clean">
+    <li><b>Día 1 · Carga asistida.</b> Se importan sus planillas en vivo, en videollamada. No se
+    entrega un manual: se deja el sistema con sus datos adentro antes de cortar.</li>
+    <li><b>Día 7 · Primera alerta real.</b> Objetivo explícito: que el sistema le avise algo que no
+    sabía. Es el momento en que el producto deja de ser una promesa.</li>
+    <li><b>Día 30 · Revisión de valor.</b> Se miden vencimientos detectados y horas ahorradas. De
+    esa reunión salen dos cosas: el pedido de referidos y el caso de éxito documentado.</li>
+  </ul>
+
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Indicador</th><th class="n">Mes 3</th><th class="n">Mes 4</th><th class="n">Acumulado</th></tr></thead>
+      <tbody>
+        <tr><td>Cuentas trabajadas (con SDR)</td><td class="n">800</td><td class="n">800</td><td class="n">2.400</td></tr>
+        <tr><td>Clientes por outbound</td><td class="n">6</td><td class="n">6</td><td class="n">18</td></tr>
+        <tr><td>Clientes por canal y referidos</td><td class="n">3</td><td class="n">5</td><td class="n">8</td></tr>
+        <tr class="total"><td>Base activa acumulada</td><td class="n">15</td><td class="n">26</td><td class="n">26 clientes</td></tr>
+        <tr><td>MRR</td><td class="n">3.125</td><td class="n">5.417</td><td class="n">USD 65k ARR</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="num">05</span><h2>Fase 3 · Meses 5–6 · Land &amp; expand y segunda vertical</h2></div>
+
+  <h3>De Plan A a Plan C</h3>
+  <p>El movimiento más rentable de todo el plan no requiere un solo lead nuevo: es multiplicar por
+  cinco el valor de cuentas que ya te conocen y ya cargaron sus datos.</p>
+  <ul class="clean">
+    <li><b>Criterio de selección.</b> Cuentas con más de una sucursal, más de 8 usuarios activos, o
+    que ya pidieron algo a medida. De 26 clientes, esperá 4 o 5 que califiquen.</li>
+    <li><b>El disparador.</b> El informe de valor del día 90: cuando una red ve el dato consolidado
+    de una sucursal, la pregunta "¿y las otras tres?" la hace el cliente, no vos.</li>
+    <li><b>La conversación de precio.</b> No se vende "Plan C". Se vende consolidación multi-sucursal
+    y el asistente de IA sobre la base completa. Ese es el argumento que justifica USD 12.000.</li>
+  </ul>
+
+  <h3>Segunda vertical: estudios y firmas legales</h3>
+  <p>Si el carril del 30 % hizo su trabajo, en el mes 5 no abrís una vertical nueva: escalás una
+  que ya tiene clientes, caso documentado y mensaje probado. El playbook se replica idéntico,
+  cambiando dos cosas: el dolor (plazos procesales en vez de comisiones) y la puerta de entrada
+  (Colegio de Abogados en vez de cámara inmobiliaria).</p>
+
+  <div class="callout note">
+    <p><strong>Sobre la ronda de inversión, sin edulcorar.</strong> Al mes 6, con USD 136k de ARR
+    y crecimiento sostenido, estás en territorio de <em>pre-seed</em> en el mercado local — no de
+    una ronda millonaria. Los números que abren esa puerta son otros: ARR sobre USD 150k, retención
+    neta por ingresos arriba de 100 %, payback de CAC bajo 12 meses y churn de logos bajo 2 %
+    mensual.</p>
+    <p>El objetivo honesto del semestre no es levantar capital: es <strong>llegar al mes 6 con una
+    máquina cuya métrica de conversión sea predecible</strong>. Eso es lo que se financia. Un
+    inversor no compra el ARR: compra la repetibilidad.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="num">06</span><h2>Tablero de control mes a mes</h2></div>
+
+  <div class="scroll">
+    <table>
+      <thead><tr><th>KPI</th><th class="n">M1</th><th class="n">M2</th><th class="n">M3</th><th class="n">M4</th><th class="n">M5</th><th class="n">M6</th></tr></thead>
+      <tbody>
+        <tr><td>Cuentas trabajadas</td><td class="n">400</td><td class="n">400</td><td class="n">800</td><td class="n">800</td><td class="n">800</td><td class="n">800</td></tr>
+        <tr><td>Tasa de respuesta</td><td class="n">10 %</td><td class="n">12 %</td><td class="n">12 %</td><td class="n">14 %</td><td class="n">14 %</td><td class="n">15 %</td></tr>
+        <tr><td>Diagnósticos</td><td class="n">19</td><td class="n">19</td><td class="n">38</td><td class="n">42</td><td class="n">42</td><td class="n">45</td></tr>
+        <tr><td>Cierres del mes</td><td class="n">3</td><td class="n">3</td><td class="n">9</td><td class="n">11</td><td class="n">7</td><td class="n">7</td></tr>
+        <tr><td>Clientes activos</td><td class="n">3</td><td class="n">6</td><td class="n">15</td><td class="n">26</td><td class="n">33</td><td class="n">40</td></tr>
+        <tr><td>Cuentas Plan C</td><td class="n">0</td><td class="n">0</td><td class="n">0</td><td class="n">0</td><td class="n">1</td><td class="n">3</td></tr>
+        <tr class="total"><td>ARR (USD)</td><td class="n">7,5k</td><td class="n">15k</td><td class="n">37,5k</td><td class="n">65k</td><td class="n">94,5k</td><td class="n">136k</td></tr>
+        <tr><td>CAC</td><td class="n">833</td><td class="n">833</td><td class="n">422</td><td class="n">345</td><td class="n">543</td><td class="n">543</td></tr>
+        <tr><td>LTV / CAC</td><td class="n">7,7×</td><td class="n">7,7×</td><td class="n">15×</td><td class="n">18×</td><td class="n">11×</td><td class="n">11×</td></tr>
+        <tr><td>Churn de logos</td><td class="n">0 %</td><td class="n">0 %</td><td class="n">&lt; 2 %</td><td class="n">&lt; 2 %</td><td class="n">&lt; 2 %</td><td class="n">&lt; 2 %</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Tres números se revisan todas las semanas y solo tres: <b>cuentas trabajadas</b> (esfuerzo),
+  <b>diagnósticos agendados</b> (tracción) y <b>propuestas abiertas</b> (caja próxima). El ARR es
+  consecuencia, no palanca: mirarlo a diario no lo mueve.</p>
+</section>
+
+<section>
+  <div class="sec-head"><span class="num">07</span><h2>Cronograma semanal del equipo comercial</h2></div>
+
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Día</th><th>Mañana · 9 a 13</th><th>Tarde · 14 a 18</th><th class="n">Meta del día</th></tr></thead>
+      <tbody>
+        <tr><td><b>Lunes</b></td><td>Revisión de pipeline. Carga de 40 cuentas nuevas al CRM y armado de los lotes de la semana.</td><td>Bloque de prospección: 15 mails, 20 invitaciones de LinkedIn.</td><td class="n">35 toques</td></tr>
+        <tr><td><b>Martes</b></td><td>Prospección: 15 mails, 20 LinkedIn, 10 llamadas en frío.</td><td>Diagnósticos operativos (4 turnos de 30 min).</td><td class="n">4 diagnósticos</td></tr>
+        <tr><td><b>Miércoles</b></td><td>Prospección: 15 mails, 20 LinkedIn, 10 llamadas.</td><td>Diagnósticos (4 turnos) + entregables de los del martes.</td><td class="n">4 diagnósticos</td></tr>
+        <tr><td><b>Jueves</b></td><td>Prospección: 15 mails, 20 LinkedIn, 10 llamadas.</td><td>Propuestas y negociación. Seguimiento de las propuestas abiertas.</td><td class="n">3 propuestas</td></tr>
+        <tr><td><b>Viernes</b></td><td>Seguimientos de la semana. Onboarding de clientes nuevos.</td><td>Métricas de la semana. Un contacto de canal (cámara, colegio o partner).</td><td class="n">1 canal</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <p><strong>La regla que protege todo el plan.</strong> El bloque de prospección de la mañana es
+    intocable. Ninguna reunión, ningún soporte, ninguna urgencia entra ahí. El día que se empieza a
+    negociar ese bloque, el pipeline se seca — y el efecto no se ve esa semana, se ve seis semanas
+    después, cuando ya no hay nada que cerrar.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="num">08</span><h2>Checklist de ejecución · Primeras 4 semanas</h2></div>
+
+  <div class="weeks">
+    <div class="week">
+      <div class="wk">Semana 1</div>
+      <ol>
+        <li><b>Activar DKIM y DMARC en el dominio.</b> Hoy están sin configurar: cada mail sale sin
+        firma digital. Es el arreglo de mayor impacto y menor costo del plan entero. <span class="tag r">bloqueante</span></li>
+        <li><b>Grabar la Demo de 60 segundos.</b> Una toma, pantalla real, un contrato venciendo.</li>
+        <li><b>Fijar el guion del Diagnóstico Operativo</b> y la plantilla del entregable de una página.</li>
+        <li><b>Ampliar la lista de inmobiliarias de 89 a 300</b> desde Zonaprop y los portales del rubro.</li>
+        <li><b>Arrancar la cadencia:</b> 15 mails y 20 invitaciones por día, sin excepción.</li>
+      </ol>
+    </div>
+    <div class="week">
+      <div class="wk">Semana 2</div>
+      <ol>
+        <li><b>Primeros 5 diagnósticos realizados.</b> Aunque sean con conocidos: el guion se afina
+        haciéndolo, no escribiéndolo.</li>
+        <li><b>Contactar 3 cámaras o colegios</b> con la propuesta de charla sin cargo para socios.</li>
+        <li><b>Definir precio y condiciones del Plan A por escrito:</b> qué incluye, qué no, y qué
+        cuesta la implementación.</li>
+        <li><b>Instalar el tablero semanal</b> con los tres números: cuentas, diagnósticos, propuestas.</li>
+      </ol>
+    </div>
+    <div class="week">
+      <div class="wk">Semana 3</div>
+      <ol>
+        <li><b>Primeras 5 propuestas enviadas</b>, cada una con el número de pérdida estimada del
+        diagnóstico en la primera línea.</li>
+        <li><b>Primer cierre.</b> Si al día 21 no hay ninguno, se revisa la propuesta, no el volumen.</li>
+        <li><b>Identificar 3 partners de TI del ecosistema Microsoft</b> y agendar con uno.</li>
+        <li><b>Medir el corte de mitad de camino:</b> tasa de respuesta de inmobiliarias contra la
+        de estudios, cara a cara.</li>
+      </ol>
+    </div>
+    <div class="week">
+      <div class="wk">Semana 4</div>
+      <ol>
+        <li><b>Onboarding del primer cliente</b> con el protocolo de 30 días, documentado paso a
+        paso mientras sucede.</li>
+        <li><b>Cerrar el mes con 3 clientes</b> y USD 7.500 de ARR incorporado.</li>
+        <li><b>Decisión sobre el SDR:</b> con el embudo del mes 1 sobre la mesa, se contrata o se
+        posterga con fundamento.</li>
+        <li><b>Veredicto de vertical al día 45</b> (semana 6, se prepara acá): si inmobiliarias no
+        llegó a 6 % de respuesta ni a un cierre, la capacidad rota a estudios.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="num">09</span><h2>Riesgos y criterios de corte</h2></div>
+
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Riesgo</th><th>Señal temprana</th><th>Criterio de corte</th><th>Acción</th></tr></thead>
+      <tbody>
+        <tr><td>Inmobiliarias sin fit por Microsoft 365</td><td>Respuesta bajo 6 % en las primeras 300 cuentas</td><td>Día 45</td><td>Rotar a 30/70 hacia estudios.</td></tr>
+        <tr><td>Los mails no llegan a la bandeja</td><td>Menos de 5 respuestas cada 100 envíos</td><td>Día 10</td><td>Verificar DKIM y DMARC, bajar a 15 diarios, calentar dominio.</td></tr>
+        <tr><td>El diagnóstico no convierte a propuesta</td><td>Menos de 40 % de diagnósticos pasan a propuesta</td><td>Día 30</td><td>El problema es el entregable, no el producto: cuantificar en pesos.</td></tr>
+        <tr><td>Precio fuera de mercado</td><td>Más de la mitad de las propuestas frena en precio</td><td>Día 60</td><td>Probar entrada en dos escalones antes de tocar el precio de lista.</td></tr>
+        <tr><td>Churn temprano</td><td>Un cliente sin cargar datos al día 7</td><td>Inmediato</td><td>Intervención del CEO. Un cliente sin datos ya está perdido.</td></tr>
+        <tr><td>Dependencia de una sola persona</td><td>El bloque de prospección se cae dos días seguidos</td><td>Semanal</td><td>Adelantar la contratación del SDR.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer>
+  <p>Base de cálculo: 250 empresas verificadas una por una (registros MX, datos de contacto
+  públicos y clasificación por grado A/B/C). Los supuestos de precio, churn y ACV Enterprise están
+  marcados como tales y deben revisarse con datos propios apenas existan los primeros diez clientes.</p>
+</footer>
+
+</div>
