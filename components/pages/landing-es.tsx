@@ -433,7 +433,7 @@ const PRICING_PLANS: {
     features: [
       "Dominio de correo corporativo gratis el primer año 🎁",
       "Módulo de IA para preguntas y respuestas frecuentes",
-      "Hasta 20 solapas configurables",
+      "Hasta 20 pestañas configurables",
       "2 usuarios Microsoft + 2 correos corporativos (Web/App)",
       "100 GB de almacenamiento",
       "30 días de implementación + soporte técnico 24/7",
@@ -1094,7 +1094,7 @@ export default function CollectionatLanding() {
                             <p className="flex items-center justify-center gap-1.5 text-2xl font-black tracking-tighter text-white">
                               <Layers size={16} className="text-cyan-200" /> {plan.tabs}
                             </p>
-                            <p className="mt-0.5 text-[10px] uppercase tracking-wide text-cyan-100">Solapas</p>
+                            <p className="mt-0.5 text-[10px] uppercase tracking-wide text-cyan-100">Pestañas</p>
                           </div>
                           <div className="rounded-xl bg-white/10 px-4 py-2.5 text-center backdrop-blur-sm">
                             <p className="flex items-center justify-center gap-1.5 text-2xl font-black tracking-tighter text-white">
@@ -1152,7 +1152,7 @@ export default function CollectionatLanding() {
                               <p className="flex items-center justify-center gap-1.5 text-2xl font-black tracking-tighter text-slate-900">
                                 <Layers size={16} className="text-cyan-600" /> {plan.tabs}
                               </p>
-                              <p className="mt-0.5 text-[10px] uppercase tracking-wide text-slate-500">Solapas</p>
+                              <p className="mt-0.5 text-[10px] uppercase tracking-wide text-slate-500">Pestañas</p>
                             </div>
                             <div className="rounded-xl bg-cyan-50 px-4 py-2.5 text-center">
                               <p className="flex items-center justify-center gap-1.5 text-2xl font-black tracking-tighter text-slate-900">
