@@ -1,0 +1,381 @@
+<title>Encuentro Collectionat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+
+<style>
+  :root{
+    --ground:#F4F7F7; --surface:#FFFFFF; --surface-2:#EDF2F2;
+    --ink:#0B1A1E; --ink-2:#33484D; --muted:#63797E; --line:#D3DEDF;
+    --accent:#0E7490; --accent-soft:#E0F0F3; --accent-ink:#0A5364;
+    --alert:#9F1239; --alert-soft:#FBE7EC;
+    --gold:#8A5A0B; --gold-soft:#FAF0DC;
+    --good:#116149; --good-soft:#DFF1EA;
+    --display:'Archivo',system-ui,sans-serif;
+    --body:'Source Serif 4',Georgia,serif;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --ground:#091214; --surface:#0F1D21; --surface-2:#14272C;
+      --ink:#E7EFF0; --ink-2:#B4C6C9; --muted:#8AA1A5; --line:#26393E;
+      --accent:#48AFC8; --accent-soft:#102B33; --accent-ink:#8ED2E3;
+      --alert:#F0879F; --alert-soft:#2D1520;
+      --gold:#D6A54A; --gold-soft:#2C2110;
+      --good:#5FC5A5; --good-soft:#0E2A24;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#091214; --surface:#0F1D21; --surface-2:#14272C;
+    --ink:#E7EFF0; --ink-2:#B4C6C9; --muted:#8AA1A5; --line:#26393E;
+    --accent:#48AFC8; --accent-soft:#102B33; --accent-ink:#8ED2E3;
+    --alert:#F0879F; --alert-soft:#2D1520;
+    --gold:#D6A54A; --gold-soft:#2C2110;
+    --good:#5FC5A5; --good-soft:#0E2A24;
+  }
+
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);
+       font-family:var(--body);font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:920px;margin:0 auto;padding:0 24px 96px}
+  p{max-width:68ch}
+  h1,h2,h3,.eyebrow,.kpi-n,th,.tag,.hh{font-family:var(--display)}
+  h1{font-size:clamp(2.1rem,5vw,3.1rem);line-height:1.06;letter-spacing:-.03em;font-weight:700;margin:0 0 14px;text-wrap:balance}
+  h2{font-size:clamp(1.35rem,2.6vw,1.75rem);line-height:1.15;letter-spacing:-.02em;font-weight:700;margin:0;text-wrap:balance}
+  h3{font-size:1.05rem;letter-spacing:-.01em;font-weight:600;margin:32px 0 8px}
+  .eyebrow{font-size:.72rem;text-transform:uppercase;letter-spacing:.16em;font-weight:600;color:var(--accent-ink)}
+  header.top{padding:64px 0 40px;border-bottom:1px solid var(--line)}
+  .lede{font-size:1.15rem;color:var(--ink-2);max-width:62ch}
+  .strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin:36px 0 0}
+  .kpi{background:var(--surface);padding:16px 18px}
+  .kpi-n{font-family:var(--mono);font-size:1.5rem;font-weight:600;font-variant-numeric:tabular-nums;color:var(--accent-ink);display:block}
+  .kpi-l{font-size:.82rem;color:var(--muted);line-height:1.35;display:block;margin-top:4px}
+  section{padding:52px 0 8px;border-bottom:1px solid var(--line)}
+  section:last-of-type{border-bottom:none}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:18px;flex-wrap:wrap}
+  .num{font-family:var(--mono);font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+  .callout{background:var(--alert-soft);border-left:3px solid var(--alert);padding:20px 22px;margin:24px 0}
+  .callout.ok{background:var(--good-soft);border-left-color:var(--good)}
+  .callout.note{background:var(--gold-soft);border-left-color:var(--gold)}
+  .callout p{margin:0 0 10px;max-width:64ch}
+  .callout p:last-child{margin-bottom:0}
+  .callout strong{font-family:var(--display);font-weight:600}
+  .scroll{overflow-x:auto;margin:20px 0;border:1px solid var(--line);background:var(--surface)}
+  table{border-collapse:collapse;width:100%;min-width:560px;font-size:.92rem}
+  th{background:var(--surface-2);font-size:.74rem;text-transform:uppercase;letter-spacing:.1em;font-weight:600;color:var(--ink-2);text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+  td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-2)}
+  tbody tr:last-child td{border-bottom:none}
+  td.n,th.n{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap;color:var(--ink)}
+  tr.total td{background:var(--accent-soft);color:var(--ink);font-weight:600}
+  .tag{display:inline-block;font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;font-weight:600;padding:3px 8px;border:1px solid var(--line);color:var(--muted);background:var(--surface);white-space:nowrap}
+  .tag.a{color:var(--accent-ink);border-color:var(--accent);background:var(--accent-soft)}
+  .tag.r{color:var(--alert);border-color:var(--alert);background:var(--alert-soft)}
+  ul.clean{list-style:none;padding:0;margin:14px 0}
+  ul.clean li{padding:9px 0 9px 26px;position:relative;border-bottom:1px solid var(--line);max-width:70ch;color:var(--ink-2)}
+  ul.clean li:last-child{border-bottom:none}
+  ul.clean li::before{content:'';position:absolute;left:4px;top:19px;width:7px;height:7px;background:var(--accent)}
+  ul.clean li b{color:var(--ink);font-family:var(--display);font-weight:600}
+  .agenda{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);margin:22px 0}
+  .slot{background:var(--surface);padding:16px 20px;display:grid;grid-template-columns:96px 1fr;gap:20px;align-items:start}
+  .hh{font-family:var(--mono);font-size:.86rem;font-weight:600;color:var(--accent-ink);font-variant-numeric:tabular-nums;padding-top:3px}
+  .slot h4{font-family:var(--display);font-size:1rem;font-weight:600;margin:0 0 4px;color:var(--ink)}
+  .slot p{margin:0;font-size:.94rem;color:var(--ink-2);max-width:62ch}
+  .slot.peak{background:var(--accent-soft)}
+  footer{padding:40px 0 0;color:var(--muted);font-size:.86rem}
+  @media (max-width:620px){.slot{grid-template-columns:1fr;gap:6px}body{font-size:16px}}
+</style>
+
+<div class="wrap">
+
+<header class="top">
+  <div class="eyebrow">Programa de evento · Mes 3 o 4</div>
+  <h1>Encuentro Collectionat</h1>
+  <p class="lede">Un evento donde tus clientes le cuentan a tus prospectos lo que vos no podés
+  contar sin sonar a vendedora. Diseñado para producir tres cosas medibles: renovaciones,
+  pipeline y material de venta para los seis meses siguientes.</p>
+
+  <div class="strip">
+    <div class="kpi"><span class="kpi-n">28</span><span class="kpi-l">asistentes objetivo</span></div>
+    <div class="kpi"><span class="kpi-n">USD 1.900</span><span class="kpi-l">presupuesto base</span></div>
+    <div class="kpi"><span class="kpi-n">12</span><span class="kpi-l">diagnósticos agendados esa noche</span></div>
+    <div class="kpi"><span class="kpi-n">4×</span><span class="kpi-l">retorno esperado sobre el costo</span></div>
+  </div>
+</header>
+
+<section>
+  <div class="sec-head"><span class="num">00</span><h2>La condición de largada</h2></div>
+
+  <div class="callout">
+    <p><strong>No hagas el evento con menos de cuatro clientes que lleven 60 días usando el
+    sistema.</strong> Es la única regla que no se negocia.</p>
+    <p>Un encuentro donde habla un solo cliente —o donde hablan clientes de tres semanas que
+    todavía no vieron resultados— produce el efecto inverso al buscado: el prospecto entiende que
+    sos chica y nueva, y se va a esperar. La prueba social funciona por acumulación. Con cuatro
+    voces distintas diciendo lo mismo, es un movimiento. Con una, es un testimonio.</p>
+  </div>
+
+  <p>Traducido al calendario del plan: el evento va en el <b>mes 3 o 4</b>, nunca antes. Si al mes
+  3 tenés seis clientes con resultados, se hace. Si tenés dos, se posterga sin culpa: el evento no
+  es el objetivo, es la consecuencia.</p>
+</section>
+
+<section>
+  <div class="sec-head"><span class="num">01</span><h2>Qué tiene que producir</h2></div>
+
+  <p>Un evento que solo genera lindas fotos es un gasto. Este tiene tres objetivos, en orden de
+  importancia, y cada uno con su número.</p>
+
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Objetivo</th><th>Por qué importa</th><th class="n">Meta</th></tr></thead>
+      <tbody>
+        <tr><td><b>Pipeline nuevo</b></td><td>Prospectos que salen con un diagnóstico agendado en la agenda, no con un folleto.</td><td class="n">12 diagnósticos</td></tr>
+        <tr><td><b>Retención y expansión</b></td><td>El cliente que sube al escenario a contar su caso ya no se va: se volvió parte de la historia.</td><td class="n">6 de 6 renuevan</td></tr>
+        <tr><td><b>Material de venta</b></td><td>Video de clientes reales hablando. Alimenta los seis meses siguientes de prospección.</td><td class="n">4 testimonios</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout ok">
+    <p><strong>El cálculo del retorno.</strong> Con 12 diagnósticos agendados y la conversión del
+    plan —55 % pasa a propuesta, 30 % cierra— salen entre 2 y 3 clientes nuevos: USD 5.000 a 7.500
+    de ARR contra un costo de USD 1.900. El evento se paga con el primer cierre, y en un evento la
+    conversión sube porque el prospecto ya escuchó a un par decir que funciona.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="num">02</span><h2>A quién invitar</h2></div>
+
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Grupo</th><th class="n">Invitados</th><th class="n">Asisten</th><th>Rol en la noche</th></tr></thead>
+      <tbody>
+        <tr><td>Clientes activos</td><td class="n">6</td><td class="n">6</td><td>Protagonistas. Dos hablan, todos son consultados por los demás.</td></tr>
+        <tr><td>Prospectos calientes (con diagnóstico hecho, sin cerrar)</td><td class="n">15</td><td class="n">8</td><td>El grupo que más cierra: ya conocen el producto y les falta confianza.</td></tr>
+        <tr><td>Inmobiliarias de la base con mail verificado</td><td class="n">60</td><td class="n">12</td><td>Primer contacto en persona. Reemplaza cinco mails.</td></tr>
+        <tr><td>Cámara o colegio (autoridades)</td><td class="n">3</td><td class="n">2</td><td>Legitiman. Y de ahí sale el acuerdo institucional de la Fase 2.</td></tr>
+        <tr class="total"><td>Total</td><td class="n">84</td><td class="n">28</td><td>Tasa de asistencia esperada: 33 %.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><b>Sobre-invitá sin miedo.</b> En eventos B2B gratuitos de PyMEs, entre el 30 % y el 40 % de
+  los confirmados no aparece. Invitar 84 para llenar 28 sillas es la proporción correcta, no un
+  exceso.</p>
+
+  <ul class="clean">
+    <li><b>Invitación en dos tiempos.</b> Primero un llamado o mensaje personal a los 21 del grupo
+    caliente — a esos se los invita, no se les manda un formulario. El mail masivo va después, para
+    los 60 restantes.</li>
+    <li><b>Cupos limitados, y que sea verdad.</b> "30 lugares" hace que confirmen antes. Si después
+    entran 35, mejor.</li>
+    <li><b>Confirmación por WhatsApp 48 horas antes.</b> Sube la asistencia real entre 10 y 15
+    puntos. Es la tarea de mayor retorno de toda la logística.</li>
+  </ul>
+</section>
+
+<section>
+  <div class="sec-head"><span class="num">03</span><h2>La noche, minuto a minuto</h2></div>
+
+  <p>Dos horas y media. Un jueves, que es el día de mayor asistencia en eventos profesionales.
+  Nunca lunes ni viernes.</p>
+
+  <div class="agenda">
+    <div class="slot"><div class="hh">18:30</div><div>
+      <h4>Recepción</h4>
+      <p>Café y algo dulce. Acreditación con el nombre de la inmobiliaria en la credencial, no solo
+      el de la persona: facilita que se reconozcan entre colegas y arranquen a hablar solos.</p></div></div>
+
+    <div class="slot"><div class="hh">19:00</div><div>
+      <h4>Apertura · 8 minutos</h4>
+      <p>No se vende. Se agradece y se planta la tesis: el desorden documental no es un problema de
+      orden personal, es estructural. Ocho minutos, cronometrados.</p></div></div>
+
+    <div class="slot peak"><div class="hh">19:10</div><div>
+      <h4>Lo que cambió en 90 días · dos clientes, 20 minutos</h4>
+      <p>El corazón del evento. Formato entrevista, nunca discurso: vos preguntás, ellos cuentan.
+      Tres preguntas fijas — cómo lo hacían antes, qué fue lo primero que cambió, qué le dirían a
+      alguien que está por empezar. Ensayado una vez por teléfono, jamás escrito.</p></div></div>
+
+    <div class="slot"><div class="hh">19:35</div><div>
+      <h4>Novedades del sistema · 15 minutos</h4>
+      <p>Tres cosas nuevas, no diez. En vivo y con datos reales, nunca con capturas. Que se vea que
+      el producto se mueve: es lo que justifica seguir pagando el año que viene.</p></div></div>
+
+    <div class="slot peak"><div class="hh">19:50</div><div>
+      <h4>El asistente de IA sobre tu propia base · 10 minutos</h4>
+      <p>El momento que se van a contar entre ellos. Preguntarle en voz alta al sistema algo que
+      nadie podría responder rápido a mano — "¿qué contratos vencen en septiembre y todavía no se
+      actualizaron?" — y que aparezca la respuesta. Ese es el único momento del evento donde el
+      producto habla solo.</p></div></div>
+
+    <div class="slot"><div class="hh">20:00</div><div>
+      <h4>Programa Fundadores y oferta de la noche · 5 minutos</h4>
+      <p>Corto y concreto. Se explica el programa, se entregan los reconocimientos a los seis
+      clientes, y se anuncia la condición exclusiva con fecha de vencimiento.</p></div></div>
+
+    <div class="slot"><div class="hh">20:05</div><div>
+      <h4>Networking con mesas de diagnóstico · 55 minutos</h4>
+      <p>Dos mesas al fondo con una agenda abierta. No se cierra nada esa noche: se agenda el
+      diagnóstico. Quien agenda, entra al sorteo. Es la razón por la que existe todo lo anterior.</p></div></div>
+
+    <div class="slot"><div class="hh">21:00</div><div>
+      <h4>Sorteo y cierre</h4>
+      <p>Se sortea entre los que agendaron. Saludo corto, sin discurso final. Que se vayan hablando
+      entre ellos, no escuchándote a vos.</p></div></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="num">04</span><h2>Regalos y Programa Fundadores</h2></div>
+
+  <p>La regla del regalo corporativo: si se tira a la semana, no era un regalo, era basura con tu
+  logo. Todo lo de esta lista o se usa todos los días, o vale plata de verdad.</p>
+
+  <h3>Para los clientes · el reconocimiento</h3>
+  <ul class="clean">
+    <li><b>Certificado de Cliente Fundador.</b> Impreso, con el nombre de la inmobiliaria y la
+    fecha en que empezaron. Cuesta USD 15 y termina colgado en la pared de la oficina, a la vista
+    de cada cliente que entra. No hay publicidad más barata que esa.</li>
+    <li><b>Precio congelado por 24 meses.</b> Esto es el verdadero regalo y no cuesta caja hoy. En
+    un país con la inflación argentina, congelar precio dos años tiene un valor percibido enorme y
+    los ata al producto mejor que cualquier contrato.</li>
+    <li><b>Un módulo premium sin cargo por 6 meses.</b> El que más se pida en el evento. Genera
+    dependencia útil: a los 6 meses, sacárselo duele más que pagarlo.</li>
+    <li><b>Acceso a la mesa de producto.</b> Una llamada trimestral donde opinan sobre qué se
+    construye. Cuesta cero y convierte clientes en socios: nadie abandona un producto que ayudó a
+    diseñar.</li>
+  </ul>
+
+  <h3>Para todos los asistentes</h3>
+  <ul class="clean">
+    <li><b>Agenda o cuaderno de tapa dura con el nombre de la inmobiliaria grabado.</b> Personalizado
+    con <em>su</em> marca, no con la tuya — la tuya va chica en la contratapa. Un objeto con el
+    nombre propio no se tira nunca. Unos USD 18 por unidad.</li>
+    <li><b>La hoja de ruta impresa.</b> Una página: los tres números del diagnóstico tipo y qué
+    significan. Es lo que se llevan para mostrarle al socio que no vino.</li>
+  </ul>
+
+  <h3>El sorteo · el que mueve el pipeline</h3>
+  <div class="callout note">
+    <p><strong>Se sortea una implementación completa sin cargo</strong> —o seis meses de
+    servicio— <strong>únicamente entre quienes agendaron su diagnóstico esa noche.</strong></p>
+    <p>Ahí está todo el diseño: el premio no se rifa por asistir, se rifa por dar el paso comercial.
+    Convierte la curiosidad en una fecha en la agenda, que es lo único que te llevás a tu casa esa
+    noche.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="num">05</span><h2>La oferta de la noche</h2></div>
+
+  <p>Una sola, clara, con vencimiento. Sin escalones ni condiciones raras.</p>
+
+  <ul class="clean">
+    <li><b>Implementación sin cargo</b> para quien firme dentro de los 7 días posteriores al
+    evento. Es el descuento que menos daña tu precio de lista: no tocás el valor del producto,
+    sacás una fricción de entrada.</li>
+    <li><b>Vence el viernes siguiente, a las 18.</b> Fecha explícita en la hoja que se llevan. Sin
+    fecha, no hay oferta: hay una intención.</li>
+    <li><b>Se anuncia una sola vez</b>, en los cinco minutos del Programa Fundadores. Repetirla en
+    el networking la convierte en presión, y la presión en una sala llena de colegas se nota.</li>
+  </ul>
+</section>
+
+<section>
+  <div class="sec-head"><span class="num">06</span><h2>Presupuesto</h2></div>
+
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Concepto</th><th class="n">Austero</th><th class="n">Base</th><th class="n">Premium</th></tr></thead>
+      <tbody>
+        <tr><td>Sala (coworking, cámara o salón de hotel)</td><td class="n">0</td><td class="n">400</td><td class="n">900</td></tr>
+        <tr><td>Catering para 30 personas</td><td class="n">350</td><td class="n">450</td><td class="n">900</td></tr>
+        <tr><td>Regalos personalizados (30 unidades)</td><td class="n">300</td><td class="n">540</td><td class="n">900</td></tr>
+        <tr><td>Certificados y materiales impresos</td><td class="n">60</td><td class="n">120</td><td class="n">200</td></tr>
+        <tr><td>Fotografía y video</td><td class="n">0</td><td class="n">250</td><td class="n">500</td></tr>
+        <tr><td>Imprevistos (10 %)</td><td class="n">70</td><td class="n">140</td><td class="n">340</td></tr>
+        <tr class="total"><td>Total</td><td class="n">780</td><td class="n">1.900</td><td class="n">3.740</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <p><strong>Dónde no ahorrar: el video.</strong> Es el único rubro que sigue rindiendo después
+    de la noche. Cuatro testimonios en video de clientes reales alimentan tu prospección durante
+    seis meses y valen más que el catering entero.</p>
+    <p><strong>Dónde sí ahorrar: la sala.</strong> Pedila prestada a la cámara inmobiliaria o al
+    colegio. Además de salir gratis, te da el aval institucional que buscabas para la Fase 2 — y
+    convierte una gestión comercial en una alianza.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="num">07</span><h2>Cronograma · 6 semanas</h2></div>
+
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Semana</th><th>Qué se hace</th><th>Termina cuando</th></tr></thead>
+      <tbody>
+        <tr><td><b>−6</b></td><td>Fecha, sala y presupuesto cerrados. Se les pide a los dos clientes que hablen.</td><td>Los dos dijeron que sí.</td></tr>
+        <tr><td><b>−5</b></td><td>Invitación personal al grupo caliente: 21 llamados o mensajes uno a uno.</td><td>10 confirmados.</td></tr>
+        <tr><td><b>−4</b></td><td>Mail de invitación a los 60 restantes. Se encargan regalos y certificados.</td><td>20 confirmados.</td></tr>
+        <tr><td><b>−3</b></td><td>Se define qué tres novedades se muestran y se prepara la demo de IA con datos reales.</td><td>Demo ensayada dos veces.</td></tr>
+        <tr><td><b>−2</b></td><td>Ensayo de las entrevistas con los clientes, por teléfono. Se arma la hoja de ruta impresa.</td><td>Guion cerrado.</td></tr>
+        <tr><td><b>−1</b></td><td>Recordatorio por mail. Confirmación por WhatsApp 48 h antes. Prueba técnica en la sala.</td><td>28 confirmados.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="num">08</span><h2>Después del evento · donde se gana o se pierde</h2></div>
+
+  <p>El error clásico es festejar el jueves y retomar el lunes. Para entonces la energía de la sala
+  ya se evaporó.</p>
+
+  <ul class="clean">
+    <li><b>Viernes, antes del mediodía.</b> Mail a cada asistente. A los que agendaron, la
+    confirmación con día y hora. A los que no, la foto del evento y la oferta con su fecha de
+    vencimiento. Menos de 18 horas después: es la ventana.</li>
+    <li><b>Lunes.</b> Llamada a los que fueron y no agendaron. No se les vende: se les pregunta qué
+    les pareció. La mitad agenda en esa llamada.</li>
+    <li><b>Semana siguiente.</b> Se edita el video de testimonios y se publica. A partir de ahí,
+    cada primer mail de prospección puede mencionar el encuentro.</li>
+    <li><b>A los 30 días.</b> Se mide de verdad: cuántos diagnósticos salieron del evento, cuántos
+    cerraron, cuánto costó cada cliente adquirido. Ese número decide si el segundo encuentro se
+    hace en seis meses o no se hace.</li>
+  </ul>
+
+  <div class="callout ok">
+    <p><strong>El segundo evento vale el doble que el primero.</strong> Si este sale bien, no es un
+    evento: es el piloto de un formato trimestral. Al cuarto encuentro, las inmobiliarias de la
+    zona lo esperan, y ahí dejás de perseguir prospectos — empiezan a pedir la invitación.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="num">09</span><h2>Riesgos</h2></div>
+
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Riesgo</th><th>Prevención</th></tr></thead>
+      <tbody>
+        <tr><td>Vienen 8 personas y la sala parece vacía</td><td>Sala chica a propósito. 28 personas en una sala de 30 se siente lleno; en una de 80, se siente un fracaso.</td></tr>
+        <tr><td>El cliente que habla se queda corto o se va de tema</td><td>Formato entrevista con tres preguntas fijas. Nunca micrófono libre.</td></tr>
+        <tr><td>La demo en vivo falla</td><td>Datos precargados, sin depender del wifi de la sala. Y un video de respaldo de 60 segundos.</td></tr>
+        <tr><td>Se llena de curiosos que no compran</td><td>La invitación pide nombre de la inmobiliaria y cargo. Sin eso, no hay cupo.</td></tr>
+        <tr><td>Un cliente aprovecha para plantear un reclamo delante de todos</td><td>Llamada previa a los seis: se pregunta si hay algo pendiente y se resuelve antes. Nunca llegues al evento con un problema abierto.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer>
+  <p>Complemento del plan comercial de 6 meses. El evento se ubica al final de la Fase 1 o dentro
+  de la Fase 2, y está condicionado a tener al menos cuatro clientes con 60 días de uso: sin eso,
+  se pospone.</p>
+</footer>
+
+</div>
