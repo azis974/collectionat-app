@@ -422,26 +422,6 @@ const PRICING_PLANS: {
   highlight: boolean;
 }[] = [
   {
-    id: "a",
-    name: "Plan A",
-    tag: "Solución integral",
-    tabs: "20",
-    users: "2",
-    price: "$2,500",
-    priceUnit: "USD",
-    description: "Solución digital integral para tu empresa — con dominio de correo gratis el primer año e IA incluida.",
-    features: [
-      "Dominio de correo corporativo gratis el primer año 🎁",
-      "Módulo de IA para preguntas y respuestas frecuentes",
-      "Hasta 20 tablas configurables",
-      "2 usuarios Microsoft + 2 correos corporativos (Web/App)",
-      "100 GB de almacenamiento",
-      "30 días de implementación + soporte técnico 24/7",
-    ],
-    cta: "Solicitar Plan A",
-    highlight: true,
-  },
-  {
     id: "c",
     name: "Plan C",
     tag: "A medida",
@@ -1057,14 +1037,14 @@ export default function CollectionatLanding() {
             >
               <Eyebrow>Planes</Eyebrow>
               <h2 className="mb-4 mt-4 text-3xl font-black tracking-tighter text-slate-900 sm:text-4xl">
-                Planes y precios pensados para crecer con vos
+                Te armamos el plan a la medida de tu empresa
               </h2>
               <p className="text-lg text-slate-600">
-                Infraestructura Microsoft, todo conectado — elegí el plan que se ajuste al tamaño de tu equipo.
+                Infraestructura Microsoft, todo conectado — capacidad y usuarios definidos según el tamaño de tu operación.
               </p>
             </motion.div>
 
-            <div className="mx-auto grid max-w-4xl gap-6 sm:grid-cols-2">
+            <div className="mx-auto grid max-w-md gap-6">
               {PRICING_PLANS.map((plan, index) => (
                 <motion.div
                   key={plan.id}

@@ -175,10 +175,7 @@ export default function LocaleLayout({
               applicationCategory: "BusinessApplication",
               operatingSystem: "Web",
               description: c.description,
-              offers: [
-                { "@type": "Offer", name: "Plan A", price: "2500", priceCurrency: "USD" },
-                { "@type": "Offer", name: "Plan C", description: c.planCQuote },
-              ],
+              offers: [{ "@type": "Offer", name: "Plan C", description: c.planCQuote }],
             }),
           }}
         />

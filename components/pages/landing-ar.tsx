@@ -421,26 +421,6 @@ const PRICING_PLANS: {
   highlight: boolean;
 }[] = [
   {
-    id: "a",
-    name: "الباقة A",
-    tag: "حل متكامل",
-    tabs: "20",
-    users: "2",
-    price: "$2,500",
-    priceUnit: "USD",
-    description: "حل رقمي متكامل لشركتك — مع نطاق بريد إلكتروني مجاني للسنة الأولى وذكاء اصطناعي مدمج.",
-    features: [
-      "نطاق بريد إلكتروني مؤسسي مجاني للسنة الأولى 🎁",
-      "وحدة ذكاء اصطناعي للأسئلة والأجوبة المتكررة",
-      "حتى 20 تبويبًا قابلاً للتخصيص",
-      "مستخدمان من Microsoft + بريدان إلكترونيان للشركة (ويب/تطبيق)",
-      "100 جيجابايت من التخزين",
-      "30 يومًا من التنفيذ + دعم فني على مدار الساعة",
-    ],
-    cta: "اطلب الباقة A",
-    highlight: true,
-  },
-  {
     id: "c",
     name: "الباقة C",
     tag: "مخصصة",
@@ -1055,14 +1035,14 @@ export default function CollectionatLandingAR() {
             >
               <Eyebrow>الباقات</Eyebrow>
               <h2 className="mb-4 mt-4 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
-                باقات وأسعار مصمَّمة لتنمو معك
+                نصمم لك الباقة المناسبة لشركتك
               </h2>
               <p className="text-lg text-slate-600">
-                بنية Microsoft التحتية، كل شيء متصل — اختر الباقة التي تناسب حجم فريقك.
+                بنية Microsoft التحتية، كل شيء متصل — سعة ومستخدمون يُحدَّدون حسب حجم عملك.
               </p>
             </motion.div>
 
-            <div className="mx-auto grid max-w-4xl gap-6 sm:grid-cols-2">
+            <div className="mx-auto grid max-w-md gap-6">
               {PRICING_PLANS.map((plan, index) => (
                 <motion.div
                   key={plan.id}

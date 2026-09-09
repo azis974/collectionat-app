@@ -422,26 +422,6 @@ const PRICING_PLANS: {
   highlight: boolean;
 }[] = [
   {
-    id: "a",
-    name: "Plan A",
-    tag: "All-in-one solution",
-    tabs: "20",
-    users: "2",
-    price: "$2,500",
-    priceUnit: "USD",
-    description: "An all-in-one digital solution for your business — with a free email domain the first year and AI included.",
-    features: [
-      "Free corporate email domain for the first year 🎁",
-      "AI module for frequently asked questions",
-      "Up to 20 configurable tabs",
-      "2 Microsoft users + 2 corporate emails (Web/App)",
-      "100 GB of storage",
-      "30 days of implementation + 24/7 technical support",
-    ],
-    cta: "Request Plan A",
-    highlight: true,
-  },
-  {
     id: "c",
     name: "Plan C",
     tag: "Custom",
@@ -1066,14 +1046,14 @@ export default function CollectionatLandingEN() {
             >
               <Eyebrow>Plans</Eyebrow>
               <h2 className="mb-4 mt-4 text-3xl font-black tracking-tighter text-slate-900 sm:text-4xl">
-                Plans and Pricing Built to Grow With You
+                We build the plan around your business
               </h2>
               <p className="text-lg text-slate-600">
-                Microsoft infrastructure, everything connected — choose the plan that fits your team&apos;s size.
+                Microsoft infrastructure, everything connected — capacity and users defined to fit the size of your operation.
               </p>
             </motion.div>
 
-            <div className="mx-auto grid max-w-4xl gap-6 sm:grid-cols-2">
+            <div className="mx-auto grid max-w-md gap-6">
               {PRICING_PLANS.map((plan, index) => (
                 <motion.div
                   key={plan.id}
