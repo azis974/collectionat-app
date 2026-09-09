@@ -370,7 +370,9 @@ El cliente pidió una versión completa en inglés para el mercado del Golfo/ár
 - `/sitemap.xml` y `/robots.txt` reflejan ambos idiomas correctamente.
 - `npx tsc --noEmit` limpio, sin errores de consola en ninguna ruta probada.
 
-## Versión en árabe (`/ar`, RTL)
+## Versión en árabe (`/ar`, RTL) — REMOVIDA
+
+> El cliente pidió sacar la versión en árabe del sitio; ya no está en producción (`/ar` fue eliminada, junto con `landing-ar.tsx`, `app-simulator-ar.tsx`, `ruixen-moon-chat-ar.tsx`, y todas las referencias en middleware/layout/sitemap/chat). Países que antes caían en árabe por geo-IP ahora reciben inglés. Se deja la sección de abajo como registro histórico de cómo se había implementado, por si se retoma en el futuro.
 
 Igual que con inglés, sin tocar ni una línea de las páginas en español o inglés que ya estaban en producción — árabe se agregó como página completamente nueva, con selector de idioma **solo** en la página en inglés (píldora "EN / AR" al lado de "Contact Us", agregada porque el cliente pidió explícitamente que no apareciera en español ni en árabe).
 

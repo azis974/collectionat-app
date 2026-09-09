@@ -651,7 +651,7 @@ export default function CollectionatLandingEN() {
             <div className="hidden items-center gap-4 md:flex">
               <div className="flex items-center gap-1 rounded-full border border-slate-200 bg-white p-1 text-xs font-semibold">
                 <span className="rounded-full bg-cyan-600 px-3 py-1.5 text-white">EN</span>
-                <a href="/ar" className="rounded-full px-3 py-1.5 text-slate-500 transition-colors hover:text-slate-900">AR</a>
+                <a href="/" className="rounded-full px-3 py-1.5 text-slate-500 transition-colors hover:text-slate-900">ES</a>
               </div>
               <div className="text-right">
                 <p className="text-xs font-semibold text-slate-900">Contact Us</p>
@@ -696,7 +696,7 @@ export default function CollectionatLandingEN() {
                   <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900">Plans</a>
                   <div className="flex items-center justify-center gap-1 self-center rounded-full border border-slate-200 bg-white p-1 text-xs font-semibold">
                     <span className="rounded-full bg-cyan-600 px-3 py-1.5 text-white">EN</span>
-                    <a href="/ar" onClick={() => setMobileMenuOpen(false)} className="rounded-full px-3 py-1.5 text-slate-500 transition-colors hover:text-slate-900">AR</a>
+                    <a href="/" onClick={() => setMobileMenuOpen(false)} className="rounded-full px-3 py-1.5 text-slate-500 transition-colors hover:text-slate-900">ES</a>
                   </div>
                   <div className="rounded-xl bg-slate-50 p-3 text-center">
                     <p className="text-sm font-semibold text-slate-900">Contact Us</p>

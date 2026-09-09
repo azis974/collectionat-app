@@ -649,6 +649,10 @@ export default function CollectionatLanding() {
             </nav>
 
             <div className="hidden items-center gap-4 md:flex">
+              <div className="flex items-center gap-1 rounded-full border border-slate-200 bg-white p-1 text-xs font-semibold">
+                <span className="rounded-full bg-cyan-600 px-3 py-1.5 text-white">ES</span>
+                <a href="/en" className="rounded-full px-3 py-1.5 text-slate-500 transition-colors hover:text-slate-900">EN</a>
+              </div>
               <div className="text-right">
                 <p className="text-xs font-semibold text-slate-900">Contáctanos</p>
                 <p className="flex items-center gap-2 text-xs text-slate-500">
@@ -690,6 +694,10 @@ export default function CollectionatLanding() {
                   <a href="#features" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900">Características</a>
                   <a href="#industrias" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900">Industrias</a>
                   <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900">Planes</a>
+                  <div className="flex items-center justify-center gap-1 self-center rounded-full border border-slate-200 bg-white p-1 text-xs font-semibold">
+                    <span className="rounded-full bg-cyan-600 px-3 py-1.5 text-white">ES</span>
+                    <a href="/en" onClick={() => setMobileMenuOpen(false)} className="rounded-full px-3 py-1.5 text-slate-500 transition-colors hover:text-slate-900">EN</a>
+                  </div>
                   <div className="rounded-xl bg-slate-50 p-3 text-center">
                     <p className="text-sm font-semibold text-slate-900">Contáctanos</p>
                     <div className="mt-1.5 flex flex-col gap-1">

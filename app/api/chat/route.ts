@@ -5,7 +5,7 @@ interface ChatRequestBody {
   locale?: string;
 }
 
-type Locale = "es" | "en" | "ar";
+type Locale = "es" | "en";
 
 /**
  * Grounds the assistant in what Collectionat actually is/does/costs — kept in
@@ -43,20 +43,6 @@ Rules:
 - Only use the facts above. If asked something not covered here (exact implementation timelines, particular cases, discounts, etc.), say so honestly and suggest "requesting a demo" to talk with the team.
 - Never invent features, prices, or clients that aren't in this description.
 - You are the landing page's assistant, not the already-installed product: if asked about "their" sales, collections, or company-specific data, kindly clarify that you don't have access to that (this demo isn't connected to any real backend) and offer to show them what that feature looks like in the page's interactive demo or on a call with the team.`,
-  ar: `أنت مساعد المبيعات لتطبيق CollectionatApp، وهي منصة SaaS تُركّز المعلومات الحيوية للشركة (المبيعات والمالية والعمليات) في قاعدة بيانات ذكية متصلة بشكل أصلي مع Microsoft 365 (Outlook وTeams وSharePoint وOneDrive)، مما يُلغي الحاجة إلى جداول بيانات متناثرة.
-
-معلومات حقيقية عن المنتج يمكنك استخدامها للإجابة:
-- الباقات: تُحدَّد السعة (الجداول/الوحدات) وعدد المستخدمين حسب احتياج كل شركة — لا يوجد سعر ثابت معلن، بل يُبنى عرض سعر مخصص حسب الحاجة. تُقبل خطط دفع مرنة.
-- القطاعات ذات التطبيقات الحقيقية حاليًا: العقارات، المكاتب القانونية، إدارة الأبنية والمجمعات، مكاتب التوثيق، المكاتب المحاسبية، والموزعون وتجار الجملة. كما يُطبَّق النظام في المتاجر والمشاريع الصغيرة من أي قطاع.
-- يشمل وحدة ذكاء اصطناعي للأسئلة والأجوبة المتكررة حول بيانات الشركة، نطاق بريد إلكتروني مؤسسي مجاني للسنة الأولى، و30 يومًا من التنفيذ مع دعم فني على مدار الساعة.
-- صلاحيات حسب الدور: كل شخص يرى ويُعدّل قسمه فقط (مثل الإدارة أو العقارات)؛ يملك المالك أو المدير العام رؤية وتحكّمًا كاملَين بالنظام.
-- أتمتة سير العمل (إعادة تخصيص المهام، الإشعارات، الموافقات)، تقارير ديناميكية لحظية، ومحادثة ذكاء اصطناعي على بيانات الشركة المركزية.
-
-القواعد:
-- أجب دائمًا باللغة العربية الفصحى، في جملتين إلى أربع جمل، بأسلوب ودود ومهني — لا فقرات طويلة.
-- استخدم فقط المعلومات أعلاه. إذا سُئلت عن شيء غير مذكور هنا (مواعيد تنفيذ دقيقة، حالات خاصة، خصومات، إلخ)، وضّح ذلك بصدق واقترح "طلب عرض تجريبي" للتحدث مع الفريق.
-- لا تخترع أبدًا ميزات أو أسعارًا أو عملاء غير موجودين في هذا الوصف.
-- أنت مساعد صفحة الهبوط، لا المنتج المُثبَّت فعليًا: إذا سُئلت عن "مبيعاتهم" أو تحصيلاتهم أو بيانات خاصة بشركتهم، وضّح بلطف أنك لا تملك وصولًا لذلك (هذا العرض التجريبي غير متصل بأي نظام خلفي حقيقي) واعرض عليهم مشاهدة كيف تبدو هذه الميزة في العرض التفاعلي بالصفحة أو في مكالمة مع الفريق.`,
 };
 
 // Fast + generous free tier. Groq periodically retires older models —
@@ -117,15 +103,6 @@ const ERRORS: Record<Locale, Record<
     noReply: "The assistant didn't return a reply. Try rephrasing your question.",
     unexpected: "An unexpected error occurred while contacting the assistant.",
   },
-  ar: {
-    rateLimited: "أنت ترسل رسائل بسرعة كبيرة. انتظر دقيقة وحاول مرة أخرى.",
-    invalidBody: "محتوى الطلب غير صالح.",
-    emptyMessage: "اكتب رسالة.",
-    notConfigured: "المساعد الذكي غير مُهيَّأ بعد في هذه البيئة (مفتاح GROQ_API_KEY مفقود).",
-    upstreamFailed: "تعذّر الوصول إلى المساعد الآن. حاول مرة أخرى خلال ثوانٍ.",
-    noReply: "لم يُرجع المساعد ردًا. حاول إعادة صياغة سؤالك.",
-    unexpected: "حدث خطأ غير متوقع أثناء التواصل مع المساعد.",
-  },
 };
 
 export async function POST(request: Request) {
@@ -137,7 +114,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: ERRORS.es.invalidBody }, { status: 400 });
   }
 
-  const locale: Locale = body.locale === "en" ? "en" : body.locale === "ar" ? "ar" : "es";
+  const locale: Locale = body.locale === "en" ? "en" : "es";
   const t = ERRORS[locale];
 
   const ip = getClientIp(request);

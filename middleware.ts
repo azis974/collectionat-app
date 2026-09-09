@@ -1,21 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// Gulf/Middle East/North Africa — visitors here get the Arabic page.
-const ARABIC_COUNTRIES = new Set([
-  "SA", "QA", "AE", "KW", "BH", "OM", "EG", "JO", "LB", "IQ",
-  "YE", "SY", "LY", "TN", "DZ", "MA", "SD", "PS",
-]);
-
 // Spain + Latin America (incl. Panama, our other real market) — Spanish.
 const SPANISH_COUNTRIES = new Set([
   "AR", "ES", "MX", "CO", "PE", "CL", "VE", "EC", "GT", "CU",
   "BO", "DO", "HN", "PY", "SV", "NI", "CR", "PA", "UY", "PR", "GQ",
 ]);
 
-// Everything else (incl. localhost, where Vercel's geo header is absent) falls
-// back to Spanish, since that's the site's home market and its already-indexed "/".
-function localeForCountry(country: string | null): "es" | "en" | "ar" {
-  if (country && ARABIC_COUNTRIES.has(country)) return "ar";
+// Everything else (incl. Gulf/MENA countries like Qatar, and localhost, where
+// Vercel's geo header is absent) falls back to English or Spanish — the site's
+// home market and its already-indexed "/".
+function localeForCountry(country: string | null): "es" | "en" {
   if (country && !SPANISH_COUNTRIES.has(country)) return "en";
   return "es";
 }
