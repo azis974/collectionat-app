@@ -46,6 +46,7 @@ import AskCollectionatChat from "@/components/ui/ruixen-moon-chat-en";
 import AppSimulator from "@/components/ui/app-simulator-en";
 import FloatingOrbs from "@/components/ui/floating-orbs";
 import WhatsAppFloatButton from "@/components/ui/whatsapp-float-button";
+import Solutions, { PRODUCT_SITES } from "@/components/sections/Solutions";
 import { cn } from "@/lib/utils";
 
 const EASE_OUT = [0.16, 1, 0.3, 1] as const;
@@ -645,6 +646,7 @@ export default function CollectionatLandingEN() {
               <a href="#simulador" className="transition-colors hover:text-slate-900">The App</a>
               <a href="#features" className="transition-colors hover:text-slate-900">Features</a>
               <a href="#industrias" className="transition-colors hover:text-slate-900">Industries</a>
+              <a href="#soluciones" className="transition-colors hover:text-slate-900">Solutions</a>
               <a href="#pricing" className="transition-colors hover:text-slate-900">Plans</a>
             </nav>
 
@@ -693,6 +695,7 @@ export default function CollectionatLandingEN() {
                   <a href="#simulador" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900">The App</a>
                   <a href="#features" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900">Features</a>
                   <a href="#industrias" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900">Industries</a>
+                  <a href="#soluciones" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900">Solutions</a>
                   <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900">Plans</a>
                   <div className="flex items-center justify-center gap-1 self-center rounded-full border border-slate-200 bg-white p-1 text-xs font-semibold">
                     <span className="rounded-full bg-cyan-600 px-3 py-1.5 text-white">EN</span>
@@ -974,6 +977,9 @@ export default function CollectionatLandingEN() {
         </section>
 
         {/* Interactive demo video */}
+        {/* Links to each product site (one subdomain per niche) */}
+        <Solutions lang="en" />
+
         <VideoDemoSection />
 
         {/* AI chat over centralized data (components/ui/ruixen-moon-chat-en.tsx) */}
@@ -1227,6 +1233,12 @@ export default function CollectionatLandingEN() {
               ].join(", "),
             }}
           />
+          <nav aria-label="Our solutions" className="mx-auto mb-6 flex max-w-7xl flex-wrap items-center justify-center gap-x-6 gap-y-2">
+            <span className="font-semibold text-slate-900">Our solutions:</span>
+            <a href={PRODUCT_SITES.riders} className="text-slate-600 transition hover:text-cyan-700">Collectionat Riders</a>
+            <a href={PRODUCT_SITES.realEstate + "/en"} className="text-slate-600 transition hover:text-cyan-700">Collectionat Real Estate</a>
+            <a href={PRODUCT_SITES.recruitment} className="text-slate-600 transition hover:text-cyan-700">Collectionat Recruitment</a>
+          </nav>
           <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 sm:flex-row">
             <div className="flex items-center gap-2">
               <span className="font-semibold text-slate-900">Collectionat</span> &copy; 2026. All rights reserved.
