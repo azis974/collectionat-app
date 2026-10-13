@@ -133,15 +133,11 @@ export default function Solutions({ lang }: { lang: "es" | "en" }) {
             key={name}
             className={
               "flex flex-col rounded-3xl border bg-white p-7 shadow-sm transition " +
-              (href ? "border-slate-200 hover:-translate-y-1 hover:border-cyan-200 hover:shadow-lg" : "border-dashed border-slate-200")
+              "border-slate-200" +
+              (href ? " hover:-translate-y-1 hover:border-cyan-200 hover:shadow-lg" : "")
             }
           >
-            <span
-              className={
-                "flex h-12 w-12 items-center justify-center rounded-full text-white " +
-                (href ? "bg-gradient-to-br from-cyan-500 to-cyan-700" : "bg-slate-300")
-              }
-            >
+            <span className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-cyan-500 to-cyan-700 text-white">
               <Icon size={22} />
             </span>
             <span className="mt-5 text-xs font-semibold uppercase tracking-wider text-cyan-700">{tag}</span>
