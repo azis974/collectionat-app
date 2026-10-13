@@ -52,7 +52,7 @@ const COPY: Record<"es" | "en", Copy> = {
         icon: Bike,
         name: "Collectionat Riders",
         tag: "Flotas de delivery de última milla",
-        text: "Riders, depósitos de agentes, visas y documentos, vehículos, alojamiento, sueldos y préstamos.",
+        text: "Riders, depósitos de agentes, visas y documentos, motos, alojamiento, sueldos y préstamos.",
         href: PRODUCT_SITES.riders,
       },
       {
@@ -90,14 +90,14 @@ const COPY: Record<"es" | "en", Copy> = {
         icon: Bike,
         name: "Collectionat Riders",
         tag: "Last-mile delivery fleets",
-        text: "Riders, agent deposits, visas and documents, vehicles, housing, salaries and loans.",
+        text: "Riders, agent deposits, visas and documents, bikes, housing, salaries and loans.",
         href: PRODUCT_SITES.riders,
       },
       {
         icon: Building2,
         name: "Collectionat Real Estate",
         tag: "Real estate agencies",
-        text: "Properties, contracts, rent collection, clients and an AI assistant.",
+        text: "Properties, contracts, payments, clients and an AI assistant.",
         href: PRODUCT_SITES.realEstateEn,
       },
       {
