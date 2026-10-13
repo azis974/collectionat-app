@@ -976,10 +976,10 @@ export default function CollectionatLandingEN() {
           </div>
         </section>
 
-        {/* Interactive demo video */}
-        {/* Links to each product site (one subdomain per niche) */}
+        {/* Links to each product site (verified live URLs only) */}
         <Solutions lang="en" />
 
+        {/* Interactive demo video */}
         <VideoDemoSection />
 
         {/* AI chat over centralized data (components/ui/ruixen-moon-chat-en.tsx) */}
@@ -1235,9 +1235,9 @@ export default function CollectionatLandingEN() {
           />
           <nav aria-label="Our solutions" className="mx-auto mb-6 flex max-w-7xl flex-wrap items-center justify-center gap-x-6 gap-y-2">
             <span className="font-semibold text-slate-900">Our solutions:</span>
-            <a href={PRODUCT_SITES.riders} className="text-slate-600 transition hover:text-cyan-700">Collectionat Riders</a>
-            <a href={PRODUCT_SITES.realEstate + "/en"} className="text-slate-600 transition hover:text-cyan-700">Collectionat Real Estate</a>
             <a href={PRODUCT_SITES.recruitment} className="text-slate-600 transition hover:text-cyan-700">Collectionat Recruitment</a>
+            <a href={PRODUCT_SITES.riders} className="text-slate-600 transition hover:text-cyan-700">Collectionat Riders</a>
+            <a href={PRODUCT_SITES.realEstateEn} className="text-slate-600 transition hover:text-cyan-700">Collectionat Real Estate</a>
           </nav>
           <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 sm:flex-row">
             <div className="flex items-center gap-2">

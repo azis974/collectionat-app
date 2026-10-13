@@ -1,133 +1,175 @@
-import { ArrowUpRight, Bike, Building2, UserSearch, type LucideIcon } from "lucide-react";
+import { ArrowUpRight, Bike, Building2, UserSearch, Users, type LucideIcon } from "lucide-react";
 
-/** Links from the corporate site to each product's own site (one subdomain per niche). */
+/**
+ * Product sites linked from the corporate site.
+ * Only destinations verified as live are listed here (checked 2026-10-13).
+ * riders.collectionat.com / realestate.collectionat.com do not resolve yet —
+ * switch these to the subdomains once their DNS records exist.
+ */
 export const PRODUCT_SITES = {
-  riders: "https://riders.collectionat.com",
-  realEstate: "https://realestate.collectionat.com",
-  recruitment: "https://hire.collectionat.com",
-};
+  recruitment: "https://www.hire.collectionat.com/",
+  riders: "https://collectionat-riders.netlify.app/",
+  realEstateEs: "https://collectionat-realestate.netlify.app/",
+  realEstateEn: "https://collectionat-realestate.netlify.app/en",
+} as const;
 
 type Card = {
-  href: string;
   icon: LucideIcon;
   name: string;
   tag: string;
   text: string;
-  /** product colour, matching each product site */
-  accent: string;
-  soft: string;
+  /** null = no live website yet: rendered without a link */
+  href: string | null;
 };
 
-const COPY: Record<"es" | "en", { eyebrow: string; title: string; sub: string; cta: string; cards: Card[] }> = {
+type Copy = {
+  eyebrow: string;
+  titleStart: string;
+  titleAccent: string;
+  sub: string;
+  cta: string;
+  soon: string;
+  cards: Card[];
+};
+
+const COPY: Record<"es" | "en", Copy> = {
   es: {
     eyebrow: "Nuestras soluciones",
-    title: "Un producto para cada industria",
-    sub: "Cada solución tiene su propia web, con la app funcionando para que la pruebes antes de hablar con nosotros.",
-    cta: "Probar la app",
+    titleStart: "Un producto para cada",
+    titleAccent: "industria",
+    sub: "Cada solución tiene su propia web, donde podés conocer el producto en detalle.",
+    cta: "Visitar el sitio",
+    soon: "Sitio web próximamente",
     cards: [
       {
-        href: PRODUCT_SITES.riders,
-        icon: Bike,
-        name: "Collectionat Riders",
-        tag: "Delivery y última milla",
-        text: "Riders, depósitos de agentes, visas, motos, alojamiento, sueldos y préstamos en una sola pantalla.",
-        accent: "#6a46d8",
-        soft: "#eee8fd",
+        icon: UserSearch,
+        name: "Collectionat Recruitment",
+        tag: "Software de reclutamiento con IA",
+        text: "Evaluación de CV con IA, entrevistas en video con IA y pipeline de contratación, sobre Microsoft.",
+        href: PRODUCT_SITES.recruitment,
       },
       {
-        href: PRODUCT_SITES.realEstate,
+        icon: Bike,
+        name: "Collectionat Riders",
+        tag: "Flotas de delivery de última milla",
+        text: "Riders, depósitos de agentes, visas y documentos, vehículos, alojamiento, sueldos y préstamos.",
+        href: PRODUCT_SITES.riders,
+      },
+      {
         icon: Building2,
         name: "Collectionat Real Estate",
         tag: "Inmobiliarias",
-        text: "Propiedades, contratos, alquileres con ajuste automático, cobros y un asistente de IA.",
-        accent: "#0b7a52",
-        soft: "#dcf5ea",
+        text: "Propiedades, contratos, cobros, clientes y un asistente de IA.",
+        href: PRODUCT_SITES.realEstateEs,
       },
       {
-        href: PRODUCT_SITES.recruitment,
-        icon: UserSearch,
-        name: "Collectionat Recruitment",
-        tag: "Reclutamiento con IA",
-        text: "Puntaje de CV, entrevistas en video con IA y la evidencia detrás de cada decisión.",
-        accent: "#136f86",
-        soft: "#e2f2f5",
+        icon: Users,
+        name: "Collectionat Manpower",
+        tag: "Empresas de suministro de personal",
+        text: "Para empresas de manpower supply y staffing.",
+        href: null,
       },
     ],
   },
   en: {
     eyebrow: "Our solutions",
-    title: "A product for every industry",
-    sub: "Each solution has its own site, with the app running so you can try it before you talk to us.",
-    cta: "Try the app",
+    titleStart: "A product for every",
+    titleAccent: "industry",
+    sub: "Each solution has its own website where you can explore the product in detail.",
+    cta: "Visit the website",
+    soon: "Website coming soon",
     cards: [
       {
-        href: PRODUCT_SITES.riders,
-        icon: Bike,
-        name: "Collectionat Riders",
-        tag: "Delivery and last mile",
-        text: "Riders, agent deposits, visas, bikes, housing, salaries and loans on one screen.",
-        accent: "#6a46d8",
-        soft: "#eee8fd",
+        icon: UserSearch,
+        name: "Collectionat Recruitment",
+        tag: "AI recruitment software",
+        text: "AI CV screening, AI video interviews and a hiring pipeline, built on Microsoft.",
+        href: PRODUCT_SITES.recruitment,
       },
       {
-        href: PRODUCT_SITES.realEstate + "/en",
+        icon: Bike,
+        name: "Collectionat Riders",
+        tag: "Last-mile delivery fleets",
+        text: "Riders, agent deposits, visas and documents, vehicles, housing, salaries and loans.",
+        href: PRODUCT_SITES.riders,
+      },
+      {
         icon: Building2,
         name: "Collectionat Real Estate",
         tag: "Real estate agencies",
-        text: "Properties, contracts, rents with automatic adjustments, payments and an AI assistant.",
-        accent: "#0b7a52",
-        soft: "#dcf5ea",
+        text: "Properties, contracts, rent collection, clients and an AI assistant.",
+        href: PRODUCT_SITES.realEstateEn,
       },
       {
-        href: PRODUCT_SITES.recruitment,
-        icon: UserSearch,
-        name: "Collectionat Recruitment",
-        tag: "AI recruitment",
-        text: "CV scoring, AI video interviews and the evidence behind every decision.",
-        accent: "#136f86",
-        soft: "#e2f2f5",
+        icon: Users,
+        name: "Collectionat Manpower",
+        tag: "Manpower supply companies",
+        text: "For manpower supply and staffing companies.",
+        href: null,
       },
     ],
   },
 };
 
+/** Same visual language as the landing's Industries section (cyan eyebrow, slate cards, cyan→rose accent). */
 export default function Solutions({ lang }: { lang: "es" | "en" }) {
   const t = COPY[lang];
   return (
     <section id="soluciones" className="relative z-0 border-t border-slate-200 bg-white px-6 py-24">
       <div className="mx-auto max-w-2xl text-center">
-        <span className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-700">{t.eyebrow}</span>
-        <h2 className="mt-4 text-3xl font-black tracking-tighter text-slate-900 sm:text-4xl">{t.title}</h2>
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-cyan-100 bg-cyan-50 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-widest text-cyan-700">
+          {t.eyebrow}
+        </span>
+        <h2 className="mt-4 text-3xl font-black tracking-tighter text-slate-900 sm:text-4xl">
+          {t.titleStart}{" "}
+          <span className="bg-gradient-to-r from-cyan-600 to-rose-800 bg-clip-text text-transparent">{t.titleAccent}</span>
+        </h2>
         <p className="mt-4 text-lg text-slate-600">{t.sub}</p>
       </div>
 
-      <div className="mx-auto mt-14 grid max-w-6xl gap-6 md:grid-cols-3">
-        {t.cards.map(({ href, icon: Icon, name, tag, text, accent, soft }) => (
-          <a
+      <ul className="mx-auto mt-14 grid max-w-6xl list-none gap-6 p-0 sm:grid-cols-2 lg:grid-cols-4">
+        {t.cards.map(({ icon: Icon, name, tag, text, href }) => (
+          <li
             key={name}
-            href={href}
-            className="group flex flex-col rounded-3xl border border-slate-200 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+            className={
+              "flex flex-col rounded-3xl border bg-white p-7 shadow-sm transition " +
+              (href ? "border-slate-200 hover:-translate-y-1 hover:border-cyan-200 hover:shadow-lg" : "border-dashed border-slate-200")
+            }
           >
             <span
-              className="flex h-12 w-12 items-center justify-center rounded-2xl"
-              style={{ background: soft, color: accent }}
+              className={
+                "flex h-12 w-12 items-center justify-center rounded-full text-white " +
+                (href ? "bg-gradient-to-br from-cyan-500 to-cyan-700" : "bg-slate-300")
+              }
             >
               <Icon size={22} />
             </span>
-            <span className="mt-5 text-xs font-semibold uppercase tracking-wider" style={{ color: accent }}>
-              {tag}
-            </span>
-            <h3 className="mt-1 text-xl font-black tracking-tight text-slate-900">{name}</h3>
+            <span className="mt-5 text-xs font-semibold uppercase tracking-wider text-cyan-700">{tag}</span>
+            <h3 className="mt-1 text-xl font-black tracking-tight text-slate-900">
+              {href ? (
+                <a href={href} className="hover:text-cyan-700">
+                  {name}
+                </a>
+              ) : (
+                name
+              )}
+            </h3>
             <p className="mt-3 flex-1 text-slate-600">{text}</p>
-            <span
-              className="mt-6 inline-flex items-center gap-1.5 self-start rounded-full px-4 py-2 text-sm font-semibold text-white transition group-hover:gap-2.5"
-              style={{ background: accent }}
-            >
-              {t.cta} <ArrowUpRight size={16} />
-            </span>
-          </a>
+            {href ? (
+              <a
+                href={href}
+                className="mt-6 inline-flex items-center gap-1.5 self-start rounded-full bg-cyan-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-cyan-800"
+              >
+                {t.cta} <ArrowUpRight size={16} aria-hidden="true" />
+              </a>
+            ) : (
+              <span className="mt-6 inline-flex self-start rounded-full bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-500">
+                {t.soon}
+              </span>
+            )}
+          </li>
         ))}
-      </div>
+      </ul>
     </section>
   );
 }
